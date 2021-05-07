@@ -1,0 +1,39 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+DTSTART:20200401T090000Z
+DTEND:20200401T100000Z
+DTSTAMP:20200401T090017Z
+ORGANIZER;CN=isaurabhsh@gmail.com:mailto:isaurabhsh@gmail.com
+UID:3c0u3tmus29a6d4t35qoah49sv@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=isaurabhsh@gmail.com;X-NUM-GUESTS=0:mailto:isaurabhsh@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=sharma.saurabh@spsu.ac.in;X-NUM-GUESTS=0:mailto:sharma.saurabh@spsu
+ .ac.in
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=aniket.vyas@spsu.ac.in;X-NUM-GUESTS=0:mailto:aniket.vyas@spsu.ac.in
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=aniket.vyas002@outlook.com;X-NUM-GUESTS=0:mailto:aniket.vyas002@out
+ look.com
+X-MICROSOFT-CDO-OWNERAPPTID:-2107084383
+CREATED:20200401T090015Z
+DESCRIPTION:This is a test event\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nPlease do not edit this s
+ ection of the description.\n\nView your event at https://www.google.com/cal
+ endar/event?action=VIEW&eid=M2MwdTN0bXVzMjlhNmQ0dDM1cW9haDQ5c3YgYW5pa2V0LnZ
+ 5YXNAc3BzdS5hYy5pbg&tok=MjAjaXNhdXJhYmhzaEBnbWFpbC5jb204N2NiODkxMzkyOWU2YTV
+ kYjY5YmUzZTc3YWY4ZWEwNjQyNTczYjM0&ctz=Asia%2FKolkata&hl=en&es=1.\n-::~:~::~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~
+ ::-
+LAST-MODIFIED:20200401T090015Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:test event
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

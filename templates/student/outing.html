@@ -1,0 +1,353 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="title icon" href="{% static 'images/title-img.png' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style_dash.css' %}">
+    <title>Socrates | Dashboard</title>
+  
+  </head>
+  <body>
+    
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- sidebar -->
+            <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
+              <a href="/" class="navbar-brand text-white d-block mx-auto text-center py-3 mb-4 bottom-border">Socrates</a>
+              <div class="bottom-border pb-3">
+                <img src="{% static 'images/admin.jpeg' %}" width="50" class="rounded-circle mr-3">
+                <a href="#" style="text-decoration:none;"class="text-white"><small>{{user.first_name}} {{user.last_name}}</small></a>
+              </div>
+              <ul class="navbar-nav flex-column mt-4">
+              <li class="nav-item"><a href="outing"style="font-size:15px;" class="nav-link text-white p-1 mb-2 current"><small><i class="fas fa-home text-light fa-lg mr-3"></i>Profile</small></a></li>
+              <li class="nav-item"><a href="makeRequest" class="nav-link text-white p-1 mb-2 current"><small><i class="fas fa-home text-light fa-sm mr-3"></i>Make Request</small></a></li>
+              <li class="nav-item"><a href="OutingHistory" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-envelope text-light fa-sm mr-3"></i>Recent Outings</small></a></li>
+              <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-envelope text-light fa-sm mr-3"></i>Logout</small></a></li>
+              
+  
+              </ul>
+            </div>
+            <!-- end of sidebar -->
+
+            <!-- top-nav -->
+           
+            <!-- end of top-nav -->
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- end of navbar -->
+
+    <!-- modal -->
+  
+    <!-- end of modal -->
+
+    <!-- cards -->
+    {% if home %}
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+            <div class="row pt-md-5 mt-md-3 mb-5">
+              <div class="col-xl-3 col-sm-6 p-2">
+                <div class="card card-common">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <i class="fas fa-shopping-cart fa-1x text-warning"></i>
+                      <div class="text-right text-secondary">
+                        <h5 class='page-header'><small>Night Outings</small></h5>
+                        <h3>50</h3>
+                    
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-secondary">
+                    <i class="fas fa-sync mr-3"></i>
+                    <span>Updated Now</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 p-2">
+                <div class="card card-common">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <i class="fas fa-money-bill-alt fa-1x text-success"></i>
+                      <div class="text-right text-secondary">
+                        <h5 class='page-header'><small>Day Outings</small></h5>
+                        <h3>23</h3>
+                      
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-secondary">
+                    <i class="fas fa-sync mr-3"></i>
+                    <span>Updated Now</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 p-2">
+                <div class="card card-common">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <i class="fas fa-users fa-1x text-info"></i>
+                      <div class="text-right text-secondary">
+                        <h5 class="page-header"><small>Official Outings</small></h5>
+                        <h3>45</h3>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-secondary">
+                    <i class="fas fa-sync mr-3"></i>
+                    <span>Updated Now</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 p-2">
+                <div class="card card-common">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <i class="fas fa-message fa-1x text-danger"></i>
+                      <div class="text-right text-secondary">
+                        <h5 id="OutingHistory" class="page-header"><small>Total Outings</small></h5>
+                        <h3>78</h3>
+                       
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-secondary">
+                    <i class="fas fa-sync mr-3"></i>
+                    <span>Updated Now</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end of cards -->
+
+    {% endif %}
+    
+
+    
+
+  {% if outingHistory %}
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+          <div class="row pt-md-5 mt-md-3 mb-5">
+            <div class="col-xl-12 col-sm-6 p-1">
+              <div class="card card-common ml-5 mr-5">
+                <div class="card-body ml-5 mr-5">
+                 
+                    {% if his is not None %}
+                    <h3 class="text-muted text-center mb-3">Recent Outing</h3>
+                  <table class="table table-responsive text-center" id="history">
+                    <thead>
+                      <tr class="text-muted">
+                        <th>#</th>
+                        <th><small>Out-Date</small></th>
+                        <th><small>Out-Time</small></th>
+                        <th><small>In Date</small></th>
+                        <th><small>In Time</small></th>
+                        <th><small>Reason</small></th>
+                        <th><small>Status</small></th>
+                        <th><small>update</small></th>
+                      </tr>
+                    </thead>
+                    {% for hi in his %}
+                    <tbody>
+                      <tr>
+                        <th><small>{{ forloop.counter }}</small></th>
+                        <td><small>{{ hi.OutDate }}</small></td>
+                        <td><small>{{ hi.OutTime }}</small></td>
+                        <td><small>{{ hi.InDate }}</small></td>
+                        <td><small>{{ hi.InTime }}</small></td>
+                        <td><small>{{ hi.Reason }}</small></td>
+    
+                        <td><small>{{ hi.Req_status }}</small></td>
+                        <td><button data-toggle="dropdown"class="btn btn-danger dropdown-toggle">Edit</button>
+                          <div class="dropdown-menu">
+                            <form action="/outpass/{{hi.AccomodationID}}/update" method="POST" class="px-4 py-3">{% csrf_token %}
+                              <div class="container">
+                             
+                                    <div class="form-group ">
+                                      <label for="inputEmail4">Out Date</label>
+                                      <input type="date" id="inputEmail4"class="form-control" name="OutDate">
+                                    <div>
+                                    <div class="form-group">
+                                      <label for="OutTime">Out Time</label>
+                                      <input type="time" id="OutTime" class="form-control"name="OutTime">
+                                    </div>
+                                  
+                                </div>
+                                </div>
+                                <div class="container">
+                                  <div class="form-group">
+                                    <label for="exampleDropdownFormPassword1">In Date</label>
+                                    <input type="date" class="form-control" name="InDate">
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="exampleDropdownFormPassword1">In Time</label>
+                                      <input type="time" class="form-control" name="InTime">
+                                  </div>
+                              </div>
+                              
+                            <div class="dropdown-divider"></div>
+                            <div class="form-group">
+                                <label>Reason</label><br>
+                                <textarea rows="4" name="Reason" col="10"></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Update Request</button>
+                            </form>
+                          </div>
+                        </td>
+                        
+                      </tr>
+                    </tbody>
+                    {% endfor %}
+                    {% else %}
+                    <h2 class="text-dark">No Previous Outpass request found</h2>
+                    {% endif %}
+    
+                  </table>
+                      
+                      </div>
+                      </div>
+                    </div>
+                
+                
+              </div>
+            </div>
+          
+         
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    var a = document.getElementsByClassName('table');
+    
+    for(i=0;i<a[0].rows.length;i++){
+      console.log(a[0].rows[i].cells[6].innerHTML.slice(7,15));
+      if (a[0].rows[i].cells[6].innerHTML.slice(7,15) === "ACCEPTED"){
+        a[0].rows[i].cells[7].remove();
+        console.log('removed');
+      }
+      else  if (a[0].rows[i].cells[6].innerHTML.slice(7,13) === "INSIDE"){
+        a[0].rows[i].cells[7].remove();
+        console.log('removed');
+      }
+      else  if (a[0].rows[i].cells[6].innerHTML.slice(7,15) === "OUTSIDE"){
+        a[0].rows[i].cells[7].remove();
+        console.log('removed');
+      }
+    }
+</script>
+
+
+
+  {% endif %}
+
+
+
+
+
+  {% if makeRequest %}
+  <!-- cards -->
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+          <div class="row pt-md-5 mt-md-3 mb-5">
+            <div class="col-xl-9 col-sm-6 p-1">
+              <div class="card card-common ml-5">
+                <div class="card-body ml-5 mr-5">
+                  <form action="out_info" method="POST">{% csrf_token %}
+                    <div class="form-row">
+                      <div class="col-md-8 mb-6 ml-6">
+                        <label for="validationDefault01"><b>Out Date</b></label>
+                        <input type="date" class="form-control datepicker" name="OutDate"  value="Mark" required>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="validationDefault02"><b>Out Time</b></label>
+                        <input type="time" class="form-control datepicker" name="OutTime" value="Otto" required>
+                      </div>
+                    </div>
+                    <div class="form-row form-group">
+                      <div class="col-md-7 mb-3">
+                        <label for="validationDefault03"><b>In Date</b></label>
+                        <input type="date" class="form-control" name="InDate" required>
+                      </div>
+                      <div class="col-md-5 mb-3">
+                        <label for="validationDefault04"><b>In Time</b></label>
+                        <input type="time" class="form-control timepicker" name="InTime" required>
+                       
+
+                      </div>
+                
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6 mb-3">
+                            <label ><b>Reason</b></label>
+                            <textarea class="form-control" rows="2" maxlength="20" name="Reason"></textarea>
+                          </div>
+                      </div>
+                      <div class="card-footer text-secondary">
+                        <i class="fas fa-arrow-right mr-3"></i>
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                      </div>
+                    
+                  </form>
+                </div>
+              </div>
+                
+              </div>
+            </div>
+          
+         
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  {% endif %}
+
+            
+
+
+   
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>
+
+
+
+
+
+

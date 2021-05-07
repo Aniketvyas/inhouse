@@ -1,0 +1,365 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgb(248, 237, 237);
+}
+
+.theme-background {
+    background-color: #34495e;
+}
+
+.theme-color {
+    color: #34495e;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #34495e;
+    ;
+}
+
+
+/* navbar */
+
+.sidebar {
+    height: 100vh;
+    background: #34495e;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 5px 7px 25px #999;
+}
+
+.top-navbar {
+    background: #34495e;
+}
+
+.bottom-border {
+    border-bottom: 1px groove #eee;
+}
+
+.sidebar-link {
+    transition: all .4s;
+}
+
+.sidebar-link:hover {
+    background-color: #444;
+    border-radius: 5px;
+}
+
+.current {
+    background-color: #f44336;
+    border-radius: 7px;
+    box-shadow: 2px 5px 10px #111;
+    transition: all .3s;
+}
+
+.current:hover {
+    background-color: #f66436;
+    border-radius: 7px;
+    box-shadow: 2px 5px 20px #111;
+    transform: translateY(-1px);
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid #999;
+    transition: all .4s;
+}
+
+.search-input:focus {
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 2px solid #dc3545;
+}
+
+.search-button {
+    border-radius: 50%;
+    padding: 10px 16px;
+    transition: all .4s;
+}
+
+.search-button:hover {
+    background-color: #eee;
+    transform: translateY(-1px);
+}
+
+.icon-parent {
+    position: relative;
+}
+
+.icon-bullet::after {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 15px;
+    height: 12px;
+    width: 12px;
+    background-color: #f44336;
+    border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: static;
+        height: auto;
+    }
+    .top-navbar {
+        position: static;
+    }
+}
+
+
+/* end of navbar */
+
+
+/* cards */
+
+.card-common {
+    box-shadow: 1px 2px 5px #999;
+    transition: all .4s;
+}
+
+.card-common:hover {
+    box-shadow: 2px 3px 15px #999;
+    transform: translateY(-1px);
+}
+
+
+/* end of cards */
+
+
+/* task list */
+
+.task-border {
+    border-left: 3px solid #f66436;
+}
+
+
+/* end of task list */
+
+
+/* 
+==============================================
+ Dashboard TimeLine Starts ! |
+==============================================
+*/
+
+
+/* TIMELINE
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+
+/* TIMELINE
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.timeline {
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.timeline ol {
+    font-size: 0;
+    width: 100vw;
+    padding: 250px 0;
+    transition: all 1s;
+}
+
+.timeline ol li {
+    position: relative;
+    display: inline-block;
+    list-style-type: none;
+    width: 160px;
+    height: 3px;
+    background: #34495e;
+}
+
+.timeline ol li:last-child {
+    width: 280px;
+}
+
+.timeline ol li:not(:first-child) {
+    margin-left: 14px;
+}
+
+.timeline ol li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 1px);
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: #34495e
+}
+
+.timeline ol li .div {
+    position: absolute;
+    left: calc(100% + 7px);
+    width: 280px;
+    padding: 15px;
+    font-size: 1rem;
+    white-space: normal;
+    color: black;
+    background: #34495e;
+}
+
+.timeline ol li .div::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.timeline ol li:nth-child(odd) .div {
+    top: -16px;
+    transform: translateY(-100%);
+}
+
+.timeline ol li:nth-child(odd) .div::before {
+    top: 100%;
+    border-width: 8px 8px 0 0;
+    border-color: white transparent transparent transparent;
+}
+
+.timeline ol li:nth-child(even) .div {
+    top: calc(100% + 16px);
+}
+
+.timeline ol li:nth-child(even) .div::before {
+    top: -8px;
+    border-width: 8px 0 0 8px;
+    border-color: transparent transparent transparent white;
+}
+
+.timeline time {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+/* TIMELINE ARROWS
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.timeline .arrows {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.timeline .arrows .arrow__prev {
+    margin-right: 20px;
+}
+
+.timeline .disabled {
+    opacity: .5;
+}
+
+.timeline .arrows img {
+    width: 45px;
+    height: 45px;
+}
+
+
+/* GENERAL MEDIA QUERIES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+@media screen and (max-width: 599px) {
+    .timeline ol,
+    .timeline ol li {
+        width: auto;
+    }
+    .timeline ol {
+        padding: 0;
+        transform: none !important;
+    }
+    .timeline ol li {
+        display: block;
+        height: auto;
+        background: transparent;
+    }
+    .timeline ol li:first-child {
+        margin-top: 25px;
+    }
+    .timeline ol li:not(:first-child) {
+        margin-left: auto;
+    }
+    .timeline ol li .div {
+        width: 94%;
+        height: auto !important;
+        margin: 0 auto 25px;
+    }
+    .timeline ol li .div {
+        position: static;
+    }
+    .timeline ol li:nth-child(odd) .div {
+        transform: none;
+    }
+    .timeline ol li:nth-child(odd) .div::before,
+    .timeline ol li:nth-child(even) .div::before {
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%);
+        border: none;
+        border-left: 1px solid rgb(199, 23, 23);
+        height: 25px;
+    }
+    .timeline ol li:last-child,
+    .timeline ol li:nth-last-child(2) .div::before,
+    .timeline ol li:not(:last-child)::after,
+    .timeline .arrows {
+        display: none;
+    }
+}
+
+
+/* 
+============================================
+Dashboard Timeline Ends!
+============================================
+*/
+
+.card-1 {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    /* background-color: */
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+}
+
+.card-common-1 {
+    box-shadow: 1px 2px 5px #999;
+    transition: all .4s;
+}
+
+.card-table {
+    height: 500px;
+    overflow: scroll;
+}
