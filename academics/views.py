@@ -1,7 +1,6 @@
 
 from django.shortcuts import render,redirect
 from django.db.models import Subquery
-import docx
 from django.utils.safestring import SafeString
 from django.contrib.auth.models import User , auth , Group
 import datetime as dt
