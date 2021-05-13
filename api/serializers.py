@@ -4,10 +4,6 @@ from academics.models import *
 
 
 
-class stud_detailsSerializer(serializers.ModelSerializer):
-     class Meta:
-         model = stud_details
-         fields = '__all__'
 
 
 class employeeSerializer(serializers.ModelSerializer):
@@ -42,6 +38,14 @@ class departmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = '__all__'
+
+class stud_detailsSerializer(serializers.ModelSerializer):
+    Department = departmentSerializer()
+    program = programSerializer()
+    class Meta:
+        model = stud_details
+        fields = '__all__'
+
 
 class lecturesSerializer(serializers.ModelSerializer):
     Department = departmentSerializer()
