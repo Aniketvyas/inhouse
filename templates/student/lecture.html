@@ -25,10 +25,15 @@
                 <div class="row">
                     <!-- sidebar -->
                     <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
-                        <a href="/" class="navbar-brand text-white d-block mx-auto text-center py-3 mb-4 bottom-border">Socrates</a>
-                        <div class="bottom-border pb-3">
-                            <img src="images/admin.jpeg" width="50" class="rounded-circle mr-3">
-                            <a href="#" class="text-white"><small>{{user.first_name}} {{user.last_name}}</small></a>
+                        <div class="bottom-border p-3 mt-3">
+                            <div class="one-portal bottom-border">
+                                <h4 class="text-white text-uppercase text-center mb-3">One Portal</h4>
+                            </div>
+                            <div class="info my-3 text-center">
+                                <!-- <img src="images/logo.png" width="50" class="rounded-circle mr-3" style="border-radius: 5px black;"> -->
+                                <a href="#" class="text-white text-uppercase text-center">{{user.first_name}} {{user.last_name}}</a>
+                                <p class="text-center text-white custom-small">FACULTY | {{data.FacultyID.EmployeeID}} | {{data.Department}} </p>
+                            </div>
                         </div>
                         <ul class="navbar-nav flex-column mt-4">
                             <li class="nav-item"><a href="Home" class="nav-link text-white p-1 mb-2 current"><small><i class="fas fa-home text-light fa-sm mr-3"></i>Profile</small></a></li>

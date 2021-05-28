@@ -7,7 +7,7 @@ urlpatterns = [
 
 
     #--------------MAIN ACADEMICS-------------------
-    path('dashboard',views.dashboardView),
+    path('dashboard',views.home),
     # path('<str:id>',views.Etype),
     path('lecture/view',views.lecture),
     path('lecture/AddLecture',views.AddLecture),
@@ -28,24 +28,31 @@ urlpatterns = [
     path('ASSTPROF/lecture/<int:id>/lectureChangedData',views.lectureChangeInfo),
     path('ASSTPROF/lecture/<str:id>/Track',views.trackLecture),
     path('ASSTPROF/lecture/<str:id>/goalsInfo',views.trackLecture),
-
-    #----------------------------- Attendance Module--------------------------------- 
-
-    path('ASSTPROF/lecture/<str:id>/attendence',views.ProfAttendence),
-    path('ASSTPROF/lecture/<str:id>/saveAttendence',views.ProfAttendence),
-    path('ASSTPROF/lecture/<str:id>/ViewAttendence',views.ProfAttendenceView),
-
+    path('ASSTPROF/lecture/hostQuiz',views.quizHost),
+    path('ASSTPROF/lecture/quiz/<str:id>/enterQuestions',views.enterQuestions),
+    path('ASSTPROF/lecture/previousQuiz',views.previousQuiz),
+    path('ASSTPROF/lecture/quiz/<str:id>/quizQuestions',views.enterQuestions),
+    path('ASSTPROF/lecture/quiz/<str:id>/quizQuestions/mcq',views.enterQuestionsMcq),
+    path('ASSTPROF/lecture/quiz/<str:id>/quizQuestions/nat',views.enterQuestionsNat),
+    path('ASSTPROF/lecture/previousQuiz/<str:id>/ViewDetails',views.previousQuizDetails),
+    path('ASSTPROF/lecture/previousQuiz/<str:id>/update/mcq',views.updateMcqQuestions),
+    path('ASSTPROF/lecture/previousQuiz/<str:quizID>/<str:questionID>/delete',views.deleteQuestions),
+    path('ASSTPROF/lecture/previousQuiz/<str:id>/quizQuestions/mcq',views.addQuestionsMcq),
+    path('ASSTPROF/lecture/previousQuiz/<str:id>/quizQuestions/nat',views.addQuestionsNat),
+  
 
     #-----------------Head Of Department-----------------------
 
     path('HOD/lecture/view',views.hodLecture),
+    path('HOD/lecture/<str:id>/assignFaculty',views.HodAssignFaculty),
     path('HOD/lecture/lectureRequest',views.HodLectureRequest),
     path('HOD/lecture/<str:id>/update',views.lectureChangeRequest),
     path('HOD/lecture/<str:id>/Approve',views.lectureApproveRequest),
     path('HOD/lecture/<str:id>/Configure',views.lectureConfigureRequest),
     path('HOD/Outpass/requests',views.OutpassRequests),
-    path('HOD/lecture/<str:id>/Enrollment',views.LectureEnrollments),
-    path('HOD/lecture/<str:id>/filter',views.lectureFilter),
+    path('HOD/Enrollment',views.LectureEnrollments),
+    path('HOD/Enrollment/<str:id>',views.LectureEnrollmentSecond),
+    # path('HOD/lecture/<str:id>/filter',views.lectureFilter),
     path('HOD/lecture/<str:LectureID>/Enroll/<str:EnrollmentNumber>',views.LectureEnrollmentDone),
     path('HOD/lecture/<int:lecture>/view',views.lol),
     path('HOD/lecture/<str:id>/Track',views.trackLectureHod),

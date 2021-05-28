@@ -1,20 +1,10 @@
 
 from django.shortcuts import render,redirect
 from django.db.models import Subquery
-from django.utils.safestring import SafeString
 from django.contrib.auth.models import User , auth , Group
 import datetime as dt
 from .models import *
 import random
-from django.conf import settings
-
-import os
-import json
-from django.core.files.storage import FileSystemStorage
-from django.core.paginator import Paginator
-from django.core.mail import send_mail , EmailMessage
-
-
 from django.contrib import messages
 
 
@@ -31,19 +21,47 @@ def dashboardView(request):
         return redirect('/accounts/login')
 
 
+def home(request):
+    obj = User.objects.get(username=request.user).groups.all()
+    print(obj)
+    if obj :
+        id = obj[0].name
+        if id == "DEAN":
+            return render(request,'dean/dashboard.html')
+        elif id =="COE":
+            return render(request,'coe/dashboard.html')
+        elif id =="STUDENT":
+            data = stud_details.objects.get(UniversityEmailID = request.user)
+            return render(request,'student/dashboard.html',{'data':data})
+        elif id== "HOD":
+            department = Department.objects.get(HeadOfDepartment = employee.objects.get(universityEmail=request.user))
+            print(department)
+            return render(request,'hod/dashboard.html',{'dept':department})
+        elif id=="FACULTY":
+            data = faculty.objects.get(FacultyID = employee.objects.get(universityEmail =request.user))
+            return render(request,'faculty/dashboard.html',{'data':data})
+        elif id=="REGISTRAR":
+            return render(request,'registrar/dashboard.html')
+        elif id =="VICE-CHANCELLOR":
+            return render(request,'vc/dashboard.html')
+    else:
+        return HttpResponse('BAD Request')
+    
+
+
 
 
 #------------------------ MAIN ACADEMICS --------------------------------------------
 def Etype(request,id):
     print(id)
-    id = employee.objects.filter(EmployeeID=request.user)
+    id = employee.objects.filter(employeeID=request.user)
     print(id)
     for i in id:
         id = i.Etype
     print("employee",id)
     if stud_details.objects.filter(UniversityEmailID=request.user).exists():
         return redirect('/socrates')
-    elif employee.objects.filter(EmployeeID = request.user).exists():
+    elif employee.objects.filter(employeeID = request.user).exists():
         
         if id == "DEANSOE":
             return render(request,'dean/dashboard.html')
@@ -54,7 +72,7 @@ def Etype(request,id):
         elif id== "HOD":
             return render(request,'hod/dashboard.html')
         elif id=="ASSISTANT-PROF":
-            return render(request,'professors/dashboard.html')
+            return render(request,'faculty/dashboard.html')
         elif id=="REGISTRAR":
             return render(request,'registrar/dashboard.html')
         elif id == "VICE-CHANCELLOR":
@@ -66,13 +84,13 @@ def Etype(request,id):
 
 def lecture(request):
     print(request.user)
-    id = employee.objects.filter(EmployeeID = request.user)
+    id = employee.objects.filter(employeeID = request.user)
     for i in id:
         id = i.Department
     print(id)
     students = stud_details.objects.filter(Department=id).count
     faculti = faculty.objects.filter(Department =id).count
-    lecture = lectures.objects.filter(Department = id)
+    lecture = subjects.objects.filter(Department = id)
     context ={
         'department':department,
         'students' : students,
@@ -90,7 +108,7 @@ def studentLectureView(request):
 
 
 def studentTrackView(request,lecture):
-    obj = lectureRecord.objects.filter(lectureId=lectures.objects.get(id=lecture))
+    obj = lectureRecord.objects.filter(lectureId=subjects.objects.get(id=lecture))
     return render(request,'bs4_Horizontal_timeline.html',{'track':obj,'student':True})
 
 def AddLecture(request):
@@ -102,7 +120,7 @@ def AddLecture(request):
         branch = request.POST['Branch']
         while True:
             code = branch +"-"+ str(sem)+ str(random.randint(1,99))
-            if lectures.objects.filter(LectureID = code).exists():
+            if subjects.objects.filter(LectureID = code).exists():
                 continue
             else:
                 break
@@ -119,8 +137,8 @@ def AddLecture(request):
 def remove(request):
     if request.method=="POST":
         code = request.POST['code']
-        if lectures.objects.filter(LectureID = code).exists():
-            lectures.objects.filter(LectureID = code).delete()
+        if subjects.objects.filter(LectureID = code).exists():
+            subjects.objects.filter(LectureID = code).delete()
             return redirect('/academic/lecture/view')
         else:
             return redirect('/academic/lecture/view')
@@ -130,7 +148,7 @@ def faculty_info(request):
     return render(request,'dean/department.html',{'faculties':faculties})
     
 def deanDepartmentView(request):
-    course = Department.objects.filter(School=school.objects.get(dean=employee.objects.get(Email=request.user)))
+    course = Department.objects.filter(School=school.objects.get(dean=employee.objects.get(universityEmail=request.user)))
     print(course)
     return render(request,'dean/department.html',{'courses':course})
 
@@ -138,7 +156,7 @@ def deanDepartmentDetailView(request,id):
     department = Department.objects.filter(DepartmentID = id)
     students = stud_details.objects.filter(Department=id).count
     faculti = faculty.objects.filter(Department =id).count
-    lecture = lectures.objects.filter(Department = id)
+    lecture = subjects.objects.filter(Department = id)
     context ={
         'department':department,
         'students' : students,
@@ -179,7 +197,7 @@ def deanDepartmentDetailView(request,id):
     #     department = Department.objects.filter(DepartmentID = id)
     #     students = stud_details.objects.filter(Department=id).count
     #     faculti = faculty.objects.filter(Department =id).count
-    #     lecture = lectures.objects.filter(Department = id)
+    #     lecture = subjects.objects.filter(Department = id)
        
     #     context ={
     #         'department':department,
@@ -197,13 +215,22 @@ def DepartmentFaculty(request,id):
 #------------------------------ASSISTANT PROFESSORS -----------------------------
 
 def asstlecture(request):
-    obj = lectures.objects.filter(TaughtBy=faculty.objects.get(Email = request.user))
-    return render(request,'professors/lecture.html',{'lect':obj,'lecture':True})
+    obj = subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user)))
+    return render(request,'faculty/lecture.html',{'lect':obj,'lecture':True})
 
 def assLectureView(request,lecture):
-    lectur = lectureEnrollment.objects.filter(lecture=lectures.objects.get(pk=lecture))
-    lects = lectures.objects.filter(pk=lecture)
-    return render(request,'professors/lecture.html',{'outs':lectur,'ongoing':lects})
+    lectur = lectureEnrollment.objects.filter(lecture=subjects.objects.get(pk=lecture))
+    lects = subjects.objects.filter(pk=lecture)
+    context = {
+        'outs':lectur,
+        'ongoing':lects,
+        'assLectureView':True
+    }
+    if lecture is None:
+        context['emptyEnrollment']= True
+    
+    print(lects,lectur)
+    return render(request,'faculty/lecture.html',context)
 
 def lectureRequest(request):
     if request.method == "POST":
@@ -233,12 +260,12 @@ def lectureRequest(request):
         lect.save()
         return redirect('/academic/ASSTPROF/lecture/view')
     else:
-        return render(request,'professors/lecture.html',{'lectureRequest':True})  
+        return render(request,'faculty/lecture.html',{'lectureRequest':True})  
 
     
 def lectureStatus(request):
     lect = TempLectures.objects.filter(CreatedBy = request.user.username,NextSendTo='PROFESSOR')
-    return render(request,'professors/lecture.html',{'lect':lect,'lect1':lect,'lectureStatus':True,'trackedLecture':True})
+    return render(request,'faculty/lecture.html',{'lect':lect,'lect1':lect,'lectureStatus':True,'trackedLecture':True})
 
 def lectureChangeInfo(request,id):
     if request.method=="POST":
@@ -270,130 +297,43 @@ def trackLecture(request,id):
         startDate = request.POST['startDate']
         endDate = request.POST['endDate']
         goals = request.POST['goals']
+        notes= request.FILES["notes"]
         if lectureRecord.objects.filter(startDate=startDate,endDate=endDate):
             messages.error(request,'Goals for today already exists')
             return redirect(f'/academic/ASSTPROF/lecture/{id}/Track',id)
         else:
-            record = lectureRecord(startDate=startDate,endDate=endDate,goals=goals,
-            lectureId = lectures.objects.get(pk=id),
-            facultyId = faculty.objects.get(Email=request.user)).save()
+            lectureRecord(startDate=startDate,endDate=endDate,goals=goals,notes=notes,
+            subject = subjects.objects.get(pk=id),
+            faculty = faculty.objects.get(FacultyID=employee.objects.get(universityEmail =request.user))).save()
             return redirect(f'/academic/ASSTPROF/lecture/{id}/view',id)
     else:
-        print(faculty.objects.filter(FacultyID=request.user),lectures.objects.filter(pk=id))
-        obj = lectureRecord.objects.filter(facultyId=faculty.objects.get(Email=request.user),lectureId=lectures.objects.get(pk=id))
-        return render(request,'bs4_Horizontal_timeline.html',{'trackLecture':True,'trackedLecture':True,"track":obj,'prof':True})
+        # print(faculty.objects.filter(FacultyID=request.user),subjects.objects.filter(pk=id))
+        obj = lectureRecord.objects.filter(faculty=faculty.objects.get(FacultyID=employee.objects.get(universityEmail=request.user)),subject=subjects.objects.get(pk=id))
+        print(obj)
+        return render(request,'faculty/lecture.html',{'trackLecture':True,'trackedLecture':True,"track":obj,'prof':True})
 
-#--------------------------- Attendence ----------------------------------
-
-
-def ProfAttendence(request,id):
-    if request.method=="POST":
-        batch_list = request.POST.getlist('batch')
-        dateOfAttendance = request.POST['dateOfAttendence']
-        if dateOfAttendance:
-            print(dateOfAttendance)
-            datee = dt.datetime.strptime(dateOfAttendance,"%Y-%m-%d")
-            for i in range(0,len(batch_list)):
-                batch_list[i]= int(batch_list[i])
-            print(stud_details.objects.filter(id__in = batch_list))
-            if lectures.objects.filter(pk =id).exists():
-                b= lectures.objects.get(pk=id)
-                print(datee.date())
-                if datee.date() == dt.datetime.now().date():
-                    if attendence.objects.filter(LectureID=id).exists() :   # IF Attendance Exists Then
-                        a = attendence.objects.get(LectureID=id).attendanceFile
-                        a=str(a)
-                        print("media/"+a)
-                        f = open("media/"+a,'r')
-                        y = json.load(f)
-                        f.close()
-                        print(y['Attendance'],dateOfAttendance)
-                        if dateOfAttendance in y["Attendance"]:
-                            messages.error(request,'Attendance Already exists..!')
-                        else:   # Else Create a new json file to store the Attendance Data
-                            f = open("media/"+a,'w')
-                            print(y["Attendance"])
-                            y["Attendance"][dateOfAttendance]=batch_list
-                            json.dump(y,f,indent=6)
-                            f.close()
-                            messages.info(request,'Attendance uploaded..!!')
-                    else:
-                        f = open('media/attendance/'+str(b.LectureName)+"_"+str(dt.datetime.now().year)+".json",'w')
-                        y={"Attendance":{ dateOfAttendance : batch_list}}
-                        json.dump(y,f,indent=6)
-                        print("file saved..!!")
-                        attendence(
-                            LastUpdatedOn=dt.datetime.now().date(),
-                            FacultyID =faculty.objects.get(FacultyID=request.user),
-                            attendanceFile='attendance/'+str(b.LectureName)+"_"+str(dt.datetime.now().year)+".json",
-                            LectureID = b
-                            ).save()
-                else:
-                    messages.error(request,'Attendance can be uploaded of today..!! i.e.'+str(dt.datetime.now().date()))
-            else:
-                a = attendence(FacultyID = faculty.objects.get(FacultyID=request.user),
-                LectureID = lectures.objects.get(pk =id),
-                LastUpdatedOn = dt.datetime.now().date(),
-                )
-                a.save()   
-            for i in batch_list:
-                data = stud_details.objects.get(id=i)
-                #print(data.FirstName)
-                #attendenceDetails(AttendenceId=a , StudentID = data, AttendenceDate = dateofattendence).save()
-            return redirect('/academic/ASSTPROF/lecture/'+str(id)+'/attendence')    
-        else:
-            messages.error(request,'Enter Date OF Attendance')
-            return redirect('/academic/ASSTPROF/lecture/'+str(id)+'/attendence')
-    else:        
-        #attendies = lectureEnrollment.objects.filter(lectureId=lectures.objects.get(TaughtBy=faculty.objects.get(FacultyID=request.user)))
-        attendies = stud_details.objects.filter(id__in =Subquery(lectureEnrollment.objects.filter(lectureId=lectures.objects.get(pk=id)).values('studentID')))
-        print(lectureEnrollment.objects.filter(lectureId=lectures.objects.get(pk=id)),id)
-        return render(request,'professors/attendence.html',{'attendies':attendies})
-
-
-def ProfAttendenceView(request,id):
-    text = request.GET.get('button-text')
-    if True:
-        a=attendence.objects.get(LectureID=(lectures.objects.get(pk=id))).attendanceFile
-        print("aaaa",a)
-        f = open("media/"+str(a),'r')
-        y=json.load(f)
-        f.close()
-        print(y)
-        arr= y['Attendance']
-        print(y['Attendance'])
-        studentDictionary={}
-        name ,i,j=0,0,0
-        for i in arr.keys():    # i contains the list of present students
-            k=arr[i]
-            print(k)
-            for j in range(0,len(k)):
-                name = stud_details.objects.get(id=k[j])
-                name = name.FirstName +" " +name.LastName
-                if name in studentDictionary.keys():
-                    studentDictionary[name]+=1
-                else:
-                    studentDictionary[name]=1
-        main_list=[]
-        print(arr.keys())
-        total =len(arr.keys())
-        for i in studentDictionary.keys():
-            k = studentDictionary[i]
-            l={"name":i,"percentage":(k/total)*100}
-            main_list.append(l)
-        print(main_list)
-
-        return render(request,'professors/attendence.html',{'students':main_list})
-        #return HttpResponse(json.dumps(main_list))
-        #return JsonResponse(data) 
 
 
 
 
 #---------------------------------Head Of Department--------------------------------
 def hodLecture(request):
-    lect = lectures.objects.filter(Department = Department.objects.get(HeadOfDepartment = employee.objects.get(Email=request.user)))
-    return render(request,'hod/lecture.html',{'lectureInformation':lect,'lectureInfo':True})
+    faculties = faculty.objects.filter(Department = Department.objects.get(HeadOfDepartment = employee.objects.get(universityEmail=request.user)))
+    lect = subjects.objects.filter(Department = Department.objects.get(HeadOfDepartment = employee.objects.get(universityEmail=request.user)))
+    print(lect)
+    return render(request,'hod/lecture.html',{'lectureInformation':lect,'lectureInfo':True,'faculties':faculties})
+
+
+
+def HodAssignFaculty(request,id):
+    if request.method == "POST":
+        a = request.POST['faculty']
+        faculty1 = faculty.objects.get(id=a)
+        # lecture1 = subject.objects.get(id=id)
+        print(id)
+        subjects.objects.filter(id=id).update(TaughtBy = faculty1)
+        return redirect('/academic/HOD/lecture/view')
+
 
 def HodLectureRequest(request):
     lect = TempLectures.objects.filter(NextSendTo = "HOD")
@@ -401,7 +341,7 @@ def HodLectureRequest(request):
 
 
 def lectureConfigureRequest(request,id):
-    user = employee.objects.get(EmployeeID=request.user).Etype
+    user = employee.objects.get(employeeID=request.user).Etype
     if user == "HOD":
         TempLectures.objects.filter(TempLectureID=id).update(NextSendTo="PROFESSOR")
         return redirect('/academic/HOD/lecture/lectureRequest')
@@ -415,39 +355,71 @@ def lectureConfigureRequest(request,id):
 #     return render(request,'hod/lectureOngoing.html',{'lectures':lect})
 
 
-def LectureEnrollments(request,id):
-    l = stud_details.objects.filter(Department = Department.objects.get(HeadOfDepartment=employee.objects.get(Email=request.user))).exclude(id__in = Subquery(lectureEnrollment.objects.filter(lecture=lectures.objects.get(id=id)).values('student')))
+def LectureEnrollments(request):
+    data = program.objects.all()
     context = {
-        'student' : l,
+        'programs':data,
         'lectureEnroll':True
     }
-    print(l)
     return render(request,'hod/lecture.html',context)
+
+
+def LectureEnrollmentSecond(request,id):
+    if request.method == "POST":
+        a = request.POST['semester']
+        prog = program.objects.get(id=id)
+        students = stud_details.objects.filter(program=prog,currentSemester=a)
+        subject = subjects.objects.filter(Semester = a,Department = Department.objects.get(HeadOfDepartment = employee.objects.get(universityEmail=request.user)))
+        print(subject,students)
+        if lectureEnrollment.objects.filter(lecture__in = Subquery(subject.values('id'))).exists():
+            context = {
+                'data':lectureEnrollment.objects.filter(lecture__in = Subquery(subject.values('id'))),
+                "showLectureEnrollment":True
+            }
+            messages.error(request,'Students are Already Enrolled')
+            return render(request,'hod/lecture.html',context)
+        for i in students:
+            for j in subject:
+                d = lectureEnrollment(
+                    student = i,
+                    lecture = j
+                ).save()
+                # print(d)
+        lect=lectureEnrollment.objects.filter(lecture__in = Subquery(subject.values('id')))
+        print(lect)
+        context = {
+            'data':lect,
+            'showLectureEnrollment':True
+        }
+        return render(request,'hod/lecture.html',context)
+
 
 def LectureEnrollmentDone(request,LectureID,EnrollmentNumber):
     data = stud_details.objects.get(EnrollmentNumber = EnrollmentNumber)
-    lect = lectures.objects.get(id = LectureID)
+    lect = subjects.objects.get(id = LectureID)
     lectureEnrollment(
         student = data,
         lecture = lect
     ).save()
     return redirect('/academic/HOD/lecture/'+str(LectureID)+'/Enrollment')
 
-def lectureFilter(request , id):
-    if request.method == "POST":
-        sem = int(request.POST['sem'])
-        l = stud_details.objects.filter(CurrSem=sem,Department = Department.objects.get(HeadOfDepartment=employee.objects.get(Email=request.user))).exclude(id__in = Subquery(lectureEnrollment.objects.filter(lectureId=lectures.objects.get(id=id)).values('studentID')))
-        print(l)
-        return render(request, 'hod/lecture.html',{'student':l,'lectureEnroll':True})
+
+
+# def lectureFilter(request , id):
+#     if request.method == "POST":
+#         sem = int(request.POST['sem'])
+#         l = stud_details.objects.filter(CurrSem=sem,Department = Department.objects.get(HeadOfDepartment=employee.objects.get(universityEmail=request.user))).exclude(id__in = Subquery(lectureEnrollment.objects.filter(lectureId=subjects.objects.get(id=id)).values('studentID')))
+#         print(l)
+#         return render(request, 'hod/lecture.html',{'student':l,'lectureEnroll':True})
 
 
 def lol(request,lecture):
-    lectur = lectureEnrollment.objects.filter(lecture=lectures.objects.get(id=lecture))
-    lects = lectures.objects.filter(id=lecture)
+    lectur = lectureEnrollment.objects.filter(lecture=subjects.objects.get(id=lecture))
+    lects = subjects.objects.filter(id=lecture)
     return render(request,'hod/lecture.html',{'outs':lectur,'ongoing':lects})
 
 def trackLectureHod(request,id):
-    obj = lectureRecord.objects.filter(lectureId=lectures.objects.get(id=id))
+    obj = lectureRecord.objects.filter(lectureId=subjects.objects.get(id=id))
     return render(request,'bs4_Horizontal_timeline.html',{'track': obj,'hod':True })
 
 
@@ -473,7 +445,7 @@ def DeanLectureRequest(request):
     return render(request,'dean/lecture.html',{'lect':lect})
 
 def DeanOngoingRequest(request):
-    lect = lectures.objects.all()
+    lect = subjects.objects.all()
     return render(request,'dean/lecture.html',{'lect':lect})
     
 def lectureChangeRequest(request,id):
@@ -508,7 +480,7 @@ def lectureChangeRequest(request,id):
         print("File created Successfully")
 
         TempLectures.objects.filter(TempLectureID=id).update(Changes=change)
-        id = employee.objects.filter(EmployeeID=request.user)
+        id = employee.objects.filter(employeeID=request.user)
         for i in id:
             id = i.Etype
         print(id)
@@ -536,7 +508,7 @@ def lectureChangeRequest(request,id):
 
 def lectureApproveRequest(request,id):
     user = request.user
-    userType = employee.objects.filter(EmployeeID=user)
+    userType = employee.objects.filter(employeeID=user)
     for i in userType:
         userType = i.Etype
         de = i.Department
@@ -557,7 +529,7 @@ def lectureView(request):
     department = Department.objects.all().count
     students = stud_details.objects.all().count
     faculti = faculty.objects.all().count
-    lecture = lectures.objects.all()
+    lecture = subjects.objects.all()
     context ={
             'department':department,
             'students' : students,
@@ -577,7 +549,7 @@ def lectureApproveVc(request,id):
     temp = TempLectures.objects.get(TempLectureID=id)
     while True:
         id = random.randint(10000,999999)
-        if lectures.objects.filter(id=id).exists():
+        if subjects.objects.filter(id=id).exists():
             continue
         else:
             break
@@ -601,3 +573,247 @@ def lectureApproveVc(request,id):
 
 
 
+# -------------------------------- QUIZ AND ASSIGNMENTS ----------------------------
+
+def quizHost(request):
+    if request.method == "POST":
+        name = request.POST['quizName']
+        subject = subjects.objects.get(id = request.POST['subject'])
+        dateQuiz = request.POST['quizDate']
+        startTime = request.POST['startTime']
+        endTime = request.POST['endTime']
+        if quizInfo.objects.filter(name=name,subject=subject,quizDate=dateQuiz,quizEndTime=endTime,quizStartTime=startTime).exists():
+            context = {
+                'inputQuizInfo': True,
+                'subjects' : subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user)))
+            }
+            messages.error(request,'Quiz with this credentials already exists..!!')
+            return render(request,'faculty/quiz.html',context)
+
+        else:
+            quizObj = quizInfo(
+                name=name,
+                subject=subject,
+                quizDate=dateQuiz,
+                quizEndTime=endTime,
+                quizStartTime=startTime)
+            quizObj.save()
+            context = {
+                'quizObj' : quizObj,
+                'inputQuestions': True
+            }
+            messages.success(request,'Quiz created Successfully, Please Add Questions to it..!')
+            return redirect('/academic/ASSTPROF/lecture/quiz/'+str(quizObj.id)+'/enterQuestions')
+
+    context = {
+        'inputQuizInfo':True,
+        'subjects':subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user)))
+    }
+    return render(request,'faculty/quiz.html',context)
+
+'''
+class quizQuestions(models.Model):
+    id = models.AutoField(primary_key=True)
+    quiz = models.ForeignKey('quizInfo',on_delete=models.CASCADE)
+    question = models.TextField()
+    questionType = models.CharField(max_length=40)
+    option1 = models.CharField(max_length=1000)
+    option2 = models.CharField(max_length=1000)
+    option3 = models.CharField(max_length=1000)
+    option4 = models.CharField(max_length=1000)
+    correctOption = models.CharField(max_length=1000)'''
+def enterQuestionsMcq(request,id):
+    quizObj = quizInfo.objects.get(id=id)
+    if request.method == "POST":
+        a = request.POST['question']
+        print("E",a)
+        option1 = request.POST['option1']
+        option2 = request.POST['option2']
+        option3 = request.POST['option3']
+        option4 = request.POST['option4']
+        correctOption = request.POST['correctAnswer']
+        if quizQuestions.objects.filter(question=a).exists():
+            messages.error(request,'This question already exists')
+            context = {
+                'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
+                'inputQuestions' : True,
+                'quizObj': quizObj
+            }
+            print(quizQuestions.objects.filter(quiz= quizObj))
+            return render(request,'faculty/quiz.html',context)
+        else:
+            # quiz= quizInfo.objects.get(id =id)
+            quizQuestions(
+                question = a,
+                questionType = 'MCQ',
+                quiz=quizObj,
+                option1=option1,
+                option2=option2,
+                option3=option3,
+                option4=option4,
+                correctOption=correctOption,
+            ).save()
+
+            quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
+            print(quizQuestionsData)
+            context = {
+                'quizQuestions':quizQuestionsData,
+                'inputQuestions' : True,
+                'quizObj': quizObj
+            }
+            messages.info(request,'Added Successfully.!')
+            return render(request,'faculty/quiz.html',context)
+
+def enterQuestionsNat(request,id):
+    quizObj= quizInfo.objects.get(id =id)
+    if request.method=="POST":
+        question = request.POST['questionn']
+        answer  = request.POST['natAnswer']
+        if quizQuestions.objects.filter(question=question).exists():
+            messages.error(request,'This question already exists')
+            context = {
+                'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
+                'inputQuestions' : True,
+                'quizObj': quizObj
+            }
+            print(quizQuestions.objects.filter(quiz= quizObj))
+            return render(request,'faculty/quiz.html',context)
+        else:
+            quizQuestions(
+                    question = question,
+                    questionType = 'typenat',
+                    quiz=quizObj,
+                    correctOption=answer,
+                ).save()
+            quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
+            print(quizQuestionsData)
+            context = {
+                'quizQuestions':quizQuestionsData,
+                'inputQuestions' : True,
+                'quizObj': quizObj
+            }
+            messages.info(request,'Added Successfully.!')
+            return render(request,'faculty/quiz.html',context)
+
+
+def enterQuestions(request,id):
+    quizObj= quizInfo.objects.get(id =id)
+    context = {
+                'quizObj' : quizObj,
+                'inputQuestions': True
+            }
+    return render(request,'faculty/quiz.html',context)
+
+
+def previousQuiz(request):
+    quizObj = quizInfo.objects.filter(subject__in = Subquery(subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user))).values('id')))
+    context = {
+        'quizData':quizObj,
+        'previousQuiz':True
+    }
+    return render(request,'faculty/quiz.html',context)
+
+
+def previousQuizDetails(request,id):
+    quiz = quizInfo.objects.get(id=id)
+    quizQuestionsData = quizQuestions.objects.filter(quiz=quiz)
+    context={
+        'previousQuizDetailsView':True,
+        'quizInfo':quiz,
+        'quizQuestionData':quizQuestionsData
+    } 
+    return render(request,'faculty/quiz.html',context)
+
+def updateMcqQuestions(request,id):
+    if request.method == "POST":
+        a = request.POST['question']
+        questionId = request.POST['questionID']
+        option1 = request.POST['option1']
+        option2 = request.POST['option2']
+        option3 = request.POST['option3']
+        option4 = request.POST['option4']
+        correctOption = request.POST['correctAnswer']
+
+    # quizObj= quizInfo.objects.get(id=id)
+    quizQuestions.objects.filter(id=questionId).update(question=a,option1=option1,option2=option2,option3=option3,option4=option4,correctOption=correctOption)
+    # quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
+    messages.info(request,'faculty/quiz.html')
+    return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
+
+def deleteQuestions(request,quizID,questionID):
+    quizQuestions.objects.filter(id=questionID).delete()
+    
+    messages.info(request,'Question Deleted Successfully.!')
+    return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(quizID)+'/ViewDetails')
+    
+def addQuestionsNat(request,id):
+    quizObj= quizInfo.objects.get(id =id)
+    if request.method=="POST":
+        question = request.POST['questionn']
+        answer  = request.POST['natAnswer']
+        if quizQuestions.objects.filter(question=question).exists():
+            messages.error(request,'This question already exists')
+            # context = {
+            #     'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
+            #     'inputQuestions' : True,
+            #     'quizObj': quizObj
+            # }
+            print(quizQuestions.objects.filter(quiz= quizObj))
+            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
+        else:
+            quizQuestions(
+                    question = question,
+                    questionType = 'typenat',
+                    quiz=quizObj,
+                    correctOption=answer,
+                ).save()
+            # quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
+            # print(quizQuestionsData)
+            # context = {
+            #     'quizQuestions':quizQuestionsData,
+            #     'inputQuestions' : True,
+            #     'quizObj': quizObj
+            # }
+            messages.info(request,'Added Successfully.!')
+            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
+
+def addQuestionsMcq(request,id):
+    if request.method == "POST":
+        a = request.POST['question']
+        print("E",a)
+        option1 = request.POST['option1']
+        option2 = request.POST['option2']
+        option3 = request.POST['option3']
+        option4 = request.POST['option4']
+        correctOption = request.POST['correctAnswer']
+        if quizQuestions.objects.filter(question=a).exists():
+            messages.error(request,'This question already exists')
+            # context = {
+            #     'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
+            #     'previousQuizDetailsView' : True,
+            #     'quizObj': quizObj
+            # }
+            # print(quizQuestions.objects.filter(quiz= quizObj))
+            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
+        else:
+            quizObj = quizInfo.objects.get(id=id)
+            quizQuestions(
+                question = a,
+                questionType = 'MCQ',
+                quiz=quizObj,
+                option1=option1,
+                option2=option2,
+                option3=option3,
+                option4=option4,
+                correctOption=correctOption,
+            ).save()
+
+            # quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
+            # print(quizQuestionsData)
+            # context = {
+            #     'quizQuestions':quizQuestionsData,
+            #     'previousQuizDetailsView' : True,
+            #     'quizObj': quizObj
+            # }
+            messages.info(request,'Added Successfully.!')
+            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')

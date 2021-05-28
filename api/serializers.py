@@ -47,15 +47,15 @@ class stud_detailsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class lecturesSerializer(serializers.ModelSerializer):
+class subjectsSerailizer(serializers.ModelSerializer):
     Department = departmentSerializer()
     TaughtBy = facultySerializer()
     class Meta:
-        model = lectures
+        model = subjects
         fields = '__all__'
 
 class lectureEnrollmentSerializer(serializers.ModelSerializer):
-    lecture = lecturesSerializer()
+    subjects = subjectsSerailizer()
     student = stud_detailsSerializer()
     class Meta:
         model = lectureEnrollment
@@ -77,7 +77,7 @@ class tempLecturesSerailizer(serializers.ModelSerializer):
 
 
 class lectureRecordSerializer(serializers.ModelSerializer):
-    lecture = lecturesSerializer()
+    subject = subjectsSerailizer()
     faculty = facultySerializer()
     class Meta:
         model = lectureRecord

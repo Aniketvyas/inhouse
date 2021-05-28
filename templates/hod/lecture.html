@@ -17,150 +17,161 @@
 
     <nav class="navbar navbar-expand-lg navbar-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="container-fluid">
                 <div class="row">
                     <!-- sidebar -->
                     <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
-                        <a href="/" class="navbar-brand text-white d-block mx-auto text-center py-3 mb-4 bottom-border">Aristotle</a>
-                        <div class="bottom-border pb-3">
-                            <img src="images/admin.jpeg" width="50" class="rounded-circle mr-3">
-                            <a href="#" class="text-white"><small>{{user.first_name}} {{user.last_name}}</small></a>
+                        <div class="bottom-border p-3 mt-3">
+                            <div class="one-portal bottom-border">
+                                <h4 class="text-white text-uppercase text-center mb-3">One Portal</h4>
+                            </div>
+                            <div class="info my-3 text-center">
+                                <!-- <img src="images/logo.png" width="50" class="rounded-circle mr-3" style="border-radius: 5px black;"> -->
+                                <a href="#" class="text-white text-uppercase text-center">{{user.first_name}} {{user.last_name}}</a>
+                                <p class="text-center text-white custom-small">FACULTY | {{data.FacultyID.EmployeeID}} | {{data.Department}} </p>
+                            </div>
                         </div>
                         <ul class="navbar-nav flex-column mt-4">
-                            <li class="nav-item"><a href="/" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-home text-light fa-sm mr-3"></i>Profile</small></a></li>
-                            <li class="nav-item"><a href="/academic/HOD/lecture/lectureRequest" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-user text-light fa-sm mr-3"></i>Lecture Requests</small></a></li>
-                            <li class="nav-item"><a href="/academic/HOD/lecture/view" class="nav-link text-white p-1 mb-2 current"><small><i class="fas fa-shopping-cart text-light fa-sm mr-3"></i>Ongoing Lecture</small></a></li>
-                            <!--  <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-chart-line text-light fa-lg mr-3"></i>Semster Marks</a></li>
-                <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-chart-bar text-light fa-lg mr-3"></i> Calender</a></li>
+                            <li class="nav-item"><a href="/" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i
+                      class="fas fa-home text-light fa-sm mr-3"></i>Profile</small></a></li>
+                            <li class="nav-item"><a href="/academic/HOD/lecture/lectureRequest" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i
+                      class="fas fa-user text-light fa-sm mr-3"></i>Lecture Requests</small></a></li>
+                            <li class="nav-item"><a href="/academic/HOD/lecture/view" class="nav-link text-white p-1 mb-2"><small><i
+                      class="fas fa-shopping-cart text-light fa-sm mr-3"></i>Ongoing Lecture</small></a></li>
+                            <li class="nav-item"><a href="/academic/HOD/Enrollment" class="nav-link text-white p-1 mb-2 sidebar-link"><i
+                    class="fas fa-chart-line text-light fa-sm mr-3"></i>Enroll Students</a></li>
+                            <!--  <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-chart-bar text-light fa-lg mr-3"></i> Calender</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-table text-light fa-lg mr-3"></i>Time Table </a></li>
                -->
-                            <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-wrench text-light fa-sm mr-3"></i>Logout</small><a></li>
-            
-              </ul>
-            </div>
-            
+                            <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i
+                      class="fas fa-wrench text-light fa-sm mr-3"></i>Logout</small><a></li>
+
+            </ul>
           </div>
+
         </div>
       </div>
-    </nav>
-   {% if home %}
-    <section>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
-            <div class="row pt-md-5 mt-md-3 mb-5">
-            
-              <div class="col-xl-3 col-sm-6 p-2">
-                <div class="card card-common">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <i class="fas fa-child fa-3x text-warning"></i>
-                      <div class="text-primary">
-                        <p>
+    </div>
+  </nav>
+  {% if home %}
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+          <div class="row pt-md-5 mt-md-3 mb-5">
+
+            <div class="col-xl-3 col-sm-6 p-2">
+              <div class="card card-common">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <i class="fas fa-child fa-3x text-warning"></i>
+                    <div class="text-primary">
+                      <p>
                         Total Students : {{students}}
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xl-3 col-sm-6 p-2">
-                <div class="card card-common">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <i class="fas fa-university fa-3x text-warning"></i>
-                      <div class="text-primary">
-                        <p>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-2">
+              <div class="card card-common">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <i class="fas fa-university fa-3x text-warning"></i>
+                    <div class="text-primary">
+                      <p>
                         Total Faculty : {{faculty}}
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-xl-3 col-sm-6 p-2">
-                <div class="card card-common">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                      <i class="fas fa-book fa-3x text-warning"></i>
-                      <div class="text-primary">
-                        <p>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-2">
+              <div class="card card-common">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <i class="fas fa-book fa-3x text-warning"></i>
+                    <div class="text-primary">
+                      <p>
                         Total Lectures : {{lecture_count}}
-                      </div>
                     </div>
                   </div>
-
                 </div>
+
               </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-    {% endif %}
-    <!-- end of cards -->
+  </section>
+  {% endif %}
+  <!-- end of cards -->
 
-    <!-- tables -->
-    {% if lectures %}
-    <section>
-      <div class="container-fluid">
-        <div class="row mb-5">
-          <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
-            <div class="row align-items-center">
-                <div class="container">
+  <!-- tables -->
+  {% if lectures %}
+  <section>
+    <div class="container-fluid">
+      <div class="row mb-5">
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+          <div class="row align-items-center">
+            <div class="container">
               <div class="col-xl-12 col-lg-12 mb-4 mb-xl-0">
                 <h3 class="text-dark text-center mb-3"><b>Lectures </b></h3>
-                <br><table class="table table-bordered table-dark table-responsive text-center">
-                    <thead>
-                      <tr class="text-muted">
-                        <th scope="col">Lecture ID</th>
-                        <th colspan="2" scope="col">Lecture Name</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">taught by</th>
-                        <th scope="col">LastFaculty</th>
-                        <th scope="col">semster</th>
-                        <th scope="col">Credit <small>L-T-P-C</small></th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                <br>
+                <table class="table table-bordered table-dark table-responsive text-center">
+                  <thead>
+                    <tr class="text-muted">
+                      <th scope="col">Lecture ID</th>
+                      <th colspan="2" scope="col">Lecture Name</th>
+                      <th scope="col">Department</th>
+                      <th scope="col">taught by</th>
+                      <th scope="col">LastFaculty</th>
+                      <th scope="col">semster</th>
+                      <th scope="col">Credit <small>L-T-P-C</small></th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {% for out in lectures %}
-                      <tr scope="row">
-                        <td>{{ out.LectureID}}</td>
-                        <td colspan="2">{{ out.LectureName }}</td>
-                        <td>{{ out.Department }}</td>    
-                        <td>{{ out.TaughtBy }}</td>
-                        <td>{{ out.LastTaughtBy }}</td>
-                        <td>{{ out.Semester}}</td>
-                        <td>{{ out.Credit}}</td>
-                        </td>
-                      </tr>  
-                     {% endfor %}
-                    </tbody>
-                 
-                  </table>
-                   <!-- pagination -->
+                    <tr scope="row">
+                      <td>{{ out.LectureID}}</td>
+                      <td colspan="2">{{ out.LectureName }}</td>
+                      <td>{{ out.Department }}</td>
+                      <td>{{ out.TaughtBy }}</td>
+                      <td>{{ out.LastTaughtBy }}</td>
+                      <td>{{ out.Semester}}</td>
+                      <td>{{ out.Credit}}</td>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+
+                </table>
+                <!-- pagination -->
                 <nav>
-                    <ul class="pagination justify-content-center">
-                      <li class="page-item">
-                        <a href="#" class="page-link py-2 px-3">
-                          <span>&laquo;</span>
-                        </a>
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                      <a href="#" class="page-link py-2 px-3">
+                        <span>&laquo;</span>
+                      </a>
                             </li>
                             <li class="page-item active">
                                 <a href="#" class="page-link py-2 px-3">
-                          1
-                        </a>
+                        1
+                      </a>
                             </li>
                             <li class="page-item">
                                 <a href="#" class="page-link py-2 px-3">
-                          2
-                        </a>
+                        2
+                      </a>
                             </li>
                             <li class="page-item">
                                 <a href="#" class="page-link py-2 px-3">
-                          3
-                        </a>
+                        3
+                      </a>
                             </li>
                             <li class="page-item">
                                 <a href="#" class="page-link py-2 px-3">
@@ -193,19 +204,24 @@
                                             <p class="text-right bold">
                                                 {{notice.LectureTitle}}<br>
                                                 <span class="text-left small">
-                                Status : {{notice.LectureStatus}}<br>
-                                Sent To : {{notice.NextSendTo}}
-                              </span>
+                          Status : {{notice.LectureStatus}}<br>
+                          Sent To : {{notice.NextSendTo}}
+                        </span>
                                             </p>
-                                            <span>  
-                            <a style="color:crimson;text-decoration: none;" class=" text-right" href="{{notice.TempLectureID}}/Approve">Approve</a> |
-                            <a style="color:black ;text-decoration:none;" class="text-right " href="{{notice.TempLectureID}}/Hold">Hold</a>
-                            <a style="color:darkcyan ;text-decoration:none;" class="text-right" data-toggle="tooltip" title="Send The Changes Suggested by higher level to lower level" href="{{notice.TempLectureID}}/Configure">Configure</a>
-                            
-                          </span><br>
+                                            <span>
+                        <a style="color:crimson;text-decoration: none;" class=" text-right"
+                          href="{{notice.TempLectureID}}/Approve">Approve</a> |
+                        <a style="color:black ;text-decoration:none;" class="text-right "
+                          href="{{notice.TempLectureID}}/Hold">Hold</a>
+                        <a style="color:darkcyan ;text-decoration:none;" class="text-right" data-toggle="tooltip"
+                          title="Send The Changes Suggested by higher level to lower level"
+                          href="{{notice.TempLectureID}}/Configure">Configure</a>
+
+                      </span><br>
                                             <div class="mt-3">
                                                 <p class="text-center small">Wants to Request some Changes?</p><br>
-                                                <button data-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">Request Change</button>
+                                                <button data-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">Request
+                          Change</button>
                                                 <div class="dropdown-menu">
                                                     <form action="{{notice.TempLectureID}}/update" method="POST" class="px-4 py-3">{% csrf_token %}
                                                         <div class="container">
@@ -251,18 +267,20 @@
                         {% for notice in lectureInformation %}
                         <div class="col-xl-3 col-sm-6 p-1 ml-5">
                             <div class="card card-common">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <i class="fas fa-university fa-1x text-warning"></i>
-                                        <div class="jumbotron mr-2">
-                                            <p style="font-size: small;" class="text-center text-secondary">
-                                                {{notice.LectureName}}
+                                <div class="theme-background mr-2">
+                                    <div class="card-body">
+                                        <div class="justify-content-between">
+                                            <i class="fas fa-university fa-1x text-warning"></i>
+
+                                            <p class="text-center text-white text-uppercase">
+                                                {{notice.subjectName}}
                                             </p>
-                                            <p class="text-dark text-right small">
-                                                Taught By : {{notice.TaughtBy.Name}}
+                                            <p class="text-center font-weight-bold" style="color:pink;">
+                                                Taught By : {{notice.TaughtBy.FacultyID.Name}}
                                             </p>
-                                            <p class="text-danger text-right small">Credit : {{notice.Credit}}</p>
-                                            <span class='text-left'><a style="text-decoration: none;" href="{{notice.id}}/view">View Details</a></span>
+                                            <p class="text-light text-center small">Credit : {{notice.Credit}}</p>
+                                            <span class='text-left'><a style="text-decoration: none;" href="{{notice.id}}/view">View
+                          Details</a></span>
 
                                         </div>
                                     </div>
@@ -270,7 +288,37 @@
 
                                 <div class="card-footer text-secondary">
                                     <i class="fas fa-arrow-right mr-3"></i>
-                                    <a href="/{{notice.LessonPlan}}">Lesson plan</a> | <a class="text-warning" href="{{notice.id}}/Enrollment">Enroll </a>
+                                    <a href="#" style="text-decoration:none;" data-toggle="modal" data-target="#exampleModal{{notice.id}}">Assign Faculty</a> | <a class="text-warning" href="{{notice.id}}/Enrollment">Enroll </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="exampleModal{{notice.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                                    </div>
+                                    <form action="{{notice.id}}/assignFaculty" method="POST">{% csrf_token %}
+                                        <div class="modal-body">
+                                            {{notice.id}}
+                                            <div class="container">
+                                                <label>Select Faculty</label>
+                                                <select class="custom-select" name="faculty">
+                          {% for i in faculties %}
+                          <option value="{{i.id}}">{{i.FacultyID.Name}}</option>
+                          {% endfor %}
+                        </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -329,18 +377,18 @@
                                             </li>
                                             <li class="page-item active">
                                                 <a href="#" class="page-link py-2 px-3">
-                              1
-                            </a>
+                          1
+                        </a>
                                             </li>
                                             <li class="page-item">
                                                 <a href="#" class="page-link py-2 px-3">
-                              2
-                            </a>
+                          2
+                        </a>
                                             </li>
                                             <li class="page-item">
                                                 <a href="#" class="page-link py-2 px-3">
-                              3
-                            </a>
+                          3
+                        </a>
                                             </li>
                                             <li class="page-item">
                                                 <a href="#" class="page-link py-2 px-3">
@@ -367,7 +415,8 @@
                                                 Taught By : {{notice.TaughtBy}}
                                             </p>
                                             <p class="text-danger text-right small">Credit : {{notice.Credit}}</p>
-                                            <span class='text-left'><a style="text-decoration: none;" href="Track"><button class="btn btn-sm btn-outline-danger">Track Lecture</button></a></span>
+                                            <span class='text-left'><a style="text-decoration: none;" href="Track"><button
+                            class="btn btn-sm btn-outline-danger">Track Lecture</button></a></span>
 
                                         </div>
                                     </div>
@@ -395,33 +444,64 @@
                     <div class="row justify-content-center ">
                         <div class="card card-common">
                             <div class="card-body">
-                                <h3 class="text-dark text-center mb-3"><b>Students </b></h3>
+                                <h3 class="text-dark text-center mb-3"><b>Please Select a program </b></h3>
                                 <div>
-                                    <form action="filter" method="POST">{% csrf_token %}
-                                        <input type="text" name="sem" placeholder="filter By Semster"> <button type="submit" class="btn btn-sm btn-info">Filter</button>
-                                    </form>
                                 </div>
-                                <br>{% if student %}
+                                <br>{% if programs %}
                                 <table class="table table-stripped table-responsive text-center">
                                     <thead>
                                         <tr class="text-muted">
-                                            <th scope="col">Enrollment ID</th>
-                                            <th scope="col">Student Name</th>
-                                            <th scope="col">Department</th>
-                                            <th scope="col">Email ID</th>
-                                            <th scope="col">semster</th>
+                                            <th scope="col">Program Name</th>
+                                            <th scope="col">Total Semsters</th>
+                                            <th scope="col">School</th>
                                             <th scope="col">Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for out in student %}
+                                        {% for out in programs %}
                                         <tr scope="row">
-                                            <td>{{ out.EnrollmentNumber}}</td>
-                                            <td>{{ out.FirstName}} {{out.LastName}}</td>
-                                            <td>{{ out.Department.DepartmentID }}</td>
-                                            <td>{{ out.UniversityEmailID }}</td>
-                                            <td>{{ out.CurrSem }}</td>
-                                            <td><a href="Enroll/{{out.EnrollmentNumber}}" class="btn btn-warning btn-sm">Enroll</a></td>
+                                            <td>{{ out.name}}</td>
+                                            <td>{{ out.totalSemester}}</td>
+                                            <td>{{ out.school.name }}</td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal">Enroll</button>
+
+                                                <!-- Example single danger button -->
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                                            </div>
+                                                            <form action="/academic/HOD/Enrollment/{{out.id}}" method="POST">{% csrf_token %}
+                                                                <div class="modal-body">
+
+                                                                    <label>Select Semester</label>
+                                                                    <select class="custom-select" name="semester">
+                                                                      {% with ''|center:out.totalSemester as range %}
+                                                                      {% for _ in range %}
+                                                                          <option value="{{forloop.counter}}">{{ forloop.counter }}</option>
+                                                                      {% endfor %}
+                                                                      {% endwith %}
+                                                                    <!-- {% for i in out.duration|make_list %}
+                                                                        <option>{{ forloop.counter }}</option>
+                                                                    {% endfor %} -->
+                                                                  </select>
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -441,18 +521,18 @@
                                         </li>
                                         <li class="page-item active">
                                             <a href="#" class="page-link py-2 px-3">
-                                  1
-                                </a>
+                        1
+                      </a>
                                         </li>
                                         <li class="page-item">
                                             <a href="#" class="page-link py-2 px-3">
-                                  2
-                                </a>
+                        2
+                      </a>
                                         </li>
                                         <li class="page-item">
                                             <a href="#" class="page-link py-2 px-3">
-                                  3
-                                </a>
+                        3
+                      </a>
                                         </li>
                                         <li class="page-item">
                                             <a href="#" class="page-link py-2 px-3">
@@ -473,11 +553,129 @@
     </section>
 
 
-    {% endif %} {% endif %}
+    {% endif %} {% endif %} {% if lectureEnrollmentSecond %}
+
+    <section>
+        <div class="container-fluid">
+            <div class="row mb-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row justify-content-center ">
+                        <div class="card card-common">
+                            <div class="card-body">
+
+                                <table class="table table-stripped table-responsive text-center">
+                                    <thead>
+                                        <tr class="text-muted">
+                                            <th scope="col">Students of Semester</th>
+                                            <th scope="col">Lectures of semester</th>
+                                            <th scope="col">School</th>
+                                            <th scope="col">Action </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for out in programs %}
+                                        <tr scope="row">
+                                            <td>{{ out.name}}</td>
+                                            <td>{{ out.duration}}</td>
+                                            <td>{{ out.school.name }}</td>
+                                            <td><a href="Enrollment/{{out.id}}" class="btn btn-warning btn-sm">Enroll</a></td>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% endif %} {% if showLectureEnrollment %}
+    <section>
+        <div class="container-fluid">
+            <div class="row mb-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row justify-content-center ">
+                        <div class="card card-common">
+                            <div class="card-body">
+                                <h3 class="text-dark text-center mb-3"><b>Enrolled Students </b></h3>
+                                <div>
+                                </div>
+                                <br>
+                                <table class="table table-stripped table-responsive text-center">
+                                    <thead>
+                                        <tr class="text-muted">
+                                            <th scope="col">Student Name</th>
+                                            <th scope="col">Subject CODE</th>
+                                            <th>Subject Name</th>
+                                            <th scope="col">semester</th>
+                                            <!-- <th scope="col">Action </th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for out in data %}
+                                        <tr scope="row">
+                                            <td>{{ out.student}}</td>
+                                            <td>{{ out.lecture}}</td>
+                                            <td class="text-uppercase">{{out.lecture.subjectName}}</td>
+                                            <td>{{ out.lecture.Semester }}</td>
+
+                                            <!-- <td>
+                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal">Enroll</button>
+                                            </td> -->
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
 
 
 
+                                <!-- pagination -->
+                                <nav>
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item">
+                                            <a href="#" class="page-link py-2 px-3">
+                                                <span>&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a href="#" class="page-link py-2 px-3">
+                  1
+                </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a href="#" class="page-link py-2 px-3">
+                  2
+                </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a href="#" class="page-link py-2 px-3">
+                  3
+                </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a href="#" class="page-link py-2 px-3">
+                                                <span>&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
 
     <!-- footer -->
     <!--<footer>

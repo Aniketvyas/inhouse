@@ -1,10 +1,10 @@
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: rgb(248, 237, 237);
+    background-color: rgb(247, 247, 247);
 }
 
 .theme-background {
-    background-color: #34495e;
+    background: linear-gradient(180deg, #446DEC, #3F99DB);
 }
 
 .theme-color {
@@ -35,7 +35,7 @@ body {
 
 .sidebar {
     height: 100vh;
-    background: #34495e;
+    background: linear-gradient(180deg, #446DEC, #3F99DB);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -43,7 +43,7 @@ body {
 }
 
 .top-navbar {
-    background: #34495e;
+    background: linear-gradient(180deg, #446DEC, #3F99DB);
 }
 
 .bottom-border {
@@ -123,49 +123,20 @@ body {
     }
 }
 
-
-/* end of navbar */
-
-
-/* cards */
-
 .card-common {
     box-shadow: 1px 2px 5px #999;
     transition: all .4s;
 }
 
-.card-common:hover {
+
+/* .card-common:hover {
     box-shadow: 2px 3px 15px #999;
     transform: translateY(-1px);
-}
-
-
-/* end of cards */
-
-
-/* task list */
+} */
 
 .task-border {
     border-left: 3px solid #f66436;
 }
-
-
-/* end of task list */
-
-
-/* 
-==============================================
- Dashboard TimeLine Starts ! |
-==============================================
-*/
-
-
-/* TIMELINE
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-
-/* TIMELINE
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .timeline {
     white-space: nowrap;
@@ -363,3 +334,20 @@ Dashboard Timeline Ends!
     height: 500px;
     overflow: scroll;
 }
+
+.custom-small {
+    font-size: xx-small;
+}
+
+#nat {
+    display: none;
+}
+
+#mcq {
+    display: block;
+}
+
+
+/* .dropdown-item {
+    z-index: 10000 !important;
+} */

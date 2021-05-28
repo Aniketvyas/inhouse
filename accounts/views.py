@@ -25,7 +25,7 @@ def login(request):
         username = request.POST['email']
         password = request.POST['Password']
         user = auth.authenticate(username=username,password=password)
-        a = employee.objects.filter(EmployeeID=username)
+        a = employee.objects.filter(employeeID=username)
         for i in a:
             a = i.Etype
             print("a",a)
