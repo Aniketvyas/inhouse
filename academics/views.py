@@ -611,17 +611,7 @@ def quizHost(request):
     }
     return render(request,'faculty/quiz.html',context)
 
-'''
-class quizQuestions(models.Model):
-    id = models.AutoField(primary_key=True)
-    quiz = models.ForeignKey('quizInfo',on_delete=models.CASCADE)
-    question = models.TextField()
-    questionType = models.CharField(max_length=40)
-    option1 = models.CharField(max_length=1000)
-    option2 = models.CharField(max_length=1000)
-    option3 = models.CharField(max_length=1000)
-    option4 = models.CharField(max_length=1000)
-    correctOption = models.CharField(max_length=1000)'''
+
 def enterQuestionsMcq(request,id):
     quizObj = quizInfo.objects.get(id=id)
     if request.method == "POST":
@@ -817,3 +807,126 @@ def addQuestionsMcq(request,id):
             # }
             messages.info(request,'Added Successfully.!')
             return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
+
+
+def createAssignments(request):
+    if request.method == "POST":
+        # name = request.POST['']
+        subject = request.POST['subject']
+        assignmentName = request.POST['assignmentName']
+        assignmentFil = request.FILES['assignmentFile']
+        deadline = request.POST['endTime']
+        assignmentDate = request.POST['assignmentDate']
+        assignment(
+            subject = subjects.objects.get(id= subject),
+            name = assignmentName,
+            assignmentFile = assignmentFil,
+            deadline = deadline,
+            startingDate = assignmentDate
+        ).save()
+        return redirect('/academic/ASSTPROF/lecture/previousAssignments')
+    else:
+        context = {
+            'facultyAssignmentCreationView':True,
+            'subjectsInfo' : subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user))),
+        }
+        return render(request,'faculty/assignment.html',context)
+
+def previousAssignment(request):
+    context = {
+        'assignmentData':assignment.objects.filter(subject__in = Subquery(subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user))).values('id'))),
+        'facultyPreviousAssignmentView':True,
+        'subjectsInfo' : subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user))),
+        
+    }
+    return render(request,'faculty/assignment.html',context)
+
+def updatePreviousAssignment(request,id):
+    if request.method == "POST":
+        subject = request.POST['subject']
+        assignmentName = request.POST['assignmentName']
+        assignmentFil = request.FILES['assignmentFile']
+        deadline = request.POST['endTime']
+        assignmentDate = request.POST['assignmentDate']
+        assignment.objects.filter(id=id).update(
+            subject = subjects.objects.get(id= subject),
+            name = assignmentName,
+            assignmentFile = assignmentFil,
+            deadline = deadline,
+            startingDate = assignmentDate
+        )
+        return redirect('/academic/ASSTPROF/lecture/previousAssignments')
+
+def deletePreviousAssignment(request,id):
+    assignment.objects.get(id=id).delete()  
+    return redirect('/academic/ASSTPROF/lecture/previousAssignments')
+
+
+def quizStudentView(request):
+    context={
+        'quizObject':True
+    }
+    return render(request,'student/quiz.html',context)
+
+def assignmentStudentView(request):
+    mainList=[]
+    assignmentObject = assignment.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture')))
+    for i in assignmentObject:
+        objectData = assignmentSubmission.objects.filter(assignment=i,submitedBy = stud_details.objects.get(UniversityEmailID=request.user)).first()
+        if objectData :
+            dataDictionary = {
+                'alreadySubmitted':True,
+                'submissionsQuerySet':objectData,
+                'querySetObject':i
+            }
+        else:
+            dataDictionary= {
+                'alreadySubmitted':False,
+                'submissionsQuerySet':objectData,
+                'querySetObject':i
+            }
+        mainList.append(dataDictionary)
+    print(assignmentObject)
+    print(mainList)
+    context = {
+        'assignmentData':mainList,
+        'studentPreviousAssignmentView':True
+    }
+    return render(request,'student/assignment.html',context)
+
+
+'''
+class assignmentSubmission(models.Model):
+    id = models.AutoField(primary_key=True)
+    assignment = models.ForeignKey('assignment',on_delete=models.CASCADE)
+    submissionFile = models.FileField()
+    submitedBy = models.ForeignKey('stud_details',on_delete=models.CASCADE)
+    submitedOn = models.DateTimeField(auto_now_add=True)
+
+'''
+
+def studentAssignmentSubmitView(request,id):
+    if request.method=="POST":
+        file = request.FILES['assignmentSubmitedFile']
+        assignmentSubmission(
+            assignment=assignment.objects.get(id=id),
+            submissionFile =file,
+            submitedBy = stud_details.objects.get(UniversityEmailID = request.user)
+        ).save()
+        return redirect('/academic/student/assignmentStudentView')
+
+    
+def studentUpdateAssignmentView(request,id):
+    if request.method == "POST":
+        file = request.FILES['assignmentUpdatedFile']
+        assignmentSubmission.objects.filter(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)).update(submissionFile = file)
+        print(assignmentSubmission.objects.get(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)).submissionFile)
+        return redirect('/academic/student/assignmentStudentView')
+
+def facultyAssignmentSubmissionView(request,id):
+    dataPacket = assignmentSubmission.objects.filter(assignment=assignment.objects.get(id=id))
+    context = {
+        'dataPacket':dataPacket,
+        'facultyAssignmentSubmissionView' :True
+    }
+    return render(request,'faculty/assignment.html',context)

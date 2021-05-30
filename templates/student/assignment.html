@@ -1,0 +1,216 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+            shrink-to-fit=no">
+    <link rel="title icon" href="{% static 'images/title-img.png' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style_dash.css' %}">
+    <title>Socrates | Dashboard</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- sidebar -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 sidebar
+                            fixed-top">
+                        <div class="bottom-border p-3 mt-3">
+                            <div class="one-portal bottom-border">
+                                <h4 class="text-white text-uppercase
+                                        text-center mb-3">One Portal</h4>
+                            </div>
+                            <div class="info my-3 text-center">
+                                <!-- <img src="images/logo.png" width="50" class="rounded-circle mr-3" style="border-radius: 5px black;"> -->
+                                <a href="#" class="text-white text-uppercase
+                                        text-center">{{user.first_name}}
+                                    {{user.last_name}}</a>
+                                <p class="text-center text-white
+                                        custom-small">FACULTY | {{data.FacultyID.EmployeeID}} | {{data.Department}}
+                                </p>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-column mt-4">
+                            <li class="nav-item"><a href="/" class="nav-link
+                                        text-white p-1 mb-2 current"><i class="fas fa-home text-light fa-lg
+                                            mr-3"></i><small>Profile</small></a></li>
+                            <li class="nav-item">
+
+                                <a class="nav-link small text-white sidebar-link" href="/academic/student/studentQuizView">
+                                    <i class="fas fa-question
+                                            text-light fa-lg mr-3"></i>Quizes</a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link small text-white sidebar-link" href="/academic/student/assignmentStudentView">
+                                    <i class="fas fa-tasks
+                                            text-light fa-lg mr-3"></i>Assignments</a>
+
+                            </li>
+
+                            <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2
+                                        sidebar-link"><i class="fas fa-wrench
+                                            text-light fa-lg mr-3"></i><small>Logout</small>
+                                <a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    {% if studentPreviousAssignmentView %}
+
+    <section>
+        <div class="container-fluid">
+            <div class="col-xl-10 col-sm-6 ml-auto">
+                <div class="row">
+                    {% for j in assignmentData %}
+                 
+                    <div class="col-xl-6 col-sm-6 p-1 ml-5">
+                        <div class="card card-common">
+                            <div class="theme-background mr-2">
+                                <div class="card-body">
+                                    <div class="justify-content-between">
+                                        <i class="fas fa-university
+                                            fa-1x text-warning"></i>
+                                        <p style="font-size: small;" class="text-center
+                                            text-white
+                                            text-uppercase">
+                                            {{j.querySetObject.name}}
+                                        </p>
+                                        <div class="row
+                                            text-center">
+                                            <div class="col-xl-6
+                                                text-white">
+                                                <h6>Assignment File</h6>
+                                                <a href="/media/{{j.querySetObject.assignmentFile}}" target="_blank" class="btn btn-outline-light btn-sm">View File</a>
+                    </div>
+                    <div class="col-xl-6
+                                                text-white">
+                        <h6>Subject</h6>
+                        <p>{{j.querySetObject.subject}} ( {{j.querySetObject.subject.subjectName}} )
+                        </p>
+
+                    </div>
+
+                </div>
+                <hr color="background:white">
+                <div class="row text-white
+                                            text-center">
+                    <div class="col-xl-6">
+                        <h6>Assignment Date</h6>
+                        <p>{{j.querySetObject.startingDate}}</p>
+                    </div>
+                    <div class="col-xl-6">
+                        <h6>Assignment Deadline</h6>
+                        <p>{{j.querySetObject.deadline}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-secondary">
+            {% if j.alreadySubmitted %}
+            <div class="text-center">
+                <i class="fas fa-arrow-right mr-3 text-warning"></i><a href="#" class="text-white" data-toggle="modal" data-target="#exampleModalUpdateAssignment{{i.id}}">Update</a>
+
+                <div class="modal fade" id="exampleModalUpdateAssignment{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Update Assignment Submission</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                            </div>
+                            <form action="{{j.querySetObject.id}}/updateAssignment" enctype="multipart/form-data" method="post"> {% csrf_token %}
+                                <div class="modal-body">
+
+                                    <label>Upload File</label>
+                                    <input type="file" class="form-control-file" name="assignmentUpdatedFile" required>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            {% else %}
+            <i class="fas fa-arrow-right mr-3 text-warning"></i>
+            <a href="{{j.querySetObject.id}}/submitAssignment" class="text-white" data-toggle="modal" data-target="#exampleModalSubmitAssignment{{i.id}}">Submit Assignment</a>
+
+            <div class="modal fade" id="exampleModalSubmitAssignment{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Assignment Submission</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                        </div>
+                        <form action="{{j.querySetObject.id}}/submitAssignment" enctype="multipart/form-data" method="post"> {% csrf_token %}
+                            <div class="modal-body">
+
+                                <label>Upload File</label>
+                                <input type="file" class="form-control-file" name="assignmentSubmitedFile" required>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %} {% if j.submissionsQuerySet %}
+
+            <div class="text-center">
+                <i class="fas fa-file text-warning mr-3"></i><a class="text-white" href="/media/{{j.submissionsQuerySet.submissionFile}}">View Submission</a>
+            </div>
+            {% endif %}
+        </div>
+        </div>
+
+
+        </div>
+        </div>
+
+        {% endfor %}
+        </div>
+        </div>
+        </div>
+        </section>
+
+        {% endif %}
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

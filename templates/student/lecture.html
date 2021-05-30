@@ -38,6 +38,9 @@
                         <ul class="navbar-nav flex-column mt-4">
                             <li class="nav-item"><a href="Home" class="nav-link text-white p-1 mb-2 current"><small><i class="fas fa-home text-light fa-sm mr-3"></i>Profile</small></a></li>
                             <li class="nav-item"><a href="lecture" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Lecture Corner</small></a></li>
+                            <li class="nav-item"><a href="quizStudentView" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Quiz</small></a></li>
+
+                            <li class="nav-item"><a href="assignmentStudentView" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Asignment</small></a></li>
 
                             <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-wrench text-light fa-sm mr-3"></i>Logout</small></a>
                                 <a></li>
@@ -56,27 +59,28 @@
 
 
 
+    {% if lecture %}
     <section>
         <div class="container-fluid">
-            <div class="row mb-5">
-                <div class="col-xl-10 col-lg-9 col-md-10 ml-auto">
-                    <div class="row align-items-center">
-
+            <div class="row">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row pt-md-5 mt-md-3 mb-5">
                         {% for notice in lecture %}
-                        <div class="col-xl-3 col-sm-6 p-1 ml-3">
+                        <div class="col-xl-3 col-sm-6 p-1 ml-5">
                             <div class="card card-common">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <i class="fas fa-university fa-1x text-warning"></i>
-                                        <div class="jumbotron ">
-                                            <p style="font-size: small;" class="text-center text-secondary">
-                                                {{notice.lecture.LectureName}}
+                                <div class="theme-background mr-2">
+                                    <div class="card-body">
+                                        <div class="justify-content-between">
+                                            <i class="fas fa-university fa-1x text-warning"></i>
+
+                                            <p style="font-size: small;" class="text-center text-white text-uppercase">
+                                                {{notice.lecture.subjectName}}
                                             </p>
-                                            <p class="text-dark text-right small">
-                                                Taught By : {{notice.lecture.TaughtBy.Name}}
+                                            <p class="text-warning text-center small">
+                                                Taught By : {{notice.lecture.TaughtBy}}
                                             </p>
-                                            <p class="text-danger text-right small">Credit : {{notice.lecture.Credit}}</p>
-                                            <span class='text-left'><a style="text-decoration: none;" href="{{notice.id}}/Track"><button class="btn btn-sm btn-outline-danger">Track Lecture</button></a></span>
+                                            <p class="text-warning text-center small">Credit : {{notice.lecture.Credit}}</p>
+                                            <span class='text-center'><a style="text-decoration: none;color:white;" href="{{notice.id}}/view">View Details</a></span>
 
                                         </div>
                                     </div>
@@ -84,7 +88,8 @@
 
                                 <div class="card-footer text-secondary">
                                     <i class="fas fa-arrow-right mr-3"></i>
-                                    <small><a href="/{{notice.LessonPlan}}">Lesson plan</a></small>
+                                    <a href="/{{notice.LessonPlan}}">Lesson plan</a> |
+                                    <a class="small" style="text-decoration:none; " href="{{notice.id}}/attendence">Attendance</a>
                                 </div>
                             </div>
                         </div>
@@ -94,5 +99,14 @@
                 </div>
             </div>
         </div>
-        >
     </section>
+    {% endif %}
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

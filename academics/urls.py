@@ -39,6 +39,11 @@ urlpatterns = [
     path('ASSTPROF/lecture/previousQuiz/<str:quizID>/<str:questionID>/delete',views.deleteQuestions),
     path('ASSTPROF/lecture/previousQuiz/<str:id>/quizQuestions/mcq',views.addQuestionsMcq),
     path('ASSTPROF/lecture/previousQuiz/<str:id>/quizQuestions/nat',views.addQuestionsNat),
+    path('ASSTPROF/lecture/createAssignment',views.createAssignments),
+    path('ASSTPROF/lecture/previousAssignments',views.previousAssignment),
+    path('ASSTPROF/lecture/previousAssignment/<str:id>/update',views.updatePreviousAssignment),
+    path('ASSTPROF/lecture/previousAssignment/<str:id>/delete',views.deletePreviousAssignment),
+    path('ASSTPROF/lecture/<int:id>/viewSubmissions',views.facultyAssignmentSubmissionView),
   
 
     #-----------------Head Of Department-----------------------
@@ -76,6 +81,10 @@ urlpatterns = [
 
 #----------------------- STUDENTS ------------------------------------
     path('student/lecture',views.studentLectureView),
+    path('student/quizStudentView',views.quizStudentView),
+    path('student/assignmentStudentView',views.assignmentStudentView),
+    path('student/<str:id>/submitAssignment',views.studentAssignmentSubmitView),
+    path('student/<str:id>/updateAssignment',views.studentUpdateAssignmentView),
     path('student/<str:lecture>/Track',views.studentTrackView)
    
 

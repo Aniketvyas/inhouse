@@ -47,8 +47,15 @@
 
                                 </div>
                             </li>
-                            <li class="nav-item"><a href="assignments" class="nav-link text-white p-1 mb-2 sidebar-link"><i class="fas fa-user text-light fa-lg mr-3"></i><small>Assignment</small></a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownAssignment" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user text-light fa-lg mr-3"></i><small>Assignment</small>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownAssignment">
+                                    <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/createAssignment">Create Assignment</a>
+                                    <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/previousAssignments">Prevous Assignments</a>
 
+                            </li>
                             <li class="nav-item"><a href="lectureRequest" class="nav-link text-white p-1 mb-2 sidebar-link"><i class="fas fa-user text-light fa-lg mr-3"></i><small>Request Lecture</small></a></li>
                             <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2 sidebar-link"><i class="fas fa-wrench text-light fa-lg mr-3"></i><small>Logout</small><a></li>
             
@@ -83,16 +90,16 @@
                         <p class="text-warning text-center small">Credit : {{notice.Credit}}</p>
                         <span class='text-center'><a style="text-decoration: none;color:white;" href="{{notice.id}}/view">View Details</a></span>
 
+                                </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-footer text-secondary">
-                <i class="fas fa-arrow-right mr-3"></i>
-                <a href="/{{notice.LessonPlan}}">Lesson plan</a> |
-                <a class="small" style="text-decoration:none; " href="{{notice.id}}/attendence">Attendance</a>
+                <div class="card-footer text-secondary">
+                    <i class="fas fa-arrow-right mr-3"></i>
+                    <a href="/{{notice.LessonPlan}}">Lesson plan</a> |
+                    <a class="small" style="text-decoration:none; " href="{{notice.id}}/attendence">Attendance</a>
+                </div>
             </div>
-        </div>
         </div>
 
         {% endfor %}

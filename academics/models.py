@@ -162,7 +162,7 @@ class quizGrades(models.Model):
     marks = models.IntegerField()
 
     def __str__(self):
-        return self.quiz.name + " "+ self.student.FirstName
+        return self.quiz.name + " "+ self.student.FullName
 
 
 class assignment(models.Model):
@@ -170,6 +170,8 @@ class assignment(models.Model):
     name = models.CharField(max_length=100)
     assignmentFile = models.FileField()
     subject = models.ForeignKey('subjects',on_delete=models.CASCADE)
+    startingDate = models.DateField(null=True)
+    deadline = models.DateField(null=True)
     createdOn = models.DateTimeField(auto_now_add=True)
     updatedOn = models.DateTimeField(auto_now_add=True)
 
