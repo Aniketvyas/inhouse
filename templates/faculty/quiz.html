@@ -93,122 +93,56 @@
                                                 <div class="row
                                                     justify-content-center">
                                                     <div class="btn-group p-2">
-                                                        <button
-                                                            onclick="changeToMCQ()"
-                                                            class="btn
-                                                            btn-outline-danger
-                                                            btn-sm">MCQ</button>
-                                                        <button
-                                                            onclick="changeToFITB()"
-                                                            class="btn
-                                                            btn-outline-warning
-                                                            btn-sm">Fill in the
-                                                            blank</button>
+                                                        <button onclick="changeToMCQ()"class="btn btn-outline-danger btn-sm">MCQ</button>
+                                                        <button onclick="changeToFITB()"class="btn btn-outline-warning btn-sm">Fill in the blank</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <form action="quizQuestions/mcq"
+                                            <form action="/academic/ASSTPROF/lecture/quiz/{{quizObj.id}}/enterQuestions/mcq"
                                                 method="POST"> {% csrf_token %}
                                                 <div id="mcq">
-                                                    <textarea type="text"
-                                                        class="form-control"
-                                                        name="question"
-                                                        placeholder="Enter
-                                                        Question" required></textarea>
-                                                    <div class="row m-2
-                                                        justify-content-center">
+                                                    <textarea type="text"class="form-control"name="question"placeholder="Enter Question" required></textarea>
+                                                    <div class="row m-2 justify-content-center">
                                                         <div class="col-xl-6">
-                                                            <input type="text"
-                                                                class="form-control"
-                                                                value="MCQ"
-                                                                name="typemcq"
-                                                                hidden>
-                                                            <input type="text"
-                                                                class="form-control"
-                                                                name="option1"
-                                                                placeholder="option
-                                                                1" id=""
-                                                                required>
+                                                            <input type="text"class="form-control"value="MCQ"name="typemcq"hidden>
+                                                            <input type="text"class="form-control"name="option1"placeholder="option1" id=""required>
                                                         </div>
                                                         <div class="col-xl-6">
-                                                            <input type="text"
-                                                                class="form-control"
-                                                                name="option2"
-                                                                placeholder="option
-                                                                2" id=""
-                                                                required>
+                                                            <input type="text"class="form-control"name="option2"placeholder="option2" id=""required>
                                                         </div>
                                                     </div>
                                                     <div class="row m-2">
                                                         <div class="col-xl-6">
-                                                            <input type="text"
-                                                                class="form-control"
-                                                                name="option3"
-                                                                placeholder="option
-                                                                3" id=""
-                                                                required>
+                                                            <input type="text"class="form-control"name="option3"placeholder="option3" id=""required>
                                                         </div>
                                                         <div class="col-xl-6">
-                                                            <input type="text"
-                                                                class="form-control"
-                                                                name="option4"
-                                                                placeholder="option
-                                                                4" id=""
-                                                                required>
+                                                            <input type="text"class="form-control"name="option4"placeholder="option4" id=""required>
                                                         </div>
                                                     </div>
-                                                    <div class="row
-                                                        justify-content-center">
-                                                        <div class="col-lg-6
-                                                            text-center">
-                                                            <input type="text"
-                                                                class="form-control"
-                                                                name="correctAnswer"
-                                                                placeholder="Correct
-                                                                Option"
-                                                                required>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-lg-6text-center">
+                                                            <input type="text"class="form-control"name="correctAnswer"placeholder="CorrectOption"required>
                                                         </div>
                                                     </div>
-                                                    <div class="text-center
-                                                        m-2">
-                                                        <button type="submit"
-                                                            class="btn
-                                                            btn-primary btn-sm">Submit</button>
+                                                    <div class="text-center m-2">
+                                                        <button type="submit"class="btn btn-primary btn-sm">Submit</button>
                                                     </div>
                                                 </div>
                                             </form>
-                                            <form action="quizQuestions/nat"
-                                                method="POST"> {% csrf_token %}
+                                            <form action="/academic/ASSTPROF/lecture/quiz/{{quizObj.id}}/enterQuestions/nat" method="POST"> {% csrf_token %}
                                                 <div id="nat">
                                                     <div class="col-xl-12">
-                                                        <input type="text"
-                                                            value="NAT"
-                                                            name="typenat"
-                                                            hidden>
-                                                        <textarea type="text"
-                                                            class="form-control"
-                                                            name="questionn"
-                                                            placeholder="Enter
-                                                            Question" required></textarea>
+                                                        <input type="text"value="NAT"name="typenat"hidden>
+                                                        <textarea type="text"class="form-control"name="questionn"placeholder="Enter Question" required></textarea>
                                                         <div class="row m-2">
-                                                            <div
-                                                                class="col-xl-6">
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    name="natAnswer"
-                                                                    placeholder="Answer"
-                                                                    required
-                                                                    id="">
+                                                            <div class="col-xl-6">
+                                                                <input type="text"class="form-control"name="natAnswer"placeholder="Answer"requiredid="">
                                                             </div>
 
                                                         </div>
                                                     </div>
-                                                    <div class="text-center
-                                                        m-2">
-                                                        <button type="submit"
-                                                            class="btn
-                                                            btn-primary btn-sm">Submit</button>
+                                                    <div class="text-centerm-2">
+                                                        <button type="submit"class="btn btn-primary btn-sm">Submit</button>
                                                     </div>
                                                 </div>
 
@@ -254,65 +188,43 @@
                 <section>
                     <div class="container-fluid">
                         <div class="col-xl-10 col-sm-6 ml-auto">
-                            <div class="row text-center">
+                            <div class="row justify-content-center text-center">
+                                <div class="col-xl-12">
                                 <div class="card card-common">
                                     <div class="card-body">
-                                        <form action="hostQuiz" method="POST">{%
-                                            csrf_token %}
-                                            <div class="col-xl-10 m-4">
-                                                <label class="text-left">Name of
-                                                    Quiz</label>
-                                                <input type="text"
-                                                    class="form-control"
-                                                    name="quizName"
-                                                    placeholder="Enter Name of
-                                                    Quiz">
+                                        <form action="hostQuiz" method="POST">{% csrf_token %}
+                                            <div class="col-xl-12 m-4">
+                                                <label class="text-left">Name of Quiz</label>
+                                                <input type="text"class="form-control"name="quizName"placeholder="Enter Name ofQuiz" required>
                                             </div>
 
                                             <div class="row m-2">
                                                 <div class="col-xl-6">
                                                     <label>Date of Quiz</label>
-                                                    <input type="date"
-                                                        class="form-control"
-                                                        name="quizDate"
-                                                        placeholder="Date of
-                                                        Quiz">
+                                                    <input type="date"class="form-control"name="quizDate"placeholder="Date of Quiz" required>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <label>Select a Subject</label>
-                                                    <select
-                                                        class="custom-select"
-                                                        name="subject">
+                                                    <select class="custom-select"name="subject" required>
                                                         {% for i in subjects %}
-                                                        <option
-                                                            value="{{i.id}}">{{i.subjectName}}</option>
+                                                        <option value="{{i.id}}">{{i.subjectName}}</option>
                                                         {% endfor %}
                                                     </select> </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xl-6">
-                                                    <label>Start Time of the
-                                                        Quiz</label>
-                                                    <input type="time"
-                                                        class="form-control"
-                                                        name="startTime"
-                                                        placeholder="Start time
-                                                        of Quiz">
+                                                    <label>Start Time of theQuiz</label>
+                                                    <input type="time"class="form-control"name="startTime"placeholder="Start time of Quiz" required>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <label>End Time of Quiz</label>
-                                                    <input type="time"
-                                                        class="form-control"
-                                                        name="endTime"
-                                                        placeholder="End time of
-                                                        Quiz">
+                                                    <input type="time"class="form-control"name="endTime"placeholder="End time ofQuiz" required>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn
-                                                btn-outline-success rounded
-                                                m-4">Submit</button>
+                                            <button type="submit" class="btnbtn-outline-success rounded m-4">Submit</button>
                                         </form>
                                     </div>
+                                </div>
                                 </div>
                             </div>
 
@@ -381,7 +293,7 @@
                                         <div class="card-footer text-center">
                                             <i class="fas fa-arrow-right mr-3"></i>
                                             <a
-                                                href="previousQuiz/{{i.id}}/ViewDetails">View
+                                                href="previousQuiz/{{i.id}}/ViewDetails/show">View
                                                 Details</a>
                     </div>
                 </div>
@@ -470,7 +382,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <form action="quizQuestions/mcq" method="POST"> {% csrf_token %}
+                                                        <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/addQuestions/mcq" method="POST"> {% csrf_token %}
                                                             <div id="mcq">
                                                                 <textarea type="text" class="form-control" name="question" placeholder="Enter
                                                                     Question" required></textarea>
@@ -511,7 +423,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <form action="quizQuestions/nat" method="POST"> {% csrf_token %}
+                                                        <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/addQuestions/nat" method="POST"> {% csrf_token %}
                                                             <div id="nat">
                                                                 <div class="col-xl-12">
                                                                     <input type="text" value="NAT" name="typenat" hidden>
@@ -590,75 +502,67 @@
                                                                 {% endfor %}
                                                                 <h1 class="text-center m-4">Enter Data
                                                                 </h1>
-                                                                <div class="container">
-                                                                    <div class="row
-                                                    justify-content-center">
-                                                                        <div class="btn-group p-2">
-                                                                            <button type="button" onclick="changeToMCQ()" class="btn
-                                                            btn-outline-danger
-                                                            btn-sm">MCQ</button>
-                                                                            <button type="button" onclick="changeToFITB()" class="btn btn-outline-warning btn-sm ">Fill in the
-                                                            blank</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <form action="update/mcq " method="POST "> {% csrf_token %}
-                                                                    <div id="mcq">
-                                                                        <input type="text " name="questionID " value="{{i.id}} " hidden>
-                                                                        <textarea type="text " class="form-control " name="question " placeholder="Enter Question " required>{{i.question}}</textarea>
-                                                                        <div class="row m-2 justify-content-center ">
-                                                                            <div class="col-xl-6 ">
-                                                                                <input type="text " class="form-control " value="MCQ " name="typemcq " hidden>
-                                                                                <input type="text " class="form-control " value="{{i.option1}} " name="option1 " placeholder="option 1 " id=" " required>
+
+                                                                {% if i.option2 or i.option3 or i.option4 %}
+                                                                <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/updateQuestion/mcq/{{i.id}}" method="POST"> {% csrf_token %}
+                                                                    <div id="">
+                                                                        <input type="text" name="questionID" value="{{i.id}}" hidden>
+                                                                        <textarea type="text" class="form-control" name="question" placeholder="Enter Question" required>{{i.question}}</textarea>
+                                                                        <div class="row m-2 justify-content-center">
+                                                                            <div class="col-xl-6">
+                                                                                <input type="text" class="form-control" value="MCQ" name="typemcq" hidden>
+                                                                                <input type="text" class="form-control" value="{{i.option1}}" name="option1" placeholder="option 1" id="" required>
                                                                             </div>
-                                                                            <div class="col-xl-6 ">
-                                                                                <input type="text " class="form-control " value="{{i.option2}} " name="option2 " placeholder="option 2 " id=" " required>
+                                                                            <div class="col-xl-6">
+                                                                                <input type="text" class="form-control" value="{{i.option2}}" name="option2" placeholder="option 2" id="" required>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="row m-2 ">
-                                                                            <div class="col-xl-6 ">
-                                                                                <input type="text " class="form-control " value="{{i.option3}} " name="option3 " placeholder="option 3 " id=" " required>
+                                                                        <div class="row m-2">
+                                                                            <div class="col-xl-6">
+                                                                                <input type="text" class="form-control" value="{{i.option3}}" name="option3" placeholder="option 3" id="" required>
                                                                             </div>
-                                                                            <div class="col-xl-6 ">
-                                                                                <input type="text " class="form-control " value="{{i.option4}} " name="option4 " placeholder="option 4 " id=" " required>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row justify-content-center ">
-                                                                            <div class="col-lg-6 text-center ">
-                                                                                <input type="text " class="form-control " value="{{i.correctOption}} " name="correctAnswer " placeholder="Correct Option " required>
+                                                                            <div class="col-xl-6">
+                                                                                <input type="text" class="form-control" value="{{i.option4}}" name="option4" placeholder="option 4" id="" required>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="text-center m-2 ">
-                                                                            <button type="submit " class="btn btn-primary btn-sm ">Submit</button>
+                                                                        <div class="row justify-content-center">
+                                                                            <div class="col-lg-6 text-center">
+                                                                                <input type="text" class="form-control" value="{{i.correctOption}}" name="correctAnswer" placeholder="Correct Option" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-center m-2">
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                                                                         </div>
                                                                     </div>
                                                                 </form>
-                                                                <form action="quizQuestions/nat " method="POST "> {% csrf_token %}
-                                                                    <div id="nat">
-                                                                        <div class=" ">
-                                                                            <input type="text " value="NAT " name="typenat " hidden>
-                                                                            <input type="text " value="{{i.id}} " hidden>
-                                                                            <textarea name="questionn " placeholder="Enter Question " class="form-control-plaintext " required>{{i.question}}</textarea>
-                                                                            <div class="row m-2 ">
-                                                                                <div class="col-xl-6 ">
-                                                                                    <input type="text" class="form-control " name="natAnswer " placeholder="Answer " required>
+                                                                {% else %}
+                                                                <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/updateQuestion/nat/{{i.id}}" method="POST"> {% csrf_token %}
+                                                                    <div id="">
+                                                                        <div class="">
+                                                                            <input type="text" value="NAT" name="typenat" hidden>
+                                                                            <input type="text" value="{{i.id}}" name="questionID" hidden>
+                                                                            <textarea name="questionn" placeholder="Enter Question" class="form-control-plaintext" required>{{i.question}}</textarea>
+                                                                            <div class="row m-2">
+                                                                                <div class="col-xl-6">
+                                                                                    <input type="text" class="form-control" name="natAnswer" placeholder="Answer" required>
                                                                                 </div>
 
                                                                             </div>
                                                                         </div>
-                                                                        <div class="text-center m-2 ">
-                                                                            <button type="submit " class="btn btn-primary btn-sm ">Submit</button>
+                                                                        <div class="text-center m-2">
+                                                                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                                                                         </div>
                                                                     </div>
 
                                                                 </form>
+                                                                {% endif %}
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <a href="{{i.id}}/delete "><button type="button " class="btn btn-danger ">Delete</button></a>
+                                                <a href="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/deleteQuestions/delete/{{i.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -673,10 +577,10 @@
         </section>
         {% endif %}
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js " integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 " crossorigin="anonymous "></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js " integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T " crossorigin="anonymous "></script>
-        <script src="{% static 'js/index.js' %} "></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <script src="{% static 'js/index.js' %}"></script>
         <!-- <script>
             function changeToFITB() {
                 document.getElementById('nat').style.display = 'block';

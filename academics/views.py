@@ -1,4 +1,5 @@
 
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render,redirect
 from django.db.models import Subquery
 from django.contrib.auth.models import User , auth , Group
@@ -573,7 +574,7 @@ def lectureApproveVc(request,id):
 
 
 
-# -------------------------------- QUIZ AND ASSIGNMENTS ----------------------------
+# -------------------------------- QUIZ ----------------------------
 
 def quizHost(request):
     if request.method == "POST":
@@ -603,7 +604,7 @@ def quizHost(request):
                 'inputQuestions': True
             }
             messages.success(request,'Quiz created Successfully, Please Add Questions to it..!')
-            return redirect('/academic/ASSTPROF/lecture/quiz/'+str(quizObj.id)+'/enterQuestions')
+            return redirect('/academic/ASSTPROF/lecture/quiz/'+str(quizObj.id)+'/enterQuestions/view')
 
     context = {
         'inputQuizInfo':True,
@@ -612,87 +613,201 @@ def quizHost(request):
     return render(request,'faculty/quiz.html',context)
 
 
-def enterQuestionsMcq(request,id):
-    quizObj = quizInfo.objects.get(id=id)
+def enterQuestions(request,id,questionType):
     if request.method == "POST":
-        a = request.POST['question']
-        print("E",a)
-        option1 = request.POST['option1']
-        option2 = request.POST['option2']
-        option3 = request.POST['option3']
-        option4 = request.POST['option4']
-        correctOption = request.POST['correctAnswer']
-        if quizQuestions.objects.filter(question=a).exists():
-            messages.error(request,'This question already exists')
-            context = {
-                'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
-                'inputQuestions' : True,
-                'quizObj': quizObj
-            }
-            print(quizQuestions.objects.filter(quiz= quizObj))
-            return render(request,'faculty/quiz.html',context)
-        else:
-            # quiz= quizInfo.objects.get(id =id)
-            quizQuestions(
-                question = a,
-                questionType = 'MCQ',
-                quiz=quizObj,
-                option1=option1,
-                option2=option2,
-                option3=option3,
-                option4=option4,
-                correctOption=correctOption,
-            ).save()
-
-            quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
-            print(quizQuestionsData)
-            context = {
-                'quizQuestions':quizQuestionsData,
-                'inputQuestions' : True,
-                'quizObj': quizObj
-            }
-            messages.info(request,'Added Successfully.!')
-            return render(request,'faculty/quiz.html',context)
-
-def enterQuestionsNat(request,id):
-    quizObj= quizInfo.objects.get(id =id)
-    if request.method=="POST":
-        question = request.POST['questionn']
-        answer  = request.POST['natAnswer']
-        if quizQuestions.objects.filter(question=question).exists():
-            messages.error(request,'This question already exists')
-            context = {
-                'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
-                'inputQuestions' : True,
-                'quizObj': quizObj
-            }
-            print(quizQuestions.objects.filter(quiz= quizObj))
-            return render(request,'faculty/quiz.html',context)
-        else:
-            quizQuestions(
-                    question = question,
-                    questionType = 'typenat',
+        quizObj = quizInfo.objects.get(id=id)
+        quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
+        if questionType == "mcq":
+            a = request.POST['question']
+            print("E",a)
+            option1 = request.POST['option1']
+            option2 = request.POST['option2']
+            option3 = request.POST['option3']
+            option4 = request.POST['option4']
+            correctOption = request.POST['correctAnswer']
+            if quizQuestions.objects.filter(question=a).exists():
+                messages.error(request,'This question already exists')
+                context = {
+                    'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                print(quizQuestions.objects.filter(quiz= quizObj))
+                return redirect('/academic/ASSTPROF/lecture/quiz/'+str(id)+'/enterQuestions',context)
+            else:
+                # quiz= quizInfo.objects.get(id =id)
+                quizQuestions(
+                    question = a,
+                    questionType = 'MCQ',
                     quiz=quizObj,
-                    correctOption=answer,
+                    option1=option1,
+                    option2=option2,
+                    option3=option3,
+                    option4=option4,
+                    correctOption=correctOption,
                 ).save()
-            quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
-            print(quizQuestionsData)
-            context = {
-                'quizQuestions':quizQuestionsData,
-                'inputQuestions' : True,
-                'quizObj': quizObj
-            }
-            messages.info(request,'Added Successfully.!')
-            return render(request,'faculty/quiz.html',context)
+
+                
+                print(quizQuestionsData)
+                context = {
+                    'quizQuestions':quizQuestionsData,
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                messages.info(request,'Added Successfully.!')
+                return redirect('/academic/ASSTPROF/lecture/quiz/'+str(quizObj.id)+'/enterQuestions/view',context)
+        else:
+            question = request.POST['questionn']
+            answer  = request.POST['natAnswer']
+            if quizQuestions.objects.filter(question=question).exists():
+                messages.error(request,'This question already exists')
+                a = "ASSTPROF/lecture/quiz/<str:id>/enterQuestions/<str:questionType>"
+                print(quizQuestions.objects.filter(quiz= quizObj))
+                context = {
+                    'quizQuestions':quizQuestionsData,
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                return redirect('/academic/ASSTPROF/lecture/quiz/'+str(id)+'/enterQuestions/'+'view',context)
+            else:
+                quizQuestions(
+                        question = question,
+                        questionType = 'typenat',
+                        quiz=quizObj,
+                        correctOption=answer,
+                    ).save()
+                messages.info(request,'Added Successfully.!')
+                context = {
+                    'quizQuestions':quizQuestionsData,
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                return redirect('/academic/ASSTPROF/lecture/quiz/'+str(id)+'/enterQuestions/'+'view',context)
+    else:
+        quizObj= quizInfo.objects.get(id =id)
+        quizQuestionsData = quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id))
+        print(quizQuestionsData)
+        context = {
+             'quizQuestions':quizQuestionsData,
+                    'quizObj' : quizObj,
+                    'inputQuestions': True
+                }
+        return render(request,'faculty/quiz.html',context)
+
+def previousQuizDetails(request,id,command,questionType):
+    if command == "ViewDetails":
+        quiz = quizInfo.objects.get(id=id)
+        quizQuestionsData = quizQuestions.objects.filter(quiz=quiz)
+        context={
+            'previousQuizDetailsView':True,
+            'quizInfo':quiz,
+            'quizQuestionData':quizQuestionsData
+        } 
+        return render(request,'faculty/quiz.html',context)
+    elif command == "addQuestions":
+        quizObj = quizInfo.objects.get(id=id)
+        quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
+        if questionType == "mcq":
+            a = request.POST['question']
+            print("E",a)
+            option1 = request.POST['option1']
+            option2 = request.POST['option2']
+            option3 = request.POST['option3']
+            option4 = request.POST['option4']
+            correctOption = request.POST['correctAnswer']
+            if quizQuestions.objects.filter(question=a).exists():
+                messages.error(request,'This question already exists')
+                context = {
+                    'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                print()
+                return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails/show',context)
+            else:
+                # quiz= quizInfo.objects.get(id =id)
+                quizQuestions(
+                    question = a,
+                    questionType = 'MCQ',
+                    quiz=quizObj,
+                    option1=option1,
+                    option2=option2,
+                    option3=option3,
+                    option4=option4,
+                    correctOption=correctOption,
+                ).save()
+
+                
+                # print(quizQuestionsData)
+                context = {
+                    'quizQuestions':quizQuestionsData,
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                messages.info(request,'Added Successfully.!')
+                return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails/show',context)
+        else:
+            question = request.POST['questionn']
+            answer  = request.POST['natAnswer']
+            if quizQuestions.objects.filter(question=question).exists():
+                messages.error(request,'This question already exists')
+                a = "ASSTPROF/lecture/quiz/<str:id>/enterQuestions/<str:questionType>"
+                print(quizQuestions.objects.filter(quiz= quizObj))
+                context = {
+                    'quizQuestions':quizQuestionsData,
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails/show',context)
+            else:
+                quizQuestions(
+                        question = question,
+                        questionType = 'typenat',
+                        quiz=quizObj,
+                        correctOption=answer,
+                    ).save()
+                messages.info(request,'Added Successfully.!')
+                context = {
+                    'quizQuestions':quizQuestionsData,
+                    'inputQuestions' : True,
+                    'quizObj': quizObj
+                }
+                return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails/show',context)
 
 
-def enterQuestions(request,id):
-    quizObj= quizInfo.objects.get(id =id)
-    context = {
-                'quizObj' : quizObj,
-                'inputQuestions': True
-            }
-    return render(request,'faculty/quiz.html',context)
+def deleteQuestions(request,quizId,questionId):
+    quizQuestions.objects.filter(id=questionId).delete()
+    print("blah")
+    messages.info(request,'Question Deleted Successfully.!')
+    
+    return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(quizId)+'/ViewDetails/show')
+
+def updateQuestions(request,id,questionType,questionId):
+    if request.method == "POST":
+        if questionType == 'mcq':
+            a = request.POST['question']
+            questionId = request.POST['questionID']
+            option1 = request.POST['option1']
+            option2 = request.POST['option2']
+            option3 = request.POST['option3']
+            option4 = request.POST['option4']
+            correctOption = request.POST['correctAnswer']
+            questionObj = quizQuestions.objects.filter(id=questionId)
+            questionObj.update(question=a,option1=option1,option2=option2,option3=option3,option4=option4,correctOption=correctOption)
+            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(questionObj[0].quiz.id)+'/ViewDetails/show')
+        elif questionType == 'nat':
+            a = request.POST['questionn']
+            questionId = request.POST['questionID']
+            correctOption = request.POST['natAnswer']
+            questionObj = quizQuestions.objects.filter(id=questionId)
+            questionObj.update(question=a,correctOption=correctOption)
+            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(questionObj[0].quiz.id)+'/ViewDetails/show')
+        else:
+            return HttpResponseBadRequest('Authorization Bypassed Turning off!!')
+    else:
+        return HttpResponseBadRequest()
+            
+        
 
 
 def previousQuiz(request):
@@ -704,109 +819,8 @@ def previousQuiz(request):
     return render(request,'faculty/quiz.html',context)
 
 
-def previousQuizDetails(request,id):
-    quiz = quizInfo.objects.get(id=id)
-    quizQuestionsData = quizQuestions.objects.filter(quiz=quiz)
-    context={
-        'previousQuizDetailsView':True,
-        'quizInfo':quiz,
-        'quizQuestionData':quizQuestionsData
-    } 
-    return render(request,'faculty/quiz.html',context)
 
-def updateMcqQuestions(request,id):
-    if request.method == "POST":
-        a = request.POST['question']
-        questionId = request.POST['questionID']
-        option1 = request.POST['option1']
-        option2 = request.POST['option2']
-        option3 = request.POST['option3']
-        option4 = request.POST['option4']
-        correctOption = request.POST['correctAnswer']
-
-    # quizObj= quizInfo.objects.get(id=id)
-    quizQuestions.objects.filter(id=questionId).update(question=a,option1=option1,option2=option2,option3=option3,option4=option4,correctOption=correctOption)
-    # quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
-    messages.info(request,'faculty/quiz.html')
-    return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
-
-def deleteQuestions(request,quizID,questionID):
-    quizQuestions.objects.filter(id=questionID).delete()
-    
-    messages.info(request,'Question Deleted Successfully.!')
-    return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(quizID)+'/ViewDetails')
-    
-def addQuestionsNat(request,id):
-    quizObj= quizInfo.objects.get(id =id)
-    if request.method=="POST":
-        question = request.POST['questionn']
-        answer  = request.POST['natAnswer']
-        if quizQuestions.objects.filter(question=question).exists():
-            messages.error(request,'This question already exists')
-            # context = {
-            #     'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
-            #     'inputQuestions' : True,
-            #     'quizObj': quizObj
-            # }
-            print(quizQuestions.objects.filter(quiz= quizObj))
-            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
-        else:
-            quizQuestions(
-                    question = question,
-                    questionType = 'typenat',
-                    quiz=quizObj,
-                    correctOption=answer,
-                ).save()
-            # quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
-            # print(quizQuestionsData)
-            # context = {
-            #     'quizQuestions':quizQuestionsData,
-            #     'inputQuestions' : True,
-            #     'quizObj': quizObj
-            # }
-            messages.info(request,'Added Successfully.!')
-            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
-
-def addQuestionsMcq(request,id):
-    if request.method == "POST":
-        a = request.POST['question']
-        print("E",a)
-        option1 = request.POST['option1']
-        option2 = request.POST['option2']
-        option3 = request.POST['option3']
-        option4 = request.POST['option4']
-        correctOption = request.POST['correctAnswer']
-        if quizQuestions.objects.filter(question=a).exists():
-            messages.error(request,'This question already exists')
-            # context = {
-            #     'quizQuestions': quizQuestions.objects.filter(quiz= quizObj),
-            #     'previousQuizDetailsView' : True,
-            #     'quizObj': quizObj
-            # }
-            # print(quizQuestions.objects.filter(quiz= quizObj))
-            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
-        else:
-            quizObj = quizInfo.objects.get(id=id)
-            quizQuestions(
-                question = a,
-                questionType = 'MCQ',
-                quiz=quizObj,
-                option1=option1,
-                option2=option2,
-                option3=option3,
-                option4=option4,
-                correctOption=correctOption,
-            ).save()
-
-            # quizQuestionsData = quizQuestions.objects.filter(quiz= quizObj)
-            # print(quizQuestionsData)
-            # context = {
-            #     'quizQuestions':quizQuestionsData,
-            #     'previousQuizDetailsView' : True,
-            #     'quizObj': quizObj
-            # }
-            messages.info(request,'Added Successfully.!')
-            return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(id)+'/ViewDetails')
+# ------------------------------- Assignments --------------------------------------
 
 
 def createAssignments(request):
