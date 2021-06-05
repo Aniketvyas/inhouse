@@ -171,3 +171,25 @@ def studentQuizInfo(request,id):
     a = quizInfo.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(id=id)).values('lecture')))
     serializer = quizInfoSerializer(a,many=True)
     return Response(serializer.data,status=200)
+
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def studentGetQuestions(request,id):
+    a = quizQuestions.objects.filter(quiz = quizInfo.objects.get(id=id))
+    serializer = quizQuestionsSerializer(q,many=True)
+    return Response(serializer.data,status=200)
+
+
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def submitGrades(request):
+    if request.method == "POST":
+        quizid = request.data['quizid']
+        studentid = request.data['studentid']
+        marks = request.data['marks']
+        quizGrades(
+            quiz = quizInfo.objects.get(id=quizid),
+            student = stud_details.objects.get(id=studentid),
+            marks = marks
+        ).save()
+        return Response({"message":"Success"},status=200)
