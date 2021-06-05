@@ -10,7 +10,7 @@ class CustomAuthToken(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        info= stud_details.objects.get(UniversityEmailID=Token.objects.get(key=token.key).user.email)
+        info= stud_details.objects.get(UniversityEmailID=Token.objects.get(key=token.key).user.username)
         sinfo=stud_detailsSerializer(info)
         return Response({
             'token': token.key,

@@ -7,6 +7,7 @@ from .serializers import *
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Subquery
 # Create your views here.
 
 
@@ -162,3 +163,11 @@ def student(request):
 
 def delete_student(request,id):
     pass
+
+
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def studentQuizInfo(request,id):
+    a = quizInfo.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(id=id)).values('lecture')))
+    serializer = quizInfoSerializer(a,many=True)
+    return Response(serializer.data,status=200)

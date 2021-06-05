@@ -84,3 +84,46 @@ class lectureRecordSerializer(serializers.ModelSerializer):
         fields = ' __all__'
 
 
+class modesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=  modes
+        field = "__all__"
+
+class weightageSerializer(serializers.ModelSerializer):
+    mode = modesSerializer()
+    subject = subjectsSerailizer()
+    faculty = facultySerializer()
+    class Meta:
+        model=weightage
+        fields = "__all__"
+class quizInfoSerializer(serializers.ModelSerializer):
+    subject = subjectsSerailizer()
+    class Meta:
+        model = quizInfo
+        fields = "__all__"
+
+class quizQuestionsSerializer(serializers.ModelSerializer):
+    quiz = quizInfoSerializer()
+    class Meta:
+        model = quizInfo
+        fields = "__all__"
+
+class quizGradesSerializer(serializers.ModelSerializer):
+    quiz = quizInfoSerializer()
+    student = stud_detailsSerializer()
+    class Meta:
+        model = quizGrades
+        fields = "__all__"
+
+class assignmentSerializer(serializers.ModelSerializer):
+    subject = subjectsSerailizer()
+    class Meta:
+        model = assignment
+        fields = " __all__"
+
+class assignmentSubmissionSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = assignmentSubmission
+        fields = "__all__"
+
+    

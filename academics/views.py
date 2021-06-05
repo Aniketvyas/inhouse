@@ -806,8 +806,6 @@ def updateQuestions(request,id,questionType,questionId):
             return HttpResponseBadRequest('Authorization Bypassed Turning off!!')
     else:
         return HttpResponseBadRequest()
-            
-        
 
 
 def previousQuiz(request):

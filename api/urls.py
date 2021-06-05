@@ -28,8 +28,9 @@ urlpatterns = [
     # for lectures
     path('department/<int:id>/lecture/',views.lecture),         # GET: to show all lectures , POST: add a lecture
     path('lecture/<int:id>/faculty',views.update_faculty),      # GET: To show faculty , POST: to update faculty
-    path('lecture/<int:id>/',views.delete_lecture)    ,          # to delete lecture
+    path('lecture/<int:id>/',views.delete_lecture),             # to delete lecture
     path('lecture/<int:id>/student',views.student),             # GET: to show all student , POST: add a student
     path('student/<int:id>/',views.delete_student),             # to delete student
+    path('studentQuizInfo/<str:id>',views.studentQuizInfo),
 
 ]
