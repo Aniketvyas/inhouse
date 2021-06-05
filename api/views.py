@@ -193,3 +193,23 @@ def submitGrades(request):
             marks = marks
         ).save()
         return Response({"message":"Success"},status=200)
+
+
+def studentAssignmentView(request,id):
+    assignmentObject = assignment.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture')))
+    serializer = assignmentSerializer(assignmentObject,many=True)
+    return Response(serializer.data,status=200)
+
+
+def studentAssignmentSubmission(request):
+    if request.method == "POST":
+        file = request.data['assignmentSubmitedFile']
+        assignmentID = request.data['assignmentID']
+        studentID = request.data['studentID']
+        assignmentSubmission(
+            assignment=assignment.objects.get(id=assignmentID),
+            submissionFile =file,
+            submitedBy = stud_details.objects.get(id=studentID)
+        ).save()
+        return Response({"Message":"Success"},status=200)
+    
