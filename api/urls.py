@@ -32,5 +32,7 @@ urlpatterns = [
     path('lecture/<int:id>/student',views.student),             # GET: to show all student , POST: add a student
     path('student/<int:id>/',views.delete_student),             # to delete student
     path('studentQuizInfo/<str:id>',views.studentQuizInfo),
+    path('getQuizQue/<int:id>',views.studentGetQuestions),
+    path('submitGrades/<int:id>',views.submitGrades),
 
 ]

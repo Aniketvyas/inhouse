@@ -105,7 +105,7 @@ class quizInfoSerializer(serializers.ModelSerializer):
 class quizQuestionsSerializer(serializers.ModelSerializer):
     quiz = quizInfoSerializer()
     class Meta:
-        model = quizInfo
+        model = quizQuestions
         fields = "__all__"
 
 class quizGradesSerializer(serializers.ModelSerializer):

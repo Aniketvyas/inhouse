@@ -8,6 +8,7 @@ from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Subquery
+import datetime as dt
 # Create your views here.
 
 
@@ -168,16 +169,47 @@ def delete_student(request,id):
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 def studentQuizInfo(request,id):
-    a = quizInfo.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(id=id)).values('lecture')))
-    serializer = quizInfoSerializer(a,many=True)
-    return Response(serializer.data,status=200)
+    a = quizInfo.objects.filter(
+        subject__in = Subquery(
+            lectureEnrollment.objects.filter(
+                student=stud_details.objects.get(id=id)
+                ).values('lecture')
+                )
+            ).order_by('-quizDate')
+    print(a)
+    dataPacket = {}
+    count=0
+    for i in a:
+        if quizGrades.objects.filter(quiz=i,student=stud_details.objects.get(id=id)):
+            dataPacket[count] = {
+                "attempted":True,
+                "quizData":quizInfoSerializer(i,many=False).data
+            }
+        else:
+            dataPacket[count] = {
+                "attempted":False,
+                "quizData":quizInfoSerializer(i,many=False).data
+            }
+        count+=1
+
+    
+    # serializer = quizInfoSerializer(a,many=False)
+    
+    
+    print('done mani')
+    # print(serializer.data)
+    return Response(dataPacket,status=200)
 
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 def studentGetQuestions(request,id):
-    a = quizQuestions.objects.filter(quiz = quizInfo.objects.get(id=id))
-    serializer = quizQuestionsSerializer(q,many=True)
-    return Response(serializer.data,status=200)
+    quiz = quizInfo.objects.get(id=id)
+    if (quiz.quizStartTime <= dt.datetime.now().time()) and (quiz.quizDate <= dt.datetime.now().date()) and (quiz.quizEndTime >= dt.datetime.now().time()):
+        q = quizQuestions.objects.filter()
+        serializer = quizQuestionsSerializer(q,many=True)
+        return Response(serializer.data,status=200)
+    else:
+        return Response({"message":"Forbidden"},status=403)
 
 
 @api_view(['GET','POST'])
@@ -212,4 +244,3 @@ def studentAssignmentSubmission(request):
             submitedBy = stud_details.objects.get(id=studentID)
         ).save()
         return Response({"Message":"Success"},status=200)
-    
