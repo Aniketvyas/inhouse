@@ -583,6 +583,7 @@ def quizHost(request):
         dateQuiz = request.POST['quizDate']
         startTime = request.POST['startTime']
         endTime = request.POST['endTime']
+        duration = request.POST['duration']
         if quizInfo.objects.filter(name=name,subject=subject,quizDate=dateQuiz,quizEndTime=endTime,quizStartTime=startTime).exists():
             context = {
                 'inputQuizInfo': True,
@@ -597,7 +598,8 @@ def quizHost(request):
                 subject=subject,
                 quizDate=dateQuiz,
                 quizEndTime=endTime,
-                quizStartTime=startTime)
+                quizStartTime=startTime,
+                duration=duration)
             quizObj.save()
             context = {
                 'quizObj' : quizObj,

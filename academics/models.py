@@ -135,6 +135,7 @@ class quizInfo(models.Model):
     quizDate = models.DateField()
     quizStartTime = models.TimeField()
     quizEndTime = models.TimeField()
+    duration = models.IntegerField()
     subject = models.ForeignKey('subjects',on_delete=models.CASCADE)
 
     def __str__(self):

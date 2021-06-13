@@ -60,9 +60,15 @@
 
                                 </div>
                             </li>
-                            <li class="nav-item"><a href="assignments" class="nav-link text-white p-1 mb-2
-                                        sidebar-link"><i class="fas fa-user
-                                            text-light fa-lg mr-3"></i><small>Assignment</small></a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownAssignment" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user text-light fa-lg mr-3"></i><small>Assignment</small>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownAssignment">
+                                    <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/createAssignment">Create Assignment</a>
+                                    <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/previousAssignments">Prevous Assignments</a>
+
+                            </li>
                             <li class="nav-item"><a href="lectureRequest" class="nav-link text-white p-1 mb-2
                                         sidebar-link"><i class="fas fa-user
                                             text-light fa-lg mr-3"></i><small>Request
@@ -188,17 +194,26 @@
                 <section>
                     <div class="container-fluid">
                         <div class="col-xl-10 col-sm-6 ml-auto">
-                            <div class="row justify-content-center text-center">
+                            <div class="row d-flex justify-content-center text-center">
                                 <div class="col-xl-12">
                                 <div class="card card-common">
-                                    <div class="card-body">
+                                    <div class="card-body justify-content-center">
                                         <form action="hostQuiz" method="POST">{% csrf_token %}
-                                            <div class="col-xl-12 m-4">
-                                                <label class="text-left">Name of Quiz</label>
-                                                <input type="text"class="form-control"name="quizName"placeholder="Enter Name ofQuiz" required>
+                                            <div class="row">
+                                                <div class="col xl-6">
+                                                    <label class="text-left">Name of Quiz</label>
+                                                <input type="text"class="form-control"name="quizName"placeholder="Enter Name of Quiz" required>
+                                            
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <label class="text-left">Duration of Quiz</label>
+                                                <input type="number"min="0"class="form-control"name="duration"placeholder="Duration of Quiz" required>
+                                            
+                                                </div>
                                             </div>
+                                            
 
-                                            <div class="row m-2">
+                                            <div class="row">
                                                 <div class="col-xl-6">
                                                     <label>Date of Quiz</label>
                                                     <input type="date"class="form-control"name="quizDate"placeholder="Date of Quiz" required>
@@ -221,7 +236,7 @@
                                                     <input type="time"class="form-control"name="endTime"placeholder="End time ofQuiz" required>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btnbtn-outline-success rounded m-4">Submit</button>
+                                            <button type="submit" class="btn btn-outline-success m-4">Submit</button>
                                         </form>
                                     </div>
                                 </div>
@@ -241,7 +256,7 @@
                         <div class="col-xl-10 col-sm-6 ml-auto">
                             <div class="row">
                                 {% for i in quizData %}
-                                <div class="col-xl-6 col-sm-6 p-1 ml-5">
+                                <div class="col-xl-6 col-sm-6 p-1">
                                     <div class="card card-common">
                                         <div class="theme-background mr-2">
                                             <div class="card-body">
@@ -286,6 +301,12 @@
                                                             <p>{{i.quizEndTime}}</p>
                                                         </div>
                                                     </div>
+                                                    <div class="row justify-content-center text-white">
+                                                        <div class="col-xl-12 text-center">
+                                                        <h6>Duration</h6>
+                                                        <p>{{i.duration}} min</p>
+                                                            </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -295,11 +316,11 @@
                                             <a
                                                 href="previousQuiz/{{i.id}}/ViewDetails/show">View
                                                 Details</a>
+                                </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
         </div>
         </div>
         </section>
@@ -346,6 +367,12 @@
                                                 <div class="col-xl-6">
                                                     <h6>Quiz End Time</h6>
                                                     <p>{{quizInfo.quizEndTime}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row text-center text-white">
+                                                <div class="col-xl-12">
+                                                    <h6>Duration</h6>
+                                                    <p>{{quizInfo.duration}} Mins</p>
                                                 </div>
                                             </div>
                                         </div>

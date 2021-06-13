@@ -41,7 +41,8 @@ def login(request):
             messages.info(request,'Invalid credentials') 
             return redirect('/')   
     else:
-        if request.user.is_authenticated:
+        print(request.user.is_superuser)
+        if request.user.is_authenticated and request.user.is_superuser != True:
             return redirect('academic/dashboard')
         return render(request,'index.html')    
 

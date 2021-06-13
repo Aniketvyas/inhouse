@@ -191,13 +191,6 @@ def studentQuizInfo(request,id):
                 "quizData":quizInfoSerializer(i,many=False).data
             }
         count+=1
-
-    
-    # serializer = quizInfoSerializer(a,many=False)
-    
-    
-    print('done mani')
-    # print(serializer.data)
     return Response(dataPacket,status=200)
 
 @api_view(['GET','POST'])
