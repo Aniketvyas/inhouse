@@ -219,13 +219,15 @@ def submitGrades(request):
         ).save()
         return Response({"message":"Success"},status=200)
 
-
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
 def studentAssignmentView(request,id):
-    assignmentObject = assignment.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture')))
+    assignmentObject = assignment.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(id=id)).values('lecture')))
     serializer = assignmentSerializer(assignmentObject,many=True)
     return Response(serializer.data,status=200)
 
-
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
 def studentAssignmentSubmission(request):
     if request.method == "POST":
         file = request.data['assignmentSubmitedFile']

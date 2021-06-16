@@ -34,5 +34,6 @@ urlpatterns = [
     path('studentQuizInfo/<str:id>',views.studentQuizInfo),
     path('getQuizQue/<int:id>',views.studentGetQuestions),
     path('submitGrades/<int:id>',views.submitGrades),
+    path('getAssignment/<str:id>',views.studentAssignmentView)
 
 ]

@@ -1,0 +1,402 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="title icon" href="{% static 'images/title-img.png' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style_dash.css' %}">
+    <title>Socrates | Dashboard</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- sidebar -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
+                        <div class="bottom-border p-3 mt-3">
+                            <div class="one-portal bottom-border">
+                                <h4 class="text-white text-uppercase text-center mb-3">One Portal</h4>
+                            </div>
+                            <div class="info my-3 text-center">
+                                <!-- <img src="images/logo.png" width="50" class="rounded-circle mr-3" style="border-radius: 5px black;"> -->
+                                <a href="#" class="text-white text-uppercase text-center">{{user.first_name}} {{user.last_name}}</a>
+                                <p class="text-center text-white custom-small">COE | {{data.FacultyID.EmployeeID}} | {{data.Department}} </p>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-column mt-4">
+                            <li class="nav-item"><a href="/" class="nav-link text-white p-1 mb-2 current"><small><i class="fas fa-home text-light fa-sm mr-3"></i>Profile</small></a></li>
+                            <!-- <li class="nav-item"><a href="attendance" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-user text-light fa-sm mr-3"></i>Attendence</small></a></li> -->
+                            <!-- <li class="nav-item"><a href="/outpass" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-envelope text-light fa-sm mr-3"></i>Outing</small></a></li>
+                            <li class="nav-item"><a href="/notice" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-shopping-cart text-light fa-sm mr-3"></i>Notice Board</small></a></li>
+                            <li class="nav-item"><a href="#" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-chart-line text-light fa-sm mr-3"></i>Semster Marks</small></a></li>
+                            <li class="nav-item"><a href="/calendar" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-chart-bar text-light fa-sm mr-3"></i> Calender</small></a></li> -->
+                            <li class="nav-item"><a href="#" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Subjects</small></a></li>
+                            <li class="nav-item">
+                                <a href="/academic/coe/marksView" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Marks</small></a>
+                            </li>
+                            <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-wrench text-light fa-sm mr-3"></i>Logout</small></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- end of sidebar -->
+
+                    <!-- top-nav -->
+
+                    <!-- end of top-nav -->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- end of navbar -->
+
+    <!-- modal -->
+
+    <!-- end of modal -->
+
+    <!-- cards -->
+    {% if formView %}
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row pt-md-5 mt-md-3 mb-5 justify-content-center">
+
+                        <div class="col-xl-8 col-sm-6">
+                            <div class="card card-common">
+                                <div class="mr-2 mt-1">
+                                    <div class="card-body">
+                                        <div class="justify-content-between">
+                                            <i class="fas fa-university fa-1x text-warning"></i>
+
+                                            <p class="text-center text-uppercase">
+                                                Please Fill the Form Below
+                                            </p>
+                                            <form action="showDetails" method="POST">{% csrf_token %}
+                                                <div class="row justify-content-center">
+                                                    <label>Select Degree Program</label>
+                                                    <select name="degreeProgram" class="custom-select ">
+                                                        {% for i in degreePacket %}
+                                                        <option value="{{i.id}} ">{{i.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="row mt-4 justify-content-center">
+                                                    <label>Select Degree Program</label>
+                                                    <select name="departmentName" class="custom-select ">
+                                                        {% for i in departmentPacket %}
+                                                        <option value="{{i.id}} ">{{i.DepartmentName}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-outline-success btn-sm m-2">Submit</button>
+                                                </div>
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 
+                                <div class="card-footer text-secondary ">
+                                    <div class="row justify-content-center p-2 ">
+                                        <i class="fas fa-arrow-right mr-3 text-warning "></i>
+                                        <span class='text-center '><a style="text-decoration: none; " href="{{notice.id}}/view ">View
+                                      Details</a></span> </div>
+                                </div> -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %} {% if coeSubjectView %}
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row pt-md-5 mt-md-3 mb-5">
+                        {% for notice in dataPacket %}
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="card card-common">
+                                <div class="theme-background mr-2 mt-1">
+                                    <div class="card-body">
+                                        <div class="justify-content-between">
+                                            <i class="fas fa-university fa-1x text-warning"></i>
+
+                                            <p class="text-center text-white text-uppercase">
+                                                {{notice.subjectPacket.subjectName}}
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-center text-white">
+                                                        Taught By
+                                                    </h6>
+                                                    <p class="text-center text-white">{{notice.subjectPacket.TaughtBy.FacultyID.Name}}</p>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-light text-center">Subject Code</h6>
+                                                    <p class="text-white text-center">{{notice.subjectPacket.subjectCode}}</p>
+
+                                                </div>
+                                            </div>
+                                            <hr style="color:white;">
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-center text-white">
+                                                        Semester
+                                                    </h6>
+                                                    <p class="text-center text-white">{{notice.subjectPacket.Semester}}</p>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-light text-center ">Credit : </h6>
+                                                    <p class="text-white text-center">{{notice.subjectPacket.Credit}}</p>
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer text-secondary">
+                                    <div class="row justify-content-center p-2">
+                                        <div class="div1">
+                                            <i class="fas fa-arrow-right ml-3 text-warning"></i>
+                                            <span class='text-center'><a style="text-decoration: none;" data-toggle="modal" data-target="#viewDetailsModal{{notice.id}}" href="#">View
+                                                Details</a></span>
+                                        </div>
+                                        <div class="div1">
+                                            <i class="fas fa-arrow-right ml-3 text-warning"></i>
+                                            <span class='text-center'><a style="text-decoration: none;" data-toggle="modal" data-target="#quizReportModal{{notice.id}}" href="#">Quiz Report</a></span>
+                                        </div>
+                                        <div class="div1">
+                                            <i class="fas fa-arrow-right ml-3 text-warning"></i>
+                                            <span class='text-center'><a style="text-decoration: none;" data-toggle="modal" data-target="#assignmentReportModal{{notice.id}}" href="#">Assignment Report</a></span>
+                                        </div>
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="viewDetailsModal{{notice.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Lecture Details</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                                    </div>
+                                                    <div class="modal-body theme-background">
+                                                        <h6 class="text-uppercase text-center text-white">Students Enrolled</h6><br>
+                                                        <div class="row justify-content-center">
+
+                                                            <div class="col-auto">
+                                                                <table class="table table-responsive table-theme text-white">
+                                                                    <thead>
+                                                                        <tr class="text-white">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Name</th>
+                                                                            <th scope="col">Enrollment Number</th>
+                                                                            <th scope="col">Department</th>
+                                                                            <th scope="col">Degree Program</th>
+                                                                            <th scope="col">Current Semester</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for i in notice.studentPacket %}
+                                                                        <tr class="text-white">
+                                                                            <th scope="row">{{forloop.counter}}</th>
+                                                                            <td>{{i.student.FullName}}</td>
+                                                                            <td>{{i.student.EnrollmentNumber}}</td>
+                                                                            <td>{{i.student.Department}}</td>
+                                                                            <td>{{i.student.program.name}}</td>
+                                                                            <td>{{i.student.currentSemester}}</td>
+                                                                        </tr>
+                                                                        {% endfor %}
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="modal fade" id="quizReportModal{{notice.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <!-- <h5 class="modal-title" id="exampleModalLabel">Quiz Report</h5> -->
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                                    </div>
+                                                    <div class="modal-body theme-background">
+                                                        <h6 class="text-white text-uppercase text-center mb-4">quiz report</h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-auto">
+                                                                <table class="table table-responsive text-center">
+                                                                    <thead>
+                                                                        <tr class="text-white">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Quiz Name</th>
+                                                                            <th scope="col">Student</th>
+                                                                            <th scope="col">Marks</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for i in notice.quizReportPacket %}
+                                                                        <tr class="text-white">
+                                                                            <th scope="row">{{forloop.counter}}</th>
+                                                                            <td>{{i.quiz.name}}</td>
+                                                                            <td>{{i.student.FullName}}</td>
+                                                                            <td>{{i.marks}}</td>
+                                                                            <!-- <td>Otto</td>
+                                                                    <td>Mark</td> -->
+                                                                        </tr>
+                                                                        {% endfor %}
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="assignmentReportModal{{notice.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                                    </div>
+                                                    <div class="modal-body text-center theme-background">
+                                                        <h6 class="text-white text-center text-uppercase">Assignment Report </h6>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col-auto">
+                                                                <table class="table table-responsive text-center">
+                                                                    <thead>
+                                                                        <tr class="text-white">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Assignment Name</th>
+                                                                            <th scope="col">{{notice.subjectPacket.subjectName}}</th>
+                                                                            <th>Subject</th>
+                                                                            <th scope="col">Assigned Marks</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for j in notice.assignmentReportPacket %}
+                                                                        <tr class="text-white">
+                                                                            <th scope="row">{{forloop.counter}}</th>
+                                                                            <td>{{j.assignment.name}}</td>
+                                                                            <td>{{j.submitedBy.FullName}}</td>
+                                                                            <td>{{j.assignment.subject.subjectName}}</td>
+                                                                            <td>{{j.grade}}</td>
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- end of cards -->
+
+    <!-- tables -->
+
+
+
+    <!-- footer -->
+    <!--<footer>
+      <div class="container-fluid ">
+        <div class="row ">
+          <div class="col-xl-10 col-lg-9 col-md-8 ml-auto ">
+            <div class="row border-top pt- ">
+              <div class="col-lg-6 text-center ">
+                <ul class="list-inline ">
+                  <li class="list-inline-item mr-2 ">
+                    <a href="# " class="text-dark ">SPSU</a>
+                  </li>
+                  <li class="list-inline-item mr-2 ">
+                    <a href="# " class="text-dark ">About</a>
+                  </li>
+                  <li class="list-inline-item mr-2 ">
+                    <a href="# " class="text-dark ">Support</a>
+                  </li>
+                  <li class="list-inline-item mr-2 ">
+                    <a href="# " class="text-dark ">Blog</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-6 text-center ">
+                <h5>Designed By Aniket vyas</h5>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>-->
+    <!-- end of footer -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js " integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 " crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js " integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T " crossorigin="anonymous "></script>
+    <script src="{% static 'js/script.js' %} "></script>
+</body>
+
+</html>

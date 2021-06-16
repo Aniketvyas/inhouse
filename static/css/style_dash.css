@@ -359,3 +359,27 @@ Dashboard Timeline Ends!
 /* .dropdown-item {
     z-index: 10000 !important;
 } */
+
+
+/* REsult view CSS ------------------------------- */
+
+.result-card {
+    border-radius: 15px;
+    box-shadow: 3px 6px 10px #C2C2C2;
+}
+
+.theme-background-2 {
+    background: linear-gradient(180deg, #2550d3, #3F99DB);
+}
+
+
+/* result view ends ------------------------------------- */
+
+.modal-xl {
+    max-width: 80%;
+}
+
+.show {
+    /* transform: translate3d(79px, 21px, 0px) !important; */
+    transform: none !important;
+}

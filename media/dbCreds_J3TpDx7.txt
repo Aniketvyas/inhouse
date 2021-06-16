@@ -1,0 +1,3 @@
+kamacihg_maindb
+kamacihg_admin1
+Dotnetframework@123

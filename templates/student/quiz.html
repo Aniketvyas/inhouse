@@ -11,6 +11,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style_dash.css' %}">
+    <link rel="stylesheet" href="{% static 'css/circle.css' %}">
     <title>Socrates | Dashboard</title>
 </head>
 
@@ -46,27 +47,11 @@
                             <li class="nav-item"><a href="/" class="nav-link
                                         text-white p-1 mb-2 current"><i class="fas fa-home text-light fa-lg
                                             mr-3"></i><small>Profile</small></a></li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle
-                                        text-white p-1 mb-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-home text-light fa-lg
-                                            mr-3"></i><small>Quiz</small>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/hostQuiz">Host
-                                        a Quiz</a>
-                                    <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/previousQuiz">Previous
-                                        Quizes</a>
+                            <li class="nav-item"><a href="/academic/student/quizStudentView" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Quiz</small></a></li>
 
-                                </div>
-                            </li>
-                            <li class="nav-item"><a href="assignments" class="nav-link text-white p-1 mb-2
+                            <li class="nav-item"><a href="/academic/student/assignmentStudentView" class="nav-link text-white p-1 mb-2
                                         sidebar-link"><i class="fas fa-user
                                             text-light fa-lg mr-3"></i><small>Assignment</small></a></li>
-                            <li class="nav-item"><a href="lectureRequest" class="nav-link text-white p-1 mb-2
-                                        sidebar-link"><i class="fas fa-user
-                                            text-light fa-lg mr-3"></i><small>Request
-                                        Lecture</small></a></li>
                             <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2
                                         sidebar-link"><i class="fas fa-wrench
                                             text-light fa-lg mr-3"></i><small>Logout</small><a></li>
@@ -77,61 +62,219 @@
         </div>
     </nav>
 
-
+    {% if quizListView %} 
     <section>
         <div class="container-fluid">
             <div class="col-xl-10 col-sm-6 ml-auto">
-                <div class="row justify-content-center">
-                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                        <div class="card my-3">
-                          <div class="card-body">
-                            <h2>Quiz 1</h2>
-                            <h5 class="course">Course</h5>
-                            <div class="clock text-center">10:30 AM</div>
-                          </div>
-                        </div>
-                        <div class="card my-3">
-                          <div class="card-body">
-                            <h6 class="card-title">Question 1/10</h6>
-                            <p>Which of the following is soluble compound?</p>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                  <label class="form-check-label" for="flexRadioDefault1">
-                                    Option 1
-                                  </label>
+                <div class="row">
+                    {% if quizObject %}
+                    {% for i in quizObject %}
+                    <div class="col-xl-6 col-sm-6 p-1">
+                        <div class="card card-common">
+                            <div class="theme-background mr-2">
+                                <div class="card-body">
+                                    <div class="justify-content-between">
+                                        <i class="fas fa-university fa-1x text-warning"></i>
+                                        <p style="font-size: small;" class="text-center text-white text-uppercase">
+                                            {{i.name}}
+                                        </p>
+                                        <div class="row text-center">
+                                            <div class="col-xl-6 text-white">
+                                                <h6>Quiz Date</h6>
+                                                <p class="text-white">{{i.quizDate}}</p>
+                                            </div>
+                                            <div class="col-xl-6 text-white">
+                                                <h6>Subject</h6>
+                                                <p>{{i.subject}} ( {{i.subject.subjectName}} )
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+                                        <hr color="background:white">
+                                        <div class="row text-white text-center">
+                                            <div class="col-xl-6">
+                                                <h6>Quiz Start Time</h6>
+                                                <p>{{i.quizStartTime}}</p>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <h6>Quiz End Time</h6>
+                                                <p>{{i.quizEndTime}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center text-white">
+                                            <div class="col-xl-12 text-center">
+                                                <h6>Duration</h6>
+                                                <p>{{i.duration}} min</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                  <label class="form-check-label" for="flexRadioDefault2">
-                                    Option 2
-                                  </label>
-                              </div>   
-                          </div>
-                        </div>
-                        
-                        <div class="card">
-                          <div class="card-body">
-                            <h6 class="card-title">Question 3/10</h6>
-                            <p>Fill in the blank.</p>
-                            <div class="form-group">
-                              <label for="inputdefault"></label>
-                              <input class="form-control" id="inputdefault" type="text">
                             </div>
-                          </div>
-                        </div>
-                        <div class="text-right my-3 center">
-                          <button class="btn btn-primary my-5 py-2 btn1">Submit</button>
-                      </div>
-              
-              
-              
-                                 
-              
-                          </div>
+
+                            <div class="card-footer text-center">
+                                <i class="fas fa-arrow-right mr-3"></i>
+                                <a href="{{i.id}}/quizDetailView">View
+                                                Details</a>
+                    </div>
                 </div>
             </div>
+            {% endfor %} {% else %}
+            <div class="col-xl-10 ml-auto">
+                <div class="row justify-content-center">
+                    <h4 class="text-uppercase text-center">No Quiz Available</h4>
+                </div>
+            </div>
+            {% endif %}
         </div>
-    </section>
+        </div>
+        </div>
+        </section>
+        {% endif %} {% if attemptQuizStudentView %}
+        <section>
+            <div class="container-fluid">
+                <div class="col-xl-10 col-sm-6 ml-auto">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                            <div class="card my-3">
+                                <div class="card-body">
+                                    <h2>Quiz 1</h2>
+                                    <h5 class="course">Course</h5>
+                                    <div class="clock text-center">10:30 AM</div>
+                                </div>
+                            </div>
+                            <div class="card my-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">Question 1/10</h6>
+                                    <p>Which of the following is soluble compound?</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                    Option 1
+                                  </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                    Option 2
+                                  </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Question 3/10</h6>
+                                    <p>Fill in the blank.</p>
+                                    <div class="form-group">
+                                        <label for="inputdefault"></label>
+                                        <input class="form-control" id="inputdefault" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right my-3 center">
+                                <button class="btn btn-primary my-5 py-2 btn1">Submit</button>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %} {% if quizResultView %}
+        <div class="container-fluid">
+            <div class="col-xl-10 col-lg-10 ml-auto">
+
+                <div class="row justify-content-center">
+                    {% if signal %}
+                    <h4>Data Not Found</h4>
+                    {% else %}
+                    <div class="card card-common">
+                        <div class="card-body">
+
+
+
+                            <h2 class="text-center text-muted font-weight-bold m-4">Quiz Evaluation</h2>
+                            <div class="row justify-content-center">
+
+                                <!-- <div class="col-xl-5 col-lg-5 align-items-center"> -->
+                                <div class="c100 p{{totalPercent}} mx-5">
+                                    <span class="text-primary">{{totalPercent}}%</span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                                <!-- </div> -->
+                                <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                    <div class="card">
+                                        <div class="card-body result-card">
+                                            <div class="row justify-content-center">
+                                                <div class="col-xl-4">
+                                                    <div class="correct my-2 mx-3 text-center">
+                                                        <h6 class="">Correct Questions</h6>
+                                                        <i class="fas fa-check-circle mr-1" style="color:green "></i><span class="p-2">{{quizGradesObject.correctAnswers}}</span>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xl-4">
+                                                    <div class="correct my-2 mx-3 text-center">
+                                                        <h6 class="">Wrong Questions</h6>
+                                                        <i class="fa fa-window-close mr-1" style="color:red "></i><span class="p-2">{{quizGradesObject.wrongAnswers}}</span>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xl-4">
+                                                    <div class="correct my-2 mx-3 text-center">
+                                                        <h6 class="">unattempted Questions</h6>
+                                                        <i class="fas fa-question mr-1" style="color:orange "></i><span class="p-2">{{quizGradesObject.unAttemptedQuestions}}</span>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card result-card my-5 details">
+                                <div class="card-body ">
+                                    <div class="col-xl-12">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <p class="text-uppercase">Subject : {{quizGradesObject.quiz.subject.subjectName}}</p>
+                                                <p class="text-uppercase">Subject Code : {{quizGradesObject.quiz.subject}}</p>
+                                                <p class="text-uppercase"> Status : Submitted</p>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <p class="text-uppercase">Started On : {{quizGradesObject.startedOn}}</p>
+                                                <p class="text-uppercase">Time Taken : {{quizGradesObject.timeTaken}}</p>
+                                                <p class="text-uppercase">Submitted On : {{quizGradesObject.submitedOn}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            {% endif %} {% if quizResultView %} {% endif %}
+
 </body>
 
 </html>

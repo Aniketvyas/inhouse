@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style_dash.css' %}">
     <title>Socrates | Dashboard</title>
+
 </head>
 
 <body>
@@ -38,12 +39,14 @@
                         <ul class="navbar-nav flex-column mt-4">
                             <li class="nav-item"><a href="/" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i
                       class="fas fa-home text-light fa-sm mr-3"></i>Profile</small></a></li>
-                            <li class="nav-item"><a href="/academic/HOD/lecture/lectureRequest" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i
-                      class="fas fa-user text-light fa-sm mr-3"></i>Lecture Requests</small></a></li>
-                            <li class="nav-item"><a href="/academic/HOD/lecture/view" class="nav-link text-white p-1 mb-2"><small><i
-                      class="fas fa-shopping-cart text-light fa-sm mr-3"></i>Ongoing Lecture</small></a></li>
-                            <li class="nav-item"><a href="/academic/HOD/Enrollment" class="nav-link text-white p-1 mb-2 sidebar-link"><i
-                    class="fas fa-chart-line text-light fa-sm mr-3"></i>Enroll Students</a></li>
+                            <li class="nav-item"><a href="#" data-toggle="modal" data-target="#addSubjectModal" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i
+                      class="fas fa-user text-light fa-sm mr-3"></i>Add subject</small></a></li>
+                            <!-- <li class="nav-item"><a href="/academic/HOD/lecture/view" class="nav-link text-white p-1 mb-2"><small><i
+                      class="fas fa-shopping-cart text-light fa-sm mr-3"></i>Ongoing Lecture</small></a></li> -->
+                            <li class="nav-item">
+                                <a href="/academic/HOD/Enrollment" class="nav-link text-white p-1 mb-2 sidebar-link">
+                                    <i class="fas fa-chart-line text-light fa-sm mr-3"></i><small>Enroll Students</small></a>
+                            </li>
                             <!--  <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-chart-bar text-light fa-lg mr-3"></i> Calender</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white p-3 mb-2 sidebar-link"><i class="fas fa-table text-light fa-lg mr-3"></i>Time Table </a></li>
                -->
@@ -57,6 +60,62 @@
       </div>
     </div>
   </nav>
+  <!-- Modal -->
+  <div class="modal fade" id="addSubjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Subjects Information</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/academic/HOD/lecture/create" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="modal-body">
+
+    <div class="row justify-content-center text-center">
+        <div class="col-xl-6">
+            <label>Subject Name</label>
+            <input name="subjectName" type="text" class="form-control">
+        </div>
+        <div class="col-xl-6">
+            <label>Subject Credit</label>
+            <input name="credit" type="text" class="form-control">
+        </div>
+    </div>
+    <div class="row text-center mt-2">
+        <div class="col-xl-6">
+            <label>Lesson Plan</label>
+            <input name="lessonPlan" type="file" class="form-control-file text-center">
+        </div>
+        <div class="col-xl-6">
+            <label>Semester</label>
+            <input name="semester" type="number" min="1" class="form-control">
+        </div>
+    </div>
+    <div class="row justify-content-center text-center mt-2">
+        <div class="col-xl-6">
+            <label>Faculty</label>
+            <select name="faculty" class="custom-select">
+                {% for i in faculties %}
+                <option value="{{i.id}}">{{i.FacultyID.Name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
   {% if home %}
   <section>
     <div class="container-fluid">
@@ -265,9 +324,9 @@
                 <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
                     <div class="row pt-md-5 mt-md-3 mb-5">
                         {% for notice in lectureInformation %}
-                        <div class="col-xl-3 col-sm-6 p-1 ml-5">
+                        <div class="col-xl-6 col-sm-6">
                             <div class="card card-common">
-                                <div class="theme-background mr-2">
+                                <div class="theme-background mr-2 mt-1">
                                     <div class="card-body">
                                         <div class="justify-content-between">
                                             <i class="fas fa-university fa-1x text-warning"></i>
@@ -275,20 +334,46 @@
                                             <p class="text-center text-white text-uppercase">
                                                 {{notice.subjectName}}
                                             </p>
-                                            <p class="text-center font-weight-bold" style="color:pink;">
-                                                Taught By : {{notice.TaughtBy.FacultyID.Name}}
-                                            </p>
-                                            <p class="text-light text-center small">Credit : {{notice.Credit}}</p>
-                                            <span class='text-left'><a style="text-decoration: none;" href="{{notice.id}}/view">View
-                          Details</a></span>
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-center text-white">
+                                                        Taught By
+                                                    </h6>
+                                                    <p class="text-center text-white">{{notice.TaughtBy.FacultyID.Name}}</p>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-light text-center">Subject Code</h6>
+                                                    <p class="text-white text-center">{{notice.subjectCode}}</p>
+
+                                                </div>
+                                            </div>
+                                            <hr style="color:white;">
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-center text-white">
+                                                        Semester
+                                                    </h6>
+                                                    <p class="text-center text-white">{{notice.Semester}}</p>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-light text-center ">Credit : </h6>
+                                                    <p class="text-white text-center">{{notice.Credit}}</p>
+
+                                                </div>
+                                            </div>
+
+
 
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="card-footer text-secondary">
-                                    <i class="fas fa-arrow-right mr-3"></i>
-                                    <a href="#" style="text-decoration:none;" data-toggle="modal" data-target="#exampleModal{{notice.id}}">Assign Faculty</a> | <a class="text-warning" href="{{notice.id}}/Enrollment">Enroll </a>
+                                    <div class="row justify-content-center p-2">
+                                        <i class="fas fa-arrow-right mr-3"></i>
+                                        <span class='text-center '><a style="text-decoration: none;" href="{{notice.id}}/view">View
+                                        Details</a></span> | <a href="#" style="text-decoration:none;" data-toggle="modal" data-target="#exampleModal{{notice.id}}">   Assign Faculty</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -675,10 +760,52 @@
             </div>
         </div>
     </section>
-    {% endif %}
+    {% endif %} {% if trackLecture %}
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row pt-md-5 mt-md-3 mb-5">
+                        <div class="col-xl-12 col-sm-6 p-1 ml-5">
+                            <div class="card card-common">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <section class="timeline">
+                                            <ol>
+                                                {% for i in track %}
+                                                <li>
+                                                    <div class="div">
+                                                        <small class="text-orange"><time>{{ i.startDate }}</time></small>
+                                                        <p class="text-white">{{ i.goals }}</p><br>
+                                                        <a href="/media/{{i.notes}}"><button class="btn btn-outline-warning btn-sm" type="button">View Notes</button></a>
+                                                    </div>
 
-    <!-- footer -->
-    <!--<footer>
+                                                </li>
+                                                {% endfor %}
+                                            </ol>
+
+                                            <div class="arrows">
+                                                <button class="arrow arrow__prev">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrow_prev.svg" alt="prev timeline arrow">
+                            </button>
+                                                <button class="arrow arrow__next">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/arrow_next.svg" alt="next timeline arrow">
+                            </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <!-- footer -->
+        <!--<footer>
       <div class="container-fluid">
         <div class="row">
           <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
@@ -708,12 +835,17 @@
         </div>
       </div>
     </footer>-->
-    <!-- end of footer -->
+        <!-- end of footer -->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <script src="{% static 'js/script.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+        {% for i in messages %}
+        <script>
+            alert(' {{i}} ')
+        </script>
+        {% endfor %}
 </body>
 
 </html>

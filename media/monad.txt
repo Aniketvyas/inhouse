@@ -1,0 +1,7 @@
+db name:roteksoc_monad
+db user:roteksoc_amonad
+db pass:GL7=+$m?HUvb
+
+
+username: admin
+password :(1RgHkJKHq*W$E&Q*g

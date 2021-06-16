@@ -1,0 +1,181 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="title icon" href="{% static 'images/title-img.png' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style_dash.css' %}">
+    <title>Socrates | Dashboard</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- sidebar -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
+                        <div class="bottom-border p-3 mt-3">
+                            <div class="one-portal bottom-border">
+                                <h4 class="text-white text-uppercase text-center mb-3">One Portal</h4>
+                            </div>
+                            <div class="info my-3 text-center">
+                                <!-- <img src="images/logo.png" width="50" class="rounded-circle mr-3" style="border-radius: 5px black;"> -->
+                                <a href="#" class="text-white text-uppercase text-center">{{user.first_name}} {{user.last_name}}</a>
+                                <p class="text-center text-white custom-small">COE | {{data.FacultyID.EmployeeID}} | {{data.Department}} </p>
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-column mt-4">
+                            <li class="nav-item"><a href="Home" class="nav-link text-white p-1 mb-2 current"><small><i class="fas fa-home text-light fa-sm mr-3"></i>Profile</small></a></li>
+                            <!-- <li class="nav-item"><a href="attendance" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-user text-light fa-sm mr-3"></i>Attendence</small></a></li> -->
+                            <!-- <li class="nav-item"><a href="/outpass" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-envelope text-light fa-sm mr-3"></i>Outing</small></a></li>
+                            <li class="nav-item"><a href="/notice" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-shopping-cart text-light fa-sm mr-3"></i>Notice Board</small></a></li>
+                            <li class="nav-item"><a href="#" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-chart-line text-light fa-sm mr-3"></i>Semster Marks</small></a></li>
+                            <li class="nav-item"><a href="/calendar" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-chart-bar text-light fa-sm mr-3"></i> Calender</small></a></li> -->
+                            <li class="nav-item"><a href="coe/lectureView" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Subjects</small></a></li>
+                            <li class="nav-item">
+                                <a href="/academic/coe/marksView" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-table text-light fa-sm mr-3"></i>Marks</small></a>
+                            </li>
+                            <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2 sidebar-link"><small><i class="fas fa-wrench text-light fa-sm mr-3"></i>Logout</small></a>
+                                <a></li>
+
+                        </ul>
+                    </div>
+                    <!-- end of sidebar -->
+
+                    <!-- top-nav -->
+
+                    <!-- end of top-nav -->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- end of navbar -->
+
+    <!-- modal -->
+
+    <!-- end of modal -->
+
+    <!-- cards -->
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row pt-md-5 mt-md-3 mb-5">
+                        {% for notice in subjectPacket %}
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="card card-common">
+                                <div class="theme-background mr-2 mt-1">
+                                    <div class="card-body">
+                                        <div class="justify-content-between">
+                                            <i class="fas fa-university fa-1x text-warning"></i>
+
+                                            <p class="text-center text-white text-uppercase">
+                                                {{notice.subjectName}}
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-center text-white">
+                                                        Taught By
+                                                    </h6>
+                                                    <p class="text-center text-white">{{notice.TaughtBy.FacultyID.Name}}</p>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-light text-center">Subject Code</h6>
+                                                    <p class="text-white text-center">{{notice.subjectCode}}</p>
+
+                                                </div>
+                                            </div>
+                                            <hr style="color:white;">
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-center text-white">
+                                                        Semester
+                                                    </h6>
+                                                    <p class="text-center text-white">{{notice.Semester}}</p>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <h6 class="text-light text-center ">Credit : </h6>
+                                                    <p class="text-white text-center">{{notice.Credit}}</p>
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer text-secondary">
+                                    <div class="row justify-content-center p-2">
+                                        <i class="fas fa-arrow-right mr-3"></i>
+                                        <span class='text-center '><a style="text-decoration: none;" href="{{notice.id}}/view">View
+                                      Details</a></span> </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end of cards -->
+
+    <!-- tables -->
+
+
+
+    <!-- footer -->
+    <!--<footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+            <div class="row border-top pt-">
+              <div class="col-lg-6 text-center">
+                <ul class="list-inline">
+                  <li class="list-inline-item mr-2">
+                    <a href="#" class="text-dark">SPSU</a>
+                  </li>
+                  <li class="list-inline-item mr-2">
+                    <a href="#" class="text-dark">About</a>
+                  </li>
+                  <li class="list-inline-item mr-2">
+                    <a href="#" class="text-dark">Support</a>
+                  </li>
+                  <li class="list-inline-item mr-2">
+                    <a href="#" class="text-dark">Blog</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-6 text-center">
+                <h5>Designed By Aniket vyas</h5>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>-->
+    <!-- end of footer -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

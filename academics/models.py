@@ -54,7 +54,8 @@ class program(models.Model):
     totalSemester = models.IntegerField(blank=True)
     status = models.BooleanField()
     createdOn = models.DateTimeField(auto_now_add=True)
-
+    def __str__(self):
+        return self.name
 class subjects(models.Model):
     id = models.AutoField(primary_key=True)
     subjectCode = models.CharField(max_length=10)
@@ -73,6 +74,8 @@ class lectureEnrollment(models.Model):
     lecture = models.ForeignKey('subjects',on_delete=models.CASCADE)
     student = models.ForeignKey('stud_details',on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.student.FullName + " of "+ str(self.student.currentSemester) + " sem Enrolled in " + self.lecture.subjectName
 
 class faculty(models.Model):
     id = models.AutoField(primary_key=True)
@@ -160,6 +163,12 @@ class quizGrades(models.Model):
     id = models.AutoField(primary_key=True)
     quiz = models.ForeignKey('quizInfo',on_delete=models.CASCADE)
     student = models.ForeignKey('stud_details',on_delete=models.CASCADE)
+    unAttemptedQuestions = models.IntegerField(null=True)
+    wrongAnswers = models.IntegerField(null=True)
+    correctAnswers = models.IntegerField(null=True)
+    timeTaken = models.DurationField(null=True,blank=True)
+    startedOn = models.DateTimeField(null=True,blank=True)
+    submitedOn = models.DateTimeField(auto_now_add=True,null=True)
     marks = models.IntegerField()
 
     def __str__(self):
@@ -176,13 +185,19 @@ class assignment(models.Model):
     createdOn = models.DateTimeField(auto_now_add=True)
     updatedOn = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
+
 class assignmentSubmission(models.Model):
     id = models.AutoField(primary_key=True)
     assignment = models.ForeignKey('assignment',on_delete=models.CASCADE)
     submissionFile = models.FileField()
     submitedBy = models.ForeignKey('stud_details',on_delete=models.CASCADE)
     submitedOn = models.DateTimeField(auto_now_add=True)
-
+    grade = models.IntegerField(blank=True,null=True)
+    def __str__(self) -> str:
+        return self.assignment.name + self.assignment.subject.subjectName+ " " + self.submitedBy.FullName
     
 class attendance(models.Model):
     id = models.AutoField(primary_key=True)

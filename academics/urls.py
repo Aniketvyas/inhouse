@@ -50,21 +50,23 @@ urlpatterns = [
     path('ASSTPROF/lecture/previousAssignment/<str:id>/update',views.updatePreviousAssignment),
     path('ASSTPROF/lecture/previousAssignment/<str:id>/delete',views.deletePreviousAssignment),
     path('ASSTPROF/lecture/<int:id>/viewSubmissions',views.facultyAssignmentSubmissionView),
+    path('ASSTPROF/lecture/<str:id>/evaluateAssignment',views.facultyEvaluateAssignmentView),
   
 
     #-----------------Head Of Department-----------------------
 
     path('HOD/lecture/view',views.hodLecture),
     path('HOD/lecture/<str:id>/assignFaculty',views.HodAssignFaculty),
-    path('HOD/lecture/lectureRequest',views.HodLectureRequest),
-    path('HOD/lecture/<str:id>/update',views.lectureChangeRequest),
-    path('HOD/lecture/<str:id>/Approve',views.lectureApproveRequest),
-    path('HOD/lecture/<str:id>/Configure',views.lectureConfigureRequest),
-    path('HOD/Outpass/requests',views.OutpassRequests),
+    path('HOD/lecture/create',views.createLecture),
+    # path('HOD/lecture/lectureRequest',views.HodLectureRequest),
+    # path('HOD/lecture/<str:id>/update',views.lectureChangeRequest),
+    # path('HOD/lecture/<str:id>/Approve',views.lectureApproveRequest),
+    # path('HOD/lecture/<str:id>/Configure',views.lectureConfigureRequest),
+    # path('HOD/Outpass/requests',views.OutpassRequests),
     path('HOD/Enrollment',views.LectureEnrollments),
     path('HOD/Enrollment/<str:id>',views.LectureEnrollmentSecond),
     # path('HOD/lecture/<str:id>/filter',views.lectureFilter),
-    path('HOD/lecture/<str:LectureID>/Enroll/<str:EnrollmentNumber>',views.LectureEnrollmentDone),
+    # path('HOD/lecture/<str:LectureID>/Enroll/<str:EnrollmentNumber>',views.LectureEnrollmentDone),
     path('HOD/lecture/<int:lecture>/view',views.lol),
     path('HOD/lecture/<str:id>/Track',views.trackLectureHod),
 
@@ -88,10 +90,18 @@ urlpatterns = [
 #----------------------- STUDENTS ------------------------------------
     path('student/lecture',views.studentLectureView),
     path('student/quizStudentView',views.quizStudentView),
+    path('student/<str:id>/quizDetailView',views.quizDetailView),
     path('student/assignmentStudentView',views.assignmentStudentView),
     path('student/<str:id>/submitAssignment',views.studentAssignmentSubmitView),
     path('student/<str:id>/updateAssignment',views.studentUpdateAssignmentView),
-    path('student/<str:lecture>/Track',views.studentTrackView)
+    path('student/<str:lecture>/track',views.studentTrackView),
+    # path('student/')
+
+#------------------------ COE ----------------------------------------
+    # path('coe/academics',views.coeDepartmentView),
+    path('coe/departmentView',views.coeDepartmentView),
+    path('coe/marksView',views.showDetails),
+    # path('coe/showDetails',views.)
    
 
 ]

@@ -44,12 +44,12 @@
                         <ul class="navbar-nav flex-column mt-4">
                             <li class="nav-item"><a href="/" class="nav-link
                                         text-white p-1 mb-2 current"><i
-                                            class="fas fa-home text-light fa-lg
+                                            class="fas fa-home text-light
                                             mr-3"></i><small>Profile</small></a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle
                                         text-white p-1 mb-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-home text-light fa-lg
+                                    <i class="fas fa-test text-light 
                                             mr-3"></i><small>Quiz</small>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -62,553 +62,582 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownAssignment" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-user text-light fa-lg mr-3"></i><small>Assignment</small>
+                                    <i class="fas fa-book text-light mr-3"></i><small>Assignment</small>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownAssignment">
                                     <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/createAssignment">Create Assignment</a>
                                     <a class="dropdown-item small" href="/academic/ASSTPROF/lecture/previousAssignments">Prevous Assignments</a>
 
                             </li>
-                            <li class="nav-item"><a href="lectureRequest" class="nav-link text-white p-1 mb-2
+                            <!-- <li class="nav-item"><a href="lectureRequest" class="nav-link text-white p-1 mb-2
                                         sidebar-link"><i class="fas fa-user
                                             text-light fa-lg mr-3"></i><small>Request
-                                            Lecture</small></a></li>
+                                            Lecture</small></a></li> -->
                             <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2
                                         sidebar-link"><i class="fas fa-wrench
-                                            text-light fa-lg mr-3"></i><small>Logout</small><a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                                            text-light mr-3"></i><small>Logout</small></a></li>
+                        </ul>
                         </div>
                     </div>
-                </nav>
-                {% if inputQuestions %}
-                <section>
-                    <div class="container-fluid">
-                        <div class="col-xl-10 col-sm-6 ml-auto">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <div class="card card-common">
-                                        <div class="card-body p-2">
-                                            {% for i in messages %}
-                                            <p class="text-center text-danger">{{i}}</p>
-                                            {% endfor %}
-                                            <h1 class="text-center m-4">Enter
-                                                Data</h1>
-                                            <div class="container">
-                                                <div class="row
+                </div>
+            </div>
+    </nav>
+    {% if inputQuestions %}
+    <section>
+        <div class="container-fluid">
+            <div class="col-xl-10 col-sm-6 ml-auto">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card card-common">
+                            <div class="card-body p-2">
+                                {% for i in messages %}
+                                <p class="text-center text-danger">{{i}}</p>
+                                {% endfor %}
+                                <h1 class="text-center m-4">Enter Data
+                                </h1>
+                                <div class="container">
+                                    <div class="row
                                                     justify-content-center">
-                                                    <div class="btn-group p-2">
-                                                        <button onclick="changeToMCQ()"class="btn btn-outline-danger btn-sm">MCQ</button>
-                                                        <button onclick="changeToFITB()"class="btn btn-outline-warning btn-sm">Fill in the blank</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <form action="/academic/ASSTPROF/lecture/quiz/{{quizObj.id}}/enterQuestions/mcq"
-                                                method="POST"> {% csrf_token %}
-                                                <div id="mcq">
-                                                    <textarea type="text"class="form-control"name="question"placeholder="Enter Question" required></textarea>
-                                                    <div class="row m-2 justify-content-center">
-                                                        <div class="col-xl-6">
-                                                            <input type="text"class="form-control"value="MCQ"name="typemcq"hidden>
-                                                            <input type="text"class="form-control"name="option1"placeholder="option1" id=""required>
-                                                        </div>
-                                                        <div class="col-xl-6">
-                                                            <input type="text"class="form-control"name="option2"placeholder="option2" id=""required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-2">
-                                                        <div class="col-xl-6">
-                                                            <input type="text"class="form-control"name="option3"placeholder="option3" id=""required>
-                                                        </div>
-                                                        <div class="col-xl-6">
-                                                            <input type="text"class="form-control"name="option4"placeholder="option4" id=""required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-lg-6text-center">
-                                                            <input type="text"class="form-control"name="correctAnswer"placeholder="CorrectOption"required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-center m-2">
-                                                        <button type="submit"class="btn btn-primary btn-sm">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            <form action="/academic/ASSTPROF/lecture/quiz/{{quizObj.id}}/enterQuestions/nat" method="POST"> {% csrf_token %}
-                                                <div id="nat">
-                                                    <div class="col-xl-12">
-                                                        <input type="text"value="NAT"name="typenat"hidden>
-                                                        <textarea type="text"class="form-control"name="questionn"placeholder="Enter Question" required></textarea>
-                                                        <div class="row m-2">
-                                                            <div class="col-xl-6">
-                                                                <input type="text"class="form-control"name="natAnswer"placeholder="Answer"requiredid="">
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-centerm-2">
-                                                        <button type="submit"class="btn btn-primary btn-sm">Submit</button>
-                                                    </div>
-                                                </div>
-
-                                            </form>
+                                        <div class="btn-group p-2">
+                                            <button onclick="changeToMCQ()" class="btn btn-outline-danger btn-sm">MCQ</button>
+                                            <button onclick="changeToFITB()" class="btn btn-outline-warning btn-sm">Fill in the blank</button>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-xl-6" style="overflow: scroll;
-                                    height:100vh;">
-                                    <div class="row">
-                                        <div class="jumbotron">
-                                            {% for i in quizQuestions %}
-
-                                            <div class="card card-common m-2
-                                                theme-background">
-                                                <div class="card-body">
-
-                                                    <p>{{forloop.counter}}.
-                                                        {{i.question}}</p>
-                                                    <ol type="i">
-                                                        {% if i.option1 %}
-                                                        <li>{{i.option1}}</li>
-                                                        <li>{{i.option2}}</li>
-                                                        <li>{{i.option3}}</li>
-                                                        <li>{{i.option4}}</li>
-                                                        {% else %}
-                                                        <input type="text">
-                                                        {% endif %}
-                                                    </ol>
-                                                </div>
+                                <form action="/academic/ASSTPROF/lecture/quiz/{{quizObj.id}}/enterQuestions/mcq" method="POST"> {% csrf_token %}
+                                    <div id="mcq">
+                                        <textarea type="text" class="form-control" name="question" placeholder="Enter Question" required></textarea>
+                                        <div class="row m-2 justify-content-center">
+                                            <div class="col-xl-6">
+                                                <input type="text" class="form-control" value="MCQ" name="typemcq" hidden>
+                                                <input type="text" class="form-control" name="option1" placeholder="option1" id="" required>
                                             </div>
-                                            {% endfor %}
-                                        </div></div>
-                                </div>
+                                            <div class="col-xl-6">
+                                                <input type="text" class="form-control" name="option2" placeholder="option2" id="" required>
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-xl-6">
+                                                <input type="text" class="form-control" name="option3" placeholder="option3" id="" required>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <input type="text" class="form-control" name="option4" placeholder="option4" id="" required>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-6text-center">
+                                                <input type="text" class="form-control" name="correctAnswer" placeholder="CorrectOption" required>
+                                            </div>
+                                        </div>
+                                        <div class="text-center m-2">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form action="/academic/ASSTPROF/lecture/quiz/{{quizObj.id}}/enterQuestions/nat" method="POST"> {% csrf_token %}
+                                    <div id="nat">
+                                        <div class="col-xl-12">
+                                            <input type="text" value="NAT" name="typenat" hidden>
+                                            <textarea type="text" class="form-control" name="questionn" placeholder="Enter Question" required></textarea>
+                                            <div class="row m-2">
+                                                <div class="col-xl-6">
+                                                    <input type="text" class="form-control" name="natAnswer" placeholder="Answer" requiredid="">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="text-centerm-2">
+                                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
                             </div>
                         </div>
                     </div>
-                </section>
-                {% endif %}
 
-                {% if inputQuizInfo %}
-                <section>
-                    <div class="container-fluid">
-                        <div class="col-xl-10 col-sm-6 ml-auto">
-                            <div class="row d-flex justify-content-center text-center">
-                                <div class="col-xl-12">
-                                <div class="card card-common">
-                                    <div class="card-body justify-content-center">
-                                        <form action="hostQuiz" method="POST">{% csrf_token %}
-                                            <div class="row">
-                                                <div class="col xl-6">
-                                                    <label class="text-left">Name of Quiz</label>
-                                                <input type="text"class="form-control"name="quizName"placeholder="Enter Name of Quiz" required>
-                                            
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <label class="text-left">Duration of Quiz</label>
-                                                <input type="number"min="0"class="form-control"name="duration"placeholder="Duration of Quiz" required>
-                                            
-                                                </div>
-                                            </div>
-                                            
+                    <div class="col-xl-6" style="overflow: scroll;
+                                    height:100vh;">
+                        <div class="row">
+                            <div class="jumbotron">
+                                {% for i in quizQuestions %}
 
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <label>Date of Quiz</label>
-                                                    <input type="date"class="form-control"name="quizDate"placeholder="Date of Quiz" required>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <label>Select a Subject</label>
-                                                    <select class="custom-select"name="subject" required>
+                                <div class="card card-common m-2
+                                                theme-background">
+                                    <div class="card-body">
+
+                                        <p>{{forloop.counter}}. {{i.question}}
+                                        </p>
+                                        <ol type="i">
+                                            {% if i.option1 %}
+                                            <li>{{i.option1}}</li>
+                                            <li>{{i.option2}}</li>
+                                            <li>{{i.option3}}</li>
+                                            <li>{{i.option4}}</li>
+                                            {% else %}
+                                            <input type="text"> {% endif %}
+                                        </ol>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %} {% if inputQuizInfo %}
+    <section>
+        <div class="container-fluid">
+            <div class="col-xl-10 col-sm-6 ml-auto">
+                <div class="row d-flex justify-content-center text-center">
+                    <div class="col-xl-12">
+                        <div class="card card-common">
+                            <div class="card-body justify-content-center">
+                                <form action="hostQuiz" method="POST">{% csrf_token %}
+                                    <div class="row">
+                                        <div class="col xl-6">
+                                            <label class="text-left">Name of Quiz</label>
+                                            <input type="text" class="form-control" name="quizName" placeholder="Enter Name of Quiz" required>
+
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="text-left">Duration of Quiz</label>
+                                            <input type="number" min="0" class="form-control" name="duration" placeholder="Duration of Quiz" required>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <label>Date of Quiz</label>
+                                            <input type="date" class="form-control" name="quizDate" placeholder="Date of Quiz" required>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label>Select a Subject</label>
+                                            <select class="custom-select" name="subject" required>
                                                         {% for i in subjects %}
                                                         <option value="{{i.id}}">{{i.subjectName}}</option>
                                                         {% endfor %}
                                                     </select> </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <label>Start Time of theQuiz</label>
-                                                    <input type="time"class="form-control"name="startTime"placeholder="Start time of Quiz" required>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <label>End Time of Quiz</label>
-                                                    <input type="time"class="form-control"name="endTime"placeholder="End time ofQuiz" required>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-outline-success m-4">Submit</button>
-                                        </form>
                                     </div>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <label>Start Time of theQuiz</label>
+                                            <input type="time" class="form-control" name="startTime" placeholder="Start time of Quiz" required>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label>End Time of Quiz</label>
+                                            <input type="time" class="form-control" name="endTime" placeholder="End time ofQuiz" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-success m-4">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    {% endif %} {% if previousQuiz %}
+    <section>
+        <div class="container-fluid">
+            <div class="col-xl-10 col-sm-6 ml-auto">
+                <div class="row">
+                    {% for i in quizData %}
+                    <div class="col-xl-6 col-sm-6 p-1">
+                        <div class="card card-common">
+                            <div class="theme-background mr-2">
+                                <div class="card-body">
+                                    <div class="justify-content-between">
+                                        <i class="fas fa-university fa-1x text-warning"></i>
+                                        <p style="font-size: small;" class="text-center text-white text-uppercase">
+                                            {{i.name}}
+                                        </p>
+                                        <div class="row text-center">
+                                            <div class="col-xl-6 text-white">
+                                                <h6>Quiz Date</h6>
+                                                <p class="text-white">{{i.quizDate}}</p>
+                                            </div>
+                                            <div class="col-xl-6 text-white">
+                                                <h6>Subject</h6>
+                                                <p>{{i.subject}} ( {{i.subject.subjectName}} )
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+                                        <hr color="background:white">
+                                        <div class="row text-white text-center">
+                                            <div class="col-xl-6">
+                                                <h6>Quiz Start Time</h6>
+                                                <p>{{i.quizStartTime}}</p>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <h6>Quiz End Time</h6>
+                                                <p>{{i.quizEndTime}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center text-white">
+                                            <div class="col-xl-12 text-center">
+                                                <h6>Duration</h6>
+                                                <p>{{i.duration}} min</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
+                            <div class="card-footer text-center">
+                                <i class="fas fa-arrow-right mr-3"></i>
+                                <a href="previousQuiz/{{i.id}}/ViewDetails/show">View
+                                                Details</a>
+                            </div>
                         </div>
                     </div>
-                </section>
-                {% endif %}
-
-
-
-                {% if previousQuiz %}
-                <section>
-                    <div class="container-fluid">
-                        <div class="col-xl-10 col-sm-6 ml-auto">
-                            <div class="row">
-                                {% for i in quizData %}
-                                <div class="col-xl-6 col-sm-6 p-1">
-                                    <div class="card card-common">
-                                        <div class="theme-background mr-2">
-                                            <div class="card-body">
-                                                <div
-                                                    class="justify-content-between">
-                                                    <i class="fas fa-university
-                                                        fa-1x text-warning"></i>
-                                                    <p style="font-size: small;"
-                                                        class="text-center
-                                                        text-white
-                                                        text-uppercase">
-                                                        {{i.name}}
-                                                    </p>
-                                                    <div class="row
-                                                        text-center">
-                                                        <div class="col-xl-6
-                                                            text-white">
-                                                            <h6>Quiz Date</h6>
-                                                            <p
-                                                                class="text-white">{{i.quizDate}}</p>
-                                                        </div>
-                                                        <div class="col-xl-6
-                                                            text-white">
-                                                            <h6>Subject</h6>
-                                                            <p>{{i.subject}} (
-                                                                {{i.subject.subjectName}}
-                                                                )</p>
-
-                                                        </div>
-
-                                                    </div>
-                                                    <hr
-                                                        color="background:white">
-                                                    <div class="row text-white
-                                                        text-center">
-                                                        <div class="col-xl-6">
-                                                            <h6>Quiz Start Time</h6>
-                                                            <p>{{i.quizStartTime}}</p>
-                                                        </div>
-                                                        <div class="col-xl-6">
-                                                            <h6>Quiz End Time</h6>
-                                                            <p>{{i.quizEndTime}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row justify-content-center text-white">
-                                                        <div class="col-xl-12 text-center">
-                                                        <h6>Duration</h6>
-                                                        <p>{{i.duration}} min</p>
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-footer text-center">
-                                            <i class="fas fa-arrow-right mr-3"></i>
-                                            <a
-                                                href="previousQuiz/{{i.id}}/ViewDetails/show">View
-                                                Details</a>
-                                </div>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
-        </div>
-        </section>
-        {% endif %} {% if previousQuizDetailsView %}
-        <section>
-            <div class="container-fluid">
-                <div class="col-xl-10 col-sm-6 ml-auto">
-                    <div class="row">
-                        <div class="col-xl-6 col-sm-6 p-1">
-                            <div class="card card-common">
-                                <div class="theme-background mr-2">
-                                    <div class="card-body">
-                                        <div class="justify-content-between">
-                                            <i class="fas fa-university
-                                                        fa-1x text-warning"></i>
-                                            <p style="font-size: small;" class="text-center
-                                                        text-white
-                                                        text-uppercase">
-                                                {{quizInfo.name}}
-                                            </p>
-                                            <div class="row
-                                                        text-center">
-                                                <div class="col-xl-6
-                                                            text-white">
-                                                    <h6>Quiz Date</h6>
-                                                    <p class="text-white">{{quizInfo.quizDate}}</p>
-                                                </div>
-                                                <div class="col-xl-6
-                                                            text-white">
-                                                    <h6>Subject</h6>
-                                                    <p>{{quizinfo.subject}} ( {{quizInfo.subject.subjectName}} )
-                                                    </p>
-
-                                                </div>
+    </section>
+    {% endif %} {% if previousQuizDetailsView %}
+    <section>
+        <div class="container-fluid">
+            <div class="col-xl-10 col-sm-6 ml-auto">
+                <div class="row">
+                    <div class="col-xl-6 col-sm-6 p-1">
+                        <div class="card card-common">
+                            <div class="theme-background mr-2">
+                                <div class="card-body">
+                                    <div class="justify-content-between">
+                                        <i class="fas fa-university fa-1x text-warning"></i>
+                                        <p style="font-size: small;" class="text-center text-white text-uppercase">
+                                            {{quizInfo.name}}
+                                        </p>
+                                        <div class="row text-center">
+                                            <div class="col-xl-6 text-white">
+                                                <h6>Quiz Date</h6>
+                                                <p class="text-white">{{quizInfo.quizDate}}</p>
+                                            </div>
+                                            <div class="col-xl-6 text-white">
+                                                <h6>Subject</h6>
+                                                <p>{{quizinfo.subject}} ( {{quizInfo.subject.subjectName}} )
+                                                </p>
 
                                             </div>
-                                            <hr color="background:white">
-                                            <div class="row text-white
-                                                        text-center">
-                                                <div class="col-xl-6">
-                                                    <h6>Quiz Start Time</h6>
-                                                    <p>{{quizInfo.quizStartTime}}</p>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <h6>Quiz End Time</h6>
-                                                    <p>{{quizInfo.quizEndTime}}</p>
-                                                </div>
+
+                                        </div>
+                                        <hr color="background:white">
+                                        <div class="row text-white text-center">
+                                            <div class="col-xl-6">
+                                                <h6>Quiz Start Time</h6>
+                                                <p>{{quizInfo.quizStartTime}}</p>
                                             </div>
-                                            <div class="row text-center text-white">
-                                                <div class="col-xl-12">
-                                                    <h6>Duration</h6>
-                                                    <p>{{quizInfo.duration}} Mins</p>
-                                                </div>
+                                            <div class="col-xl-6">
+                                                <h6>Quiz End Time</h6>
+                                                <p>{{quizInfo.quizEndTime}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center text-white">
+                                            <div class="col-xl-12">
+                                                <h6>Duration</h6>
+                                                <p>{{quizInfo.duration}} Mins</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer bg-light">
-                                        <i class="fas fa-arrow-right mr-3"></i>
-                                        <a href="#" data-toggle="modal" data-target="#addQuestions{{quizInfo.id}}">Add Questions</a>
-                                    </div>
-                                    <div>
+                                </div>
 
-                                        <div class="modal fade" id="addQuestions{{quizInfo.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="card-footer bg-light">
+                                    <div class="row justify-content-center">
+                                        {% if editable != True %}
+                                        <i class="fas fa-arrow-right mr-3 text-warning"></i><a href="#" data-toggle="modal" data-target="#facultyQuizResultView">View Results</a>
+                                        <!-- Button trigger modal -->
+
+                                        <div class="modal fade" id="facultyQuizResultView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                        <h5 class="modal-title text-center" id="exampleModalLongTitle">Quiz Evaluation</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <h1 class="text-center m-4">Enter Data
-                                                        </h1>
-                                                        <div class="container">
-                                                            <div class="row
+                                                        <table class="table table-responsive table-hover theme-background text-white text-center">
+                                                            <thead>
+                                                                <th>#</th>
+                                                                <th>Student</th>
+                                                                <th>correct Anwer</th>
+                                                                <th>Wrong Anwer</th>
+                                                                <th>UnAttempted Anwer</th>
+                                                                <th>Started On</th>
+                                                                <th>Submited On</th>
+                                                                <th>Time Taken</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for i in quizEvaluationPacket %}
+                                                                <tr>
+                                                                    <td>{{forloop.counter}}</td>
+                                                                    <td>{{i.student.FullName}}</td>
+                                                                    <td>{{i.correctAnswers}}</td>
+                                                                    <td>{{i.wrongAnswers}}</td>
+                                                                    <td>{{i.unAttemptedQuestions}}</td>
+                                                                    <td>{{i.startedOn}}</td>
+                                                                    <td>{{i.submitedOn}}</td>
+                                                                    <td>{{i.timeTaken}}</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {% elif editable == True %}
+                                        <i class="fas fa-arrow-right mr-3"></i>
+                                        <a href="#" data-toggle="modal" data-target="#addQuestions{{quizInfo.id}}">Add Questions</a>
+
+                                        <div>
+
+                                            <div class="modal fade" id="addQuestions{{quizInfo.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h1 class="text-center m-4">Enter Data
+                                                            </h1>
+                                                            <div class="container">
+                                                                <div class="row
                                                                 justify-content-center">
-                                                                <div class="btn-group p-2">
-                                                                    <button onclick="changeToMCQ()" class="btn
+                                                                    <div class="btn-group p-2">
+                                                                        <button onclick="changeToMCQ()" class="btn
                                                                         btn-outline-danger
                                                                         btn-sm">MCQ</button>
-                                                                    <button onclick="changeToFITB()" class="btn
+                                                                        <button onclick="changeToFITB()" class="btn
                                                                         btn-outline-warning
                                                                         btn-sm">Fill in the
                                                                         blank</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/addQuestions/mcq" method="POST"> {% csrf_token %}
-                                                            <div id="mcq">
-                                                                <textarea type="text" class="form-control" name="question" placeholder="Enter
+                                                            <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/addQuestions/mcq" method="POST"> {% csrf_token %}
+                                                                <div id="mcq">
+                                                                    <textarea type="text" class="form-control" name="question" placeholder="Enter
                                                                     Question" required></textarea>
-                                                                <div class="row m-2
+                                                                    <div class="row m-2
                                                                     justify-content-center">
+                                                                        <div class="col-xl-6">
+                                                                            <input type="text" class="form-control" value="MCQ" name="typemcq" hidden>
+                                                                            <input type="text" class="form-control" name="option1" placeholder="option
+                                                                            1" id="" required>
+                                                                        </div>
+                                                                        <div class="col-xl-6">
+                                                                            <input type="text" class="form-control" name="option2" placeholder="option
+                                                                            2" id="" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row m-2">
+                                                                        <div class="col-xl-6">
+                                                                            <input type="text" class="form-control" name="option3" placeholder="option
+                                                                            3" id="" required>
+                                                                        </div>
+                                                                        <div class="col-xl-6">
+                                                                            <input type="text" class="form-control" name="option4" placeholder="option
+                                                                            4" id="" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row
+                                                                    justify-content-center">
+                                                                        <div class="col-lg-6
+                                                                        text-center">
+                                                                            <input type="text" class="form-control" name="correctAnswer" placeholder="Correct
+                                                                            Option" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-center
+                                                                    m-2">
+                                                                        <button type="submit" class="btn
+                                                                        btn-primary btn-sm">Submit</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                            <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/addQuestions/nat" method="POST"> {% csrf_token %}
+                                                                <div id="nat">
+                                                                    <div class="col-xl-12">
+                                                                        <input type="text" value="NAT" name="typenat" hidden>
+                                                                        <textarea type="text" class="form-control" name="questionn" placeholder="Enter
+                                                                        Question" required></textarea>
+                                                                        <div class="row m-2">
+                                                                            <div class="col-xl-6">
+                                                                                <input type="text" class="form-control" name="natAnswer" placeholder="Answer" required id="">
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-center
+                                                                    m-2">
+                                                                        <button type="submit" class="btn
+                                                                        btn-primary btn-sm">Submit</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <!-- <div class="row"> -->
+                        <div class="container" style="overflow: scroll;
+                                height:100vh; width:100%;">
+                            {% for i in quizQuestionData %}
+
+                            <div class="card card-common m-2
+                                    theme-background">
+                                <div class="card-body">
+
+                                    <p>{{forloop.counter}}. {{i.question}}
+                                    </p>
+                                    <ol type="i">
+                                        {% if i.option1 %}
+                                        <li>{{i.option1}}</li>
+                                        <li>{{i.option2}}</li>
+                                        <li>{{i.option3}}</li>
+                                        <li>{{i.option4}}</li>
+                                        <p class="text-warning font-weight-bold">Answer: {{i.correctOption}}</p>
+                                        {% else %}
+                                        <p class="text-danger">Answer: {{i.correctOption}}</p>
+                                        {% endif %}
+                                    </ol>
+                                    {% if editable %}
+                                    <div class="row justify-content-end">
+
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{i.id}}">
+                                                    Update
+                                                </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="updateModal{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Update Question</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% for message in messages %}
+                                                        <p class="text-center text-danger">{{message}}</p>
+                                                        {% endfor %}
+                                                        <h1 class="text-center m-4">Enter Data
+                                                        </h1>
+
+                                                        {% if i.option2 or i.option3 or i.option4 %}
+                                                        <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/updateQuestion/mcq/{{i.id}}" method="POST"> {% csrf_token %}
+                                                            <div id="">
+                                                                <input type="text" name="questionID" value="{{i.id}}" hidden>
+                                                                <textarea type="text" class="form-control" name="question" placeholder="Enter Question" required>{{i.question}}</textarea>
+                                                                <div class="row m-2 justify-content-center">
                                                                     <div class="col-xl-6">
                                                                         <input type="text" class="form-control" value="MCQ" name="typemcq" hidden>
-                                                                        <input type="text" class="form-control" name="option1" placeholder="option
-                                                                            1" id="" required>
+                                                                        <input type="text" class="form-control" value="{{i.option1}}" name="option1" placeholder="option 1" id="" required>
                                                                     </div>
                                                                     <div class="col-xl-6">
-                                                                        <input type="text" class="form-control" name="option2" placeholder="option
-                                                                            2" id="" required>
+                                                                        <input type="text" class="form-control" value="{{i.option2}}" name="option2" placeholder="option 2" id="" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row m-2">
                                                                     <div class="col-xl-6">
-                                                                        <input type="text" class="form-control" name="option3" placeholder="option
-                                                                            3" id="" required>
+                                                                        <input type="text" class="form-control" value="{{i.option3}}" name="option3" placeholder="option 3" id="" required>
                                                                     </div>
                                                                     <div class="col-xl-6">
-                                                                        <input type="text" class="form-control" name="option4" placeholder="option
-                                                                            4" id="" required>
+                                                                        <input type="text" class="form-control" value="{{i.option4}}" name="option4" placeholder="option 4" id="" required>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row
-                                                                    justify-content-center">
-                                                                    <div class="col-lg-6
-                                                                        text-center">
-                                                                        <input type="text" class="form-control" name="correctAnswer" placeholder="Correct
-                                                                            Option" required>
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-lg-6 text-center">
+                                                                        <input type="text" class="form-control" value="{{i.correctOption}}" name="correctAnswer" placeholder="Correct Option" required>
                                                                     </div>
                                                                 </div>
-                                                                <div class="text-center
-                                                                    m-2">
-                                                                    <button type="submit" class="btn
-                                                                        btn-primary btn-sm">Submit</button>
+                                                                <div class="text-center m-2">
+                                                                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/addQuestions/nat" method="POST"> {% csrf_token %}
-                                                            <div id="nat">
-                                                                <div class="col-xl-12">
+                                                        {% else %}
+                                                        <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/updateQuestion/nat/{{i.id}}" method="POST"> {% csrf_token %}
+                                                            <div id="">
+                                                                <div class="">
                                                                     <input type="text" value="NAT" name="typenat" hidden>
-                                                                    <textarea type="text" class="form-control" name="questionn" placeholder="Enter
-                                                                        Question" required></textarea>
+                                                                    <input type="text" value="{{i.id}}" name="questionID" hidden>
+                                                                    <textarea name="questionn" placeholder="Enter Question" class="form-control-plaintext" required>{{i.question}}</textarea>
                                                                     <div class="row m-2">
                                                                         <div class="col-xl-6">
-                                                                            <input type="text" class="form-control" name="natAnswer" placeholder="Answer" required id="">
+                                                                            <input type="text" class="form-control" name="natAnswer" placeholder="Answer" required>
                                                                         </div>
 
                                                                     </div>
                                                                 </div>
-                                                                <div class="text-center
-                                                                    m-2">
-                                                                    <button type="submit" class="btn
-                                                                        btn-primary btn-sm">Submit</button>
+                                                                <div class="text-center m-2">
+                                                                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                                                                 </div>
                                                             </div>
 
                                                         </form>
+                                                        {% endif %}
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <a href="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/deleteQuestions/delete/{{i.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
+                            {% endfor %}
+                            <!-- </div> -->
                         </div>
-
-                        <div class="col-xl-6" style="overflow: scroll;
-                        height:100vh;">
-                            <div class="row">
-                                <div class="container">
-                                    {% for i in quizQuestionData %}
-
-                                    <div class="card card-common m-2
-                                    theme-background">
-                                        <div class="card-body">
-
-                                            <p>{{forloop.counter}}. {{i.question}}
-                                            </p>
-                                            <ol type="i">
-                                                {% if i.option1 %}
-                                                <li>{{i.option1}}</li>
-                                                <li>{{i.option2}}</li>
-                                                <li>{{i.option3}}</li>
-                                                <li>{{i.option4}}</li>
-                                                <p class="text-warning font-weight-bold">Answer: {{i.correctOption}}</p>
-                                                {% else %}
-                                                <p class="text-danger">Answer: {{i.correctOption}}</p>
-                                                {% endif %}
-                                            </ol>
-                                            <div class="row justify-content-end">
-
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{i.id}}">
-                                                    Update
-                                                </button>
-
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="updateModal{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Update Question</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                {% for message in messages %}
-                                                                <p class="text-center text-danger">{{message}}</p>
-                                                                {% endfor %}
-                                                                <h1 class="text-center m-4">Enter Data
-                                                                </h1>
-
-                                                                {% if i.option2 or i.option3 or i.option4 %}
-                                                                <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/updateQuestion/mcq/{{i.id}}" method="POST"> {% csrf_token %}
-                                                                    <div id="">
-                                                                        <input type="text" name="questionID" value="{{i.id}}" hidden>
-                                                                        <textarea type="text" class="form-control" name="question" placeholder="Enter Question" required>{{i.question}}</textarea>
-                                                                        <div class="row m-2 justify-content-center">
-                                                                            <div class="col-xl-6">
-                                                                                <input type="text" class="form-control" value="MCQ" name="typemcq" hidden>
-                                                                                <input type="text" class="form-control" value="{{i.option1}}" name="option1" placeholder="option 1" id="" required>
-                                                                            </div>
-                                                                            <div class="col-xl-6">
-                                                                                <input type="text" class="form-control" value="{{i.option2}}" name="option2" placeholder="option 2" id="" required>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row m-2">
-                                                                            <div class="col-xl-6">
-                                                                                <input type="text" class="form-control" value="{{i.option3}}" name="option3" placeholder="option 3" id="" required>
-                                                                            </div>
-                                                                            <div class="col-xl-6">
-                                                                                <input type="text" class="form-control" value="{{i.option4}}" name="option4" placeholder="option 4" id="" required>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row justify-content-center">
-                                                                            <div class="col-lg-6 text-center">
-                                                                                <input type="text" class="form-control" value="{{i.correctOption}}" name="correctAnswer" placeholder="Correct Option" required>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="text-center m-2">
-                                                                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                                {% else %}
-                                                                <form action="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/updateQuestion/nat/{{i.id}}" method="POST"> {% csrf_token %}
-                                                                    <div id="">
-                                                                        <div class="">
-                                                                            <input type="text" value="NAT" name="typenat" hidden>
-                                                                            <input type="text" value="{{i.id}}" name="questionID" hidden>
-                                                                            <textarea name="questionn" placeholder="Enter Question" class="form-control-plaintext" required>{{i.question}}</textarea>
-                                                                            <div class="row m-2">
-                                                                                <div class="col-xl-6">
-                                                                                    <input type="text" class="form-control" name="natAnswer" placeholder="Answer" required>
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="text-center m-2">
-                                                                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </form>
-                                                                {% endif %}
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <a href="/academic/ASSTPROF/lecture/previousQuiz/{{quizInfo.id}}/deleteQuestions/delete/{{i.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
                 </div>
             </div>
-        </section>
-        {% endif %}
+        </div>
+    </section>
+    {% endif %}
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-        <script src="{% static 'js/index.js' %}"></script>
-        <!-- <script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <!-- <script>
             function changeToFITB() {
                 document.getElementById('nat').style.display = 'block';
                 document.getElementById('mcq').style.display = 'none';

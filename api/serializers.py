@@ -52,7 +52,7 @@ class subjectsSerailizer(serializers.ModelSerializer):
     TaughtBy = facultySerializer()
     class Meta:
         model = subjects
-        fields = '__all__'
+        fields = "__all__"
 
 class lectureEnrollmentSerializer(serializers.ModelSerializer):
     subjects = subjectsSerailizer()
@@ -119,7 +119,7 @@ class assignmentSerializer(serializers.ModelSerializer):
     subject = subjectsSerailizer()
     class Meta:
         model = assignment
-        fields = " __all__"
+        fields =  "__all__"
 
 class assignmentSubmissionSerializers(serializers.ModelSerializer):
     class Meta:
