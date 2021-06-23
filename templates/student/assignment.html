@@ -63,7 +63,7 @@
                             <li class="nav-item"><a href="/accounts/logout" class="nav-link text-white p-1 mb-2
                                         sidebar-link"><i class="fas fa-wrench
                                             text-light fa-lg mr-3"></i><small>Logout</small>
-                                <a></li>
+                            </a></li>
                         </ul>
                     </div>
                 </div>
@@ -80,9 +80,8 @@
         <div class="container-fluid">
             <div class="col-xl-10 col-sm-6 ml-auto">
                 <div class="row">
-                    {% if assignmentData %}
-                    {% for j in assignmentData %}
-                 
+                    {% if assignmentData %} {% for j in assignmentData %}
+
                     <div class="col-xl-6 col-sm-6 p-1">
                         <div class="card card-common">
                             <div class="theme-background mr-2">
@@ -101,139 +100,143 @@
                                                 text-white">
                                                 <h6>Assignment File</h6>
                                                 <a href="/media/{{j.querySetObject.assignmentFile}}" target="_blank" class="btn btn-outline-light btn-sm">View File</a>
-                    </div>
-                    <div class="col-xl-6 text-white">
-                        <h6>Subject</h6>
-                        <p>{{j.querySetObject.subject}} ( {{j.querySetObject.subject.subjectName}} )
-                        </p>
+                                            </div>
+                                            <div class="col-xl-6 text-white">
+                                                <h6>Subject</h6>
+                                                <p>{{j.querySetObject.subject}} ( {{j.querySetObject.subject.subjectName}} )
+                                                </p>
 
-                    </div>
+                                            </div>
 
-                </div>
-                <hr color="background:white">
-                <div class="row text-white
+                                        </div>
+                                        <hr color="background:white">
+                                        <div class="row text-white
                                                                     text-center">
-                    <div class="col-xl-6">
-                        <h6>Assignment Date</h6>
-                        <p>{{j.querySetObject.startingDate}}</p>
-                    </div>
-                    <div class="col-xl-6">
-                        <h6>Assignment Deadline</h6>
-                        <p>{{j.querySetObject.deadline}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                            <div class="col-xl-6">
+                                                <h6>Assignment Date</h6>
+                                                <p>{{j.querySetObject.startingDate}}</p>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <h6>Assignment Deadline</h6>
+                                                <p>{{j.querySetObject.deadline}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-        <div class="card-footer text-secondary">
-            <div class="row justify-content-center">
-                {% if j.alreadySubmitted %}
-                <div class="col-xl-6">
-                    {% if j.submissionsQuerySet.grade %}
-                    <!-- <i class="fas fa-arrow-right mr-3 text-warning"></i> -->
-                    <h6 class="text-white">Grade : {{j.submissionsQuerySet.grade}}</h6>
-                    <p class="text-white"></p>
+                                <div class="card-footer text-secondary">
+                                    <div class="row justify-content-center">
+                                        {% if j.alreadySubmitted %}
+                                        <div class="col-xl-6 col-lg-6">
+                                            {% if j.submissionsQuerySet.grade %}
+                                            <!-- <i class="fas fa-arrow-right mr-3 text-warning"></i> -->
+                                            <h6 class="text-white">Grade : {{j.submissionsQuerySet.grade}}</h6>
+                                            <p class="text-white"></p>
 
-                    {% else %}
-                    <div class="">
-                        <span>
+                                            {% else %}
+                                            <div class="">
+                                                <span>
                                                 <i class="fas fa-arrow-right mr-3 text-warning"></i><a href="#" class="text-white" data-toggle="modal" data-target="#exampleModalUpdateAssignment{{i.id}}">Update</a>
                                                 </span>
-                        <div class="modal fade" id="exampleModalUpdateAssignment{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Update Assignment Submission</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <div class="modal fade" id="exampleModalUpdateAssignment{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Update Assignment Submission</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
-                                    </div>
-                                    <form action="{{j.querySetObject.id}}/updateAssignment" enctype="multipart/form-data" method="post"> {% csrf_token %}
-                                        <div class="modal-body">
+                                                            </div>
+                                                            <form action="{{j.querySetObject.id}}/updateAssignment" enctype="multipart/form-data" method="post"> {% csrf_token %}
+                                                                <div class="modal-body">
 
-                                            <label>Upload File</label>
-                                            <input type="file" class="form-control-file" name="assignmentUpdatedFile" required>
+                                                                    <label>Upload File</label>
+                                                                    <input type="file" class="form-control-file" name="assignmentUpdatedFile" required>
 
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
 
 
 
-                {% else %}
-                <div class="submit">
-                    <i class="fas fa-arrow-right mr-3 text-warning"></i>
-                    <a href="{{j.querySetObject.id}}/submitAssignment" class="text-white" data-toggle="modal" data-target="#exampleModalSubmitAssignment{{i.id}}">Submit Assignment</a>
+                                        {% else %}
+                                        <div class="submit">
+                                            <i class="fas fa-arrow-right mr-3 text-warning"></i>
+                                            <a href="{{j.querySetObject.id}}/submitAssignment" class="text-white" data-toggle="modal" data-target="#exampleModalSubmitAssignment{{i.id}}">Submit Assignment</a>
 
-                    <div class="modal fade" id="exampleModalSubmitAssignment{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Assignment Submission</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <div class="modal fade" id="exampleModalSubmitAssignment{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Assignment Submission</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                                        </div>
+                                                        <form action="{{j.querySetObject.id}}/submitAssignment" enctype="multipart/form-data" method="post"> {% csrf_token %}
+                                                            <div class="modal-body">
+
+                                                                <label>Upload File</label>
+                                                                <input type="file" class="form-control-file" name="assignmentSubmitedFile" required>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %} {% if j.submissionsQuerySet %}
+
+                                        <div class="text-center">
+                                            <i class="fas fa-file text-warning mr-3"></i><a class="text-white" href="/media/{{j.submissionsQuerySet.submissionFile}}"> View Submission</a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <form action="{{j.querySetObject.id}}/submitAssignment" enctype="multipart/form-data" method="post"> {% csrf_token %}
-                                    <div class="modal-body">
-
-                                        <label>Upload File</label>
-                                        <input type="file" class="form-control-file" name="assignmentSubmitedFile" required>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                </form>
                             </div>
+
+
                         </div>
                     </div>
-                </div>
-                {% endif %} {% if j.submissionsQuerySet %}
 
-                <div class="text-center">
-                    <i class="fas fa-file text-warning mr-3"></i><a class="text-white" href="/media/{{j.submissionsQuerySet.submissionFile}}">View Submission</a>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        </div>
-
-
-        </div>
-        </div>
-
-        {% endfor %}
-        </div>
-        </div>
-        </div>
-        </section>
-        {% else %}
-        <div class="container">
-            <div class="col-xl-10 ml-auto">
-                <div class="row justify-content-center">
-                    <h4 class="text-uppercase text-center">No Assignment found.!</h4>
-
+                    {% endfor %}
                 </div>
             </div>
         </div>
+    </section>
+    {% else %}
+    <div class="container">
+        <div class="col-xl-10 ml-auto">
+            <div class="row justify-content-center">
+                <h4 class="text-uppercase text-center">No Assignment found.!</h4>
 
-        {% endif %} {% endif %}
+            </div>
+        </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    {% endif %} {% endif %}
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    {% for i in messages %}
+    <script>
+        alert('{{i}}')
+    </script>
+    {% endfor %}
 </body>
 
 </html>

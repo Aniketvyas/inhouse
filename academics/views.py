@@ -51,7 +51,7 @@ def home(request):
             return render(request,'vc/dashboard.html')
     else:
         return HttpResponse('BAD Request')
-    
+
 
 
 
@@ -67,7 +67,7 @@ def Etype(request,id):
     if stud_details.objects.filter(UniversityEmailID=request.user).exists():
         return redirect('/socrates')
     elif employee.objects.filter(employeeID = request.user).exists():
-        
+
         if id == "DEANSOE":
             return render(request,'dean/dashboard.html')
         elif id =="DEANSOM":
@@ -147,11 +147,11 @@ def remove(request):
             return redirect('/academic/lecture/view')
         else:
             return redirect('/academic/lecture/view')
-        
+
 def faculty_info(request):
     faculties = faculty.objects.all()
     return render(request,'dean/department.html',{'faculties':faculties})
-    
+
 def deanDepartmentView(request):
     course = Department.objects.filter(School=school.objects.get(dean=employee.objects.get(universityEmail=request.user)))
     print(course)
@@ -177,7 +177,7 @@ def deanDepartmentDetailView(request,id):
     #         DeptID = request.POST['DeptID']
     #         head = request.POST['head']
     #         schoolData = request.POST['School']
-    #         if Department.objects.filter(DepartmentID = DeptID ).exists() or Department.objects.filter(DepartmentName=Deptname).exists() or Department.objects.filter(HeadOfDepartment=head).exists():  
+    #         if Department.objects.filter(DepartmentID = DeptID ).exists() or Department.objects.filter(DepartmentName=Deptname).exists() or Department.objects.filter(HeadOfDepartment=head).exists():
     #             messages.info(request,'Invalid Credentials')
     #             return redirect('/academic/department/add')
     #         else:
@@ -188,11 +188,11 @@ def deanDepartmentDetailView(request,id):
     #             obj.save()
     #             subject = 'Assigning new username of hod'
     #             message = 'Hello , we need a new username of the category HOD for the'+ str(Deptname)+' and assign it to the' + (head)+"\nThanks,\n DEAN SOE"
-    #             email = EmailMessage(subject, 
+    #             email = EmailMessage(subject,
     #                 message, EMAIL_HOST_USER, ['aniket.vyas@spsu.ac.in'])
     #             email.fail_silently = False
     #             email.send()
-                
+
     #             print("department can be created")
     #             messages.info(request,'Department Added Successfully')
     #             return redirect('/academic/dean')
@@ -203,7 +203,7 @@ def deanDepartmentDetailView(request,id):
     #     students = stud_details.objects.filter(Department=id).count
     #     faculti = faculty.objects.filter(Department =id).count
     #     lecture = subjects.objects.filter(Department = id)
-       
+
     #     context ={
     #         'department':department,
     #         'students' : students,
@@ -233,7 +233,7 @@ def assLectureView(request,lecture):
     }
     if lecture is None:
         context['emptyEnrollment']= True
-    
+
     print(lects,lectur)
     return render(request,'faculty/lecture.html',context)
 
@@ -265,9 +265,9 @@ def lectureRequest(request):
         lect.save()
         return redirect('/academic/ASSTPROF/lecture/view')
     else:
-        return render(request,'faculty/lecture.html',{'lectureRequest':True})  
+        return render(request,'faculty/lecture.html',{'lectureRequest':True})
 
-    
+
 def lectureStatus(request):
     lect = TempLectures.objects.filter(CreatedBy = request.user.username,NextSendTo='PROFESSOR')
     return render(request,'faculty/lecture.html',{'lect':lect,'lect1':lect,'lectureStatus':True,'trackedLecture':True})
@@ -288,7 +288,7 @@ def lectureChangeInfo(request,id):
         print(image_url)
         TempLectures.objects.filter(TempLectureID = id).update(
             Credit=credit,
-            LectureTitle =subject , 
+            LectureTitle =subject ,
             TempLessonPlan=image_url,
             Semester = sem,
             LastChangesMadeBy="PROFESSOR",
@@ -448,7 +448,7 @@ def createLecture(request):
                     continue
                 else:
                     break
-                i+=1            
+                i+=1
 
             subjects(
                 subjectName = subjectName,
@@ -458,7 +458,7 @@ def createLecture(request):
                 Credit = credit,
                 Department=department,
                 Semester = semester
-    
+
             ).save()
             messages.info(request,'Subject Added SuccessFully. !!')
             return redirect('/academic/HOD/lecture/view')
@@ -476,7 +476,7 @@ def createLecture(request):
 #     a = stud_outing.objects.filter(EnrollmentNumber__in=Subquery(stud_details.objects.filter(Department=e).values('EnrollmentNumber')),Req_status='Forwaded')
 #     return render(request,'hod/outpass.html',{'out':a})
 
-    
+
 #-------------------------DEAN OF ENGINEERING ------------------------------------------
 
 def deanLecture(request):
@@ -489,7 +489,7 @@ def DeanLectureRequest(request):
 def DeanOngoingRequest(request):
     lect = subjects.objects.all()
     return render(request,'dean/lecture.html',{'lect':lect})
-    
+
 def lectureChangeRequest(request,id):
     print(id)
     asl = id
@@ -546,7 +546,7 @@ def lectureChangeRequest(request,id):
             lect = TempLectures.objects.filter(LectureStatus='UC',NextSendTo='VC')
             return redirect('/academic/vc/lecture/lectureRequest',{'lect':lect})
 
-        
+
 
 def lectureApproveRequest(request,id):
     user = request.user
@@ -582,7 +582,7 @@ def lectureView(request):
     return render(request,'vc/lectures.html',context)
 
 
-def vclectureRequest(request): 
+def vclectureRequest(request):
     lect = TempLectures.objects.filter(NextSendTo="VC")
     return render(request,'vc/lectureStatus.html',{'lect':lect})
 
@@ -690,7 +690,7 @@ def enterQuestions(request,id,questionType):
                     correctOption=correctOption,
                 ).save()
 
-                
+
                 print(quizQuestionsData)
                 context = {
                     'quizQuestions':quizQuestionsData,
@@ -748,13 +748,13 @@ def previousQuizDetails(request,id,command,questionType):
             'quizInfo':quiz,
             'quizQuestionData':quizQuestionsData,
             'quizEvaluationPacket':quizPacket
-        } 
+        }
         print(quiz.quizDate<dt.datetime.now().date())
         if quiz.quizDate < dt.datetime.now().date():
             context['editabel'] = False
         else:
             context['editable'] = True
-        
+
         return render(request,'faculty/quiz.html',context)
     elif command == "addQuestions":
         quizObj = quizInfo.objects.get(id=id)
@@ -789,7 +789,7 @@ def previousQuizDetails(request,id,command,questionType):
                     correctOption=correctOption,
                 ).save()
 
-                
+
                 # print(quizQuestionsData)
                 context = {
                     'quizQuestions':quizQuestionsData,
@@ -831,7 +831,7 @@ def deleteQuestions(request,quizId,questionId):
     quizQuestions.objects.filter(id=questionId).delete()
     print("blah")
     messages.info(request,'Question Deleted Successfully.!')
-    
+
     return redirect('/academic/ASSTPROF/lecture/previousQuiz/'+str(quizId)+'/ViewDetails/show')
 
 def updateQuestions(request,id,questionType,questionId):
@@ -872,7 +872,7 @@ def previousQuiz(request):
                 )
             )
     print(quizObj)
-    
+
     context = {
         'quizData':quizObj,
         'previousQuiz':True
@@ -940,7 +940,7 @@ def previousAssignment(request):
         'assignmentData':assignment.objects.filter(subject__in = Subquery(subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user))).values('id'))),
         'facultyPreviousAssignmentView':True,
         'subjectsInfo' : subjects.objects.filter(TaughtBy=faculty.objects.get(FacultyID = employee.objects.get(universityEmail= request.user))),
-        
+
     }
     return render(request,'faculty/assignment.html',context)
 
@@ -961,7 +961,7 @@ def updatePreviousAssignment(request,id):
         return redirect('/academic/ASSTPROF/lecture/previousAssignments')
 
 def deletePreviousAssignment(request,id):
-    assignment.objects.get(id=id).delete()  
+    assignment.objects.get(id=id).delete()
     return redirect('/academic/ASSTPROF/lecture/previousAssignments')
 
 
@@ -1004,12 +1004,13 @@ def studentAssignmentSubmitView(request,id):
         ).save()
         return redirect('/academic/student/assignmentStudentView')
 
-    
+
 def studentUpdateAssignmentView(request,id):
     if request.method == "POST":
         file = request.FILES['assignmentUpdatedFile']
         assignmentSubmission.objects.filter(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)).update(submissionFile = file)
-        print(assignmentSubmission.objects.get(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)).submissionFile)
+        # print(assignmentSubmission.objects.get(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)).submissionFile)
+        messages.info(request,'updated Sucessfully!')
         return redirect('/academic/student/assignmentStudentView')
 
 def facultyAssignmentSubmissionView(request,id):
@@ -1039,9 +1040,6 @@ def facultyEvaluateAssignmentView(request,id):
 
 
 
- #----------------------------------- Controller of Examination ---------------------------
-
-
 #------------------------------------------ controller of Examination ----------------------
 
 
@@ -1055,39 +1053,30 @@ def coeDepartmentView(request):
         }
         return render(request,'coe/departments.html',context)
 
-# def coeMarksView(request):
-#     degree = program.objects.all()
-#     department = Department.objects.all()
-#     context = {
-#             'formView':True,
-#             'degreePacket' : degree,
-#             'departmentPacket':department
-#         }
-#     return render(request,'coe/marks.html',context)
 
 def showDetails(request):
     if request.method == "POST":
-        # degreeProgram = request.POST['degreeProgram']
         department = request.POST['department']
         subject = subjects.objects.filter(Department=department)
         quizReportPacket = quizGrades.objects.all()
         assignmentReportPacket = assignmentSubmission.objects.all()
-        print(assignmentReportPacket)
         dataPacket = []
         count = 0
         for i in subject:
-            print("for Lecture",i.subjectName,i.subjectCode)
             quizPacket,assignmentPacket = 0,0
             quizPacket = quizReportPacket.filter(
-                student__in = Subquery(lectureEnrollment.objects.filter(lecture=i).values('student'))
+                student__in = Subquery(lectureEnrollment.objects.filter(lecture=i).values('student')),
+                quiz__in = Subquery(quizInfo.objects.filter(subject=i).values('id'))
             )
-            # assignmentPacket = assignmentReportPacket.filter(
-            #     submitedBy__in = Subquery(lectureEnrollment.objects.filter(lecture=i).values('student'))
-            # )
+            print(quizPacket)
             assignmentPacket = assignmentReportPacket.filter(
                 assignment__in = Subquery(assignment.objects.filter(subject=i).values('id'))
             )
             studentPacket = lectureEnrollment.objects.filter(lecture=i)
+            scaledMarks = []
+            for o in studentPacket:
+                quizList = quizGrades.objects.filter(student=o.student).order_by('marks')
+                print(quizList)
             dataPacket.append({
                 'id':count,
                 'subjectPacket':i,
@@ -1096,11 +1085,100 @@ def showDetails(request):
                 'studentPacket': studentPacket
             })
             count+=1
-
-        print(dataPacket)
         context = {
             'subjectPacket' : subject,
             'coeSubjectView':True,
             'dataPacket':dataPacket
         }
         return render(request,'coe/marks.html',context)
+
+def CoeScaleMarksView(request,id):
+    subject= subjects.objects.get(id=id)
+    quizReportPacket = quizGrades.objects.all()
+    quizPacket = quizReportPacket.filter(
+                student__in = Subquery(lectureEnrollment.objects.filter(lecture=subject).values('student'))
+            ).order_by('marks')
+    studentObject = lectureEnrollment.objects.filter(lecture=subject) 
+    mainPacket = []
+    for i in studentObject:
+        lst=[]
+        quizDataPacket = quizPacket.filter(student=i.student).order_by('marks')
+        print(len(quizDataPacket))
+        if len(quizDataPacket)>=3:
+            quizDataPacket = quizDataPacket[:3]
+            for i in quizDataPacket:
+                lst.append(i.marks)
+        elif len(quizDataPacket)==2:
+            quizDataPacket = quizDataPacket[:2]
+            for i in quizDataPacket:
+                lst.append(i.marks)
+        elif len(quizDataPacket) == 1:
+            quizDataPacket = quizDataPacket[:1]
+            for i in quizDataPacket:
+                lst.append(i.marks)
+        else:
+            messages.error(request,'Critical Failure at DB, Dirty values Occured!')
+        print(lst)
+        total=30
+        print("total marks: ",sum(lst),"/",total)
+        percent=(sum(lst)/total)*100
+        # print("Percent out of 100%: ",percent,"%")
+
+        cal_per=(percent/100)*(int(weightage.objects.get(mode=modes.objects.get(name="quiz")).percentage)*3)
+        # print("marks obtained out of 15%: ",cal_per)
+        
+        dataDictionary= {
+            'student':i.student,
+            'scaledMarks':cal_per,
+            'subject':subject
+        }
+        mainPacket.append(dataDictionary)
+    context = {
+        'mainPacket':mainPacket
+    }
+    return render(request,'coe/scale.html',context)
+    
+
+def coeScaleAssignmentMarksView(request,id):
+    subject= subjects.objects.get(id=id)
+    assignmentReportPacket = assignmentSubmission.objects.all()
+    assignmentPacket = assignmentReportPacket.filter(
+                submitedBy__in = Subquery(lectureEnrollment.objects.filter(lecture=subject).values('student'))
+            ).order_by('grade')
+    studentObject = lectureEnrollment.objects.filter(lecture=subject) 
+    mainPacket = []
+    for i in studentObject:
+        print("for",i.student.FullName)
+        lst=[]
+        assignmentDataPacket = assignmentPacket.filter(submitedBy=i.student).order_by('grade')
+        print(len(assignmentDataPacket))
+        if len(assignmentDataPacket)==2:
+            assignmentDataPacket = assignmentDataPacket[:2]
+            for j in assignmentDataPacket:
+                lst.append(j.grade)
+        elif len(assignmentDataPacket) == 1:
+            assignmentDataPacket = assignmentDataPacket[:1]
+            for j in assignmentDataPacket:
+                lst.append(j.grade)
+        else:
+            messages.error(request,'Critical Failure at DB, Dirty values Occured!')
+        print(lst)
+        total=30
+        print("total marks: ",sum(lst),"/",total)
+        percent=(sum(lst)/total)*100
+        # print("Percent out of 100%: ",percent,"%")
+
+        cal_per=(percent/100)*(int(weightage.objects.get(mode=modes.objects.get(name="quiz")).percentage)*3)
+        # print("marks obtained out of 15%: ",cal_per)
+        
+        dataDictionary= {
+            'student':i.student,
+            'scaledMarks':cal_per,
+            'subject':subject
+        }
+        mainPacket.append(dataDictionary)
+
+    context = {
+        'mainPacket':mainPacket
+    }
+    return render(request,'coe/scale.html',context)

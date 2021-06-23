@@ -1,6 +1,6 @@
 from django.shortcuts import render
 # from django.http import HttpResponse
-from django.http import JsonResponse 
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import *
@@ -85,13 +85,13 @@ def departmentView(request,id):
         serializer = departmentSerializer(qs,many=True)
         return Response(serializer.data,status=200)
     elif request.method=='POST':
-        department(
+        Department(
             DepartmentID = request.data['DepartmentID'],
             DepartmentName = request.data['DepartmentName'],
             HeadOfDepartment = employee.objects.get(id=request.data['HeadOfDepartment']),
             SpecializedCourse = request.data['SpecializedCourse'],
             Program = program.objects.get(id=id),
-            Status = request.data['Status'] 
+            Status = request.data['Status']
         ).save()
         return Response({'result':'success'},status=200)
 
@@ -99,7 +99,7 @@ def departmentView(request,id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def delete_department(request,id):
-    department.objects.filter(id=id).delete()
+    Department.objects.filter(id=id).delete()
     return Response({'result':'success'},status=200)
 
 
@@ -108,14 +108,14 @@ def delete_department(request,id):
 @permission_classes([IsAuthenticated])
 def update_hod(request,id):
     if request.method=='GET':
-        qs = department.objects.filter(id=id)
+        qs = Department.objects.filter(id=id)
         serializer = departmentSerializer(qs,many=True)
         return Response(serializer.data,status=200)
     elif request.method=='POST':
         print(request.data['HeadOfDepartment'])
-        department.objects.filter(id=id).update(HeadOfDepartment=employee.objects.get(Email = request.data['HeadOfDepartment']))
+        Department.objects.filter(id=id).update(HeadOfDepartment=employee.objects.get(Email = request.data['HeadOfDepartment']))
         return Response({'result':'Updation Successfull'},status=200)
-        
+
 
 
 
@@ -124,14 +124,14 @@ def update_hod(request,id):
 @permission_classes([IsAuthenticated])
 def lecture(request,id):
     if request.method=='GET':
-        qs = lectures.objects.all()
-        serializer = lecturesSerializer(qs,many=True)
+        qs = subjects.objects.all()
+        serializer = subjectsSerializer(qs,many=True)
         return Response(serializer.data,status=200)
     elif request.method=="POST":
         parser_classes = (JSONParser, FormParser, MultiPartParser)
         #create a lecture request view
         print(request.data)
-        serializer = lecturesSerializer(data=request.data)
+        serializer = subjectsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             print(serializer.errors)
@@ -143,9 +143,9 @@ def lecture(request,id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def delete_lecture(request,id):
-    lectures.objects.filter(id=id).delete()
+    subjects.objects.filter(id=id).delete()
     return Response({'result':'sucess'},status=200)
-    
+
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 def update_faculty(request,id):
@@ -198,7 +198,7 @@ def studentQuizInfo(request,id):
 def studentGetQuestions(request,id):
     quiz = quizInfo.objects.get(id=id)
     if (quiz.quizStartTime <= dt.datetime.now().time()) and (quiz.quizDate <= dt.datetime.now().date()) and (quiz.quizEndTime >= dt.datetime.now().time()):
-        q = quizQuestions.objects.filter()
+        q = quizQuestions.objects.filter(quiz=quiz)
         serializer = quizQuestionsSerializer(q,many=True)
         return Response(serializer.data,status=200)
     else:
@@ -212,12 +212,19 @@ def submitGrades(request):
         quizid = request.data['quizid']
         studentid = request.data['studentid']
         marks = request.data['marks']
-        quizGrades(
-            quiz = quizInfo.objects.get(id=quizid),
-            student = stud_details.objects.get(id=studentid),
-            marks = marks
-        ).save()
-        return Response({"message":"Success"},status=200)
+        if quizGrades.objects.filter(marks=marks,student = stud_details.objects.get(id=studentid),
+        quiz=quizInfo.objects.get(id=quizid)).exists():
+            context = {
+                'error':'Grade Already Exists'
+            }
+            return Response(context,status=200)
+        else:
+            quizGrades(
+                quiz = quizInfo.objects.get(id=quizid),
+                student = stud_details.objects.get(id=studentid),
+                marks = marks
+            ).save()
+            return Response({"message":"Success"},status=200)
 
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
@@ -233,9 +240,15 @@ def studentAssignmentSubmission(request):
         file = request.data['assignmentSubmitedFile']
         assignmentID = request.data['assignmentID']
         studentID = request.data['studentID']
-        assignmentSubmission(
-            assignment=assignment.objects.get(id=assignmentID),
-            submissionFile =file,
-            submitedBy = stud_details.objects.get(id=studentID)
-        ).save()
-        return Response({"Message":"Success"},status=200)
+        if assignmentSubmission.objects.filter(submitedBy = stud_details.objects.get(id=studentID),assignment = assignment.objects.get(id=assignmentID)).exists():
+            context = {
+                'error':'Grade Already Exists'
+            }
+            return Response(context,status=200)
+        else:
+            assignmentSubmission(
+                assignment=assignment.objects.get(id=assignmentID),
+                submissionFile =file,
+                submitedBy = stud_details.objects.get(id=studentID)
+            ).save()
+            return Response({"Message":"Success"},status=200)

@@ -101,6 +101,8 @@ urlpatterns = [
     # path('coe/academics',views.coeDepartmentView),
     path('coe/departmentView',views.coeDepartmentView),
     path('coe/marksView',views.showDetails),
+    path('coe/scaleMarks/quiz/<str:id>',views.CoeScaleMarksView),
+    path('coe/scaleMarks/assignment/<str:id>',views.coeScaleAssignmentMarksView)
     # path('coe/showDetails',views.)
    
 

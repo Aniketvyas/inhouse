@@ -9,7 +9,7 @@ urlpatterns = [
     path('gettoken/',CustomAuthToken.as_view()),
     path('',views.index),
     path('account/',include('accounts.urls')),
-    
+
     # for school
     path('school/',views.schoolView),       # GET: to show all school , POST: add a school
     path('school/<int:id>/', views.delete_school),      #to delete school with id
@@ -18,7 +18,7 @@ urlpatterns = [
     # for Programs
     path('school/<int:id>/program/',views.programView),     # GET: to show all programs , POST: add a program
     path('program/<int:id>/',views.delete_program),     # to delete program
-    
+
 
     # for department
     path('program/<int:id>/department/',views.departmentView),      # GET: to show all departments , POST: add a department
@@ -33,7 +33,8 @@ urlpatterns = [
     path('student/<int:id>/',views.delete_student),             # to delete student
     path('studentQuizInfo/<str:id>',views.studentQuizInfo),
     path('getQuizQue/<int:id>',views.studentGetQuestions),
-    path('submitGrades/<int:id>',views.submitGrades),
-    path('getAssignment/<str:id>',views.studentAssignmentView)
+    path('submitGrades/',views.submitGrades),
+    path('getAssignment/<str:id>',views.studentAssignmentView),
+    path('assignmentSubmission/',views.studentAssignmentSubmission)
 
 ]

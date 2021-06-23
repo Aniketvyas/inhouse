@@ -1,57 +1,79 @@
-body{
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  background: #34495e;
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
 }
-.box{
-  width: 300px;
-  padding: 40px;
-  position: absolute;
-  border-radius: 10px;;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  background: #191919;
-  text-align: center;
+
+body {
+    background-image: url("../images/backD.png");
+    /*background-position: center;*/
+    background-size: cover;
+    background-repeat: none;
 }
-.box img{
-  color: white;
-  text-transform: uppercase;
-  font-weight: 500;
+
+@media(max-width:768px) {
+    body {
+        background-image: none;
+    }
 }
-.box input[type = "text"],.box input[type = "password"]{
-  border:0;
-  background: none;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  border: 2px solid #3498db;
-  padding: 14px 10px;
-  width: 200px;
-  outline: none;
-  color: white;
-  border-radius: 24px;
-  transition:0.50s;
+
+.card {
+    margin-top: 130px;
+    /* margin-left: 120px; */
+    margin-right: 40px;
+    background: none;
+    height: 550px;
+    box-shadow: 2px 20px 25px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    width: 1000px;
 }
-.box input[type = "text"]:focus,.box input[type = "password"]:focus{
-  width: 280px;
-  border-color: #2ecc71;
+
+
 }
-.box input[type = "submit"]{
-  border:0;
-  background: none;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  border: 2px solid #2ecc71;
-  padding: 14px 40px;
-  outline: none;
-  color: white;
-  border-radius: 24px;
-  transition: 0.25s;
-  cursor: pointer;
+.card-body {
+    height: 500px;
 }
-.box input[type = "submit"]:hover{
-  background: #2ecc71;
+@media (min-width:300px) and (max-width:768px) {
+    .card {
+        margin-top: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+        height: 100vh;
+    }
+}
+.logo-img {
+    width: 42%;
+    height: 27%;
+    margin-top: 40%;
+    /* margin-left: 31%; */
+}
+@media(min-width:300px) and (max-width:768px) {
+    img {
+        margin-top: 50px;
+        margin-left: 0px;
+    }
+    
+    .theme-background {
+        background: linear-gradient(180deg, #446DEC, #3F99DB);
+        ;
+    }
+    
+    .card {
+        height: 100vh;
+    }
+}
+input {
+    border: 1px rgba(125, 120, 120, 0.58) solid;
+    box-shadow: 2px 10px 15px rgba(0, 0, 0, 0.25);
+}
+h1 {
+    background: linear-gradient(180deg, #446DEC, #3F99DB);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+.btn1 {
+    width: 40%;
+    background-image: linear-gradient(180deg, #446DEC, #3F99DB);
+    border-radius: 5px;
 }

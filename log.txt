@@ -1,0 +1,14 @@
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 22, 2021 - 21:45:07
+Django version 3.2, using settings 'stu.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+June 22, 2021 - 21:51:08
+Django version 3.2, using settings 'stu.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
