@@ -7,6 +7,7 @@ import datetime as dt
 from .models import *
 import random
 from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
 
 
 def dashboardView(request):
@@ -883,8 +884,21 @@ def previousQuiz(request):
 
 def quizStudentView(request):
     quizObject = quizInfo.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture')))
+    mainList=[]
+    for i in quizObject:
+        time = i.quizStartTime;
+        dataDictionary = {}
+        # print(time,dt.datetime.now().time(),i.quizEndTime,time <= dt.datetime.now().time() ,time <= i.quizEndTime)
+        if time <= dt.datetime.now().time() and dt.datetime.now().time() <= i.quizEndTime:
+            dataDictionary["isAttemptable"] = True 
+        else:
+            dataDictionary["isAttemptable"] = False
+        dataDictionary['object'] = i
+        mainList.append(dataDictionary)
+    print(mainList)
+
     context={
-        'quizObject':quizObject,
+        'quizObject':mainList,
         'result' :False,
         'quizListView':True
     }
@@ -892,7 +906,7 @@ def quizStudentView(request):
 
 def quizDetailView(request,id):
     quizObject = quizInfo.objects.get(id=id)
-    quizGradesObject = quizGrades.objects.filter(quiz=quizObject).first()
+    quizGradesObject = quizGrades.objects.filter(quiz=quizObject,student = stud_details.objects.get(UniversityEmailID=request.user.username)).first()
     if quizGradesObject:
         context = {
             'quizGradesObject':quizGradesObject,
@@ -908,6 +922,74 @@ def quizDetailView(request,id):
     return render(request,'student/quiz.html',context)
 
 
+
+def studentAttemptQuiz(request,id):
+    quiz=quizInfo.objects.get(id=id)
+    print(quiz.quizStartTime <= dt.datetime.now().time() , dt.datetime.now().time() <= quiz.quizEndTime)
+    if quiz.quizStartTime <= dt.datetime.now().time() and dt.datetime.now().time() <= quiz.quizEndTime:
+        object = quizQuestions.objects.filter(quiz=quiz)
+        context={
+            "attemptQuizStudentView":True,
+            "questionsObject":object
+        }
+        return render(request,'student/quiz.html',context)
+    else:
+        messages.info(request,'Quiz is not yet started!')
+        return render(request,'quiz.html')
+
+
+def studentSubmitQuiz(request,id):
+    keys = request.POST.keys()
+    correctAnswerCount=0
+    inCorrectAnswer =0
+    formWalaAnswer =0
+    # print(keys)
+    for i in keys:
+        # print(i.split('%'))
+        arr=i.split('%')
+        # print(arr)
+        if arr[0] == 'csrfmiddlewaretoken':
+            continue 
+        else:
+            # print(arr[1])
+            question = quizQuestions.objects.get(id=arr[0])
+            correctAnswer = question.correctOption
+            if len(arr)==2:
+                option = arr[1]
+                if option=="option1":
+                    formWalaAnswer = question.option1
+                elif option == "option2":
+                    formWalaAnswer = question.option2
+                elif option == "option3":
+                    formWalaAnswer = question.option3
+                elif option == "option4":
+                    formWalaAnswer = question.option4
+
+            else:
+                formWalaAnswer = request.POST[i]
+            if(formWalaAnswer == correctAnswer):
+                # print(formWalaAnswer,correctAnswer)
+                correctAnswerCount+=1
+            else:
+                inCorrectAnswer+=1
+    print(quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id)).count()-(inCorrectAnswer+correctAnswerCount))
+    quizGrades(
+        quiz = quizInfo.objects.get(id=id),
+        student = stud_details.objects.get(UniversityEmailID = request.user),
+        unAttemptedQuestions = quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id)).count()-(inCorrectAnswer+correctAnswerCount),
+        wrongAnswers = inCorrectAnswer,
+        correctAnswers = correctAnswerCount,
+        timeTaken = "10",
+        marks = correctAnswer
+    ).save()
+    return redirect('/academic/student/'+str(id)+'/quizDetailView')
+    # print("incorrect",inCorrectAnswer,"correct",correctAnswerCount)
+        
+
+
+    print(quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id)))
+    context={}
+    return render(request,'student/quiz.html',context)
 
 # ------------------------------- Assignments --------------------------------------
 
@@ -968,14 +1050,16 @@ def deletePreviousAssignment(request,id):
 
 def assignmentStudentView(request):
     mainList=[]
-    print(request.user)
+    # print(request.user)
     assignmentObject = assignment.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture')))
     for i in assignmentObject:
-        objectData = assignmentSubmission.objects.get(assignment=i,submitedBy = stud_details.objects.get(UniversityEmailID=request.user))
+        # print(i)
+        objectData = assignmentSubmission.objects.filter(assignment=i,submitedBy = stud_details.objects.get(UniversityEmailID=request.user))
+        # print(objectData[0].submitedBy, objectData[0].assignment,i)
         if objectData :
             dataDictionary = {
                 'alreadySubmitted':True,
-                'submissionsQuerySet':objectData,
+                'submissionsQuerySet':objectData[0],
                 'querySetObject':i
             }
         else:
@@ -985,12 +1069,13 @@ def assignmentStudentView(request):
                 'querySetObject':i
             }
         mainList.append(dataDictionary)
-    print(assignmentObject)
-    print(mainList)
+    # print(assignmentObject)
+    # print(mainList)
     context = {
         'assignmentData':mainList,
         'studentPreviousAssignmentView':True
     }
+    print(mainList)
     return render(request,'student/assignment.html',context)
 
 
@@ -1007,9 +1092,14 @@ def studentAssignmentSubmitView(request,id):
 
 def studentUpdateAssignmentView(request,id):
     if request.method == "POST":
+        print(request.FILES)
+        
         file = request.FILES['assignmentUpdatedFile']
-        assignmentSubmission.objects.filter(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)).update(submissionFile = file)
-        # print(assignmentSubmission.objects.get(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)).submissionFile)
+        fs = FileSystemStorage()
+        file = fs.save(file.name,file)
+        print(id,file,assignmentSubmission.objects.get(id=id))
+        assignmentSubmission.objects.filter(id=id).update(submissionFile = file)
+        # print(assignmentSubmission.objects.get(assignment=assignment.objects.get(id=id),submitedBy=stud_details.objects.get(UniversityEmailID=request.user)))
         messages.info(request,'updated Sucessfully!')
         return redirect('/academic/student/assignmentStudentView')
 
@@ -1098,7 +1188,7 @@ def CoeScaleMarksView(request,id):
     quizPacket = quizReportPacket.filter(
                 student__in = Subquery(lectureEnrollment.objects.filter(lecture=subject).values('student'))
             ).order_by('marks')
-    studentObject = lectureEnrollment.objects.filter(lecture=subject) 
+    studentObject = lectureEnrollment.objects.filter(lecture=subject)
     mainPacket = []
     for i in studentObject:
         lst=[]
@@ -1126,10 +1216,10 @@ def CoeScaleMarksView(request,id):
 
         cal_per=(percent/100)*(int(weightage.objects.get(mode=modes.objects.get(name="quiz")).percentage)*3)
         # print("marks obtained out of 15%: ",cal_per)
-        
+        arred = lambda x,n : x*(10**n)//1/(10**n)
         dataDictionary= {
             'student':i.student,
-            'scaledMarks':cal_per,
+            'scaledMarks':arred(cal_per,2),
             'subject':subject
         }
         mainPacket.append(dataDictionary)
@@ -1137,7 +1227,7 @@ def CoeScaleMarksView(request,id):
         'mainPacket':mainPacket
     }
     return render(request,'coe/scale.html',context)
-    
+
 
 def coeScaleAssignmentMarksView(request,id):
     subject= subjects.objects.get(id=id)
@@ -1145,7 +1235,7 @@ def coeScaleAssignmentMarksView(request,id):
     assignmentPacket = assignmentReportPacket.filter(
                 submitedBy__in = Subquery(lectureEnrollment.objects.filter(lecture=subject).values('student'))
             ).order_by('grade')
-    studentObject = lectureEnrollment.objects.filter(lecture=subject) 
+    studentObject = lectureEnrollment.objects.filter(lecture=subject)
     mainPacket = []
     for i in studentObject:
         print("for",i.student.FullName)
@@ -1164,13 +1254,13 @@ def coeScaleAssignmentMarksView(request,id):
             messages.error(request,'Critical Failure at DB, Dirty values Occured!')
         print(lst)
         total=30
-        print("total marks: ",sum(lst),"/",total)
+        # print("total marks: ",sum(lst),"/",total)
         percent=(sum(lst)/total)*100
         # print("Percent out of 100%: ",percent,"%")
 
         cal_per=(percent/100)*(int(weightage.objects.get(mode=modes.objects.get(name="quiz")).percentage)*3)
         # print("marks obtained out of 15%: ",cal_per)
-        
+
         dataDictionary= {
             'student':i.student,
             'scaledMarks':cal_per,

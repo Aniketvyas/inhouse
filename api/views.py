@@ -9,6 +9,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Subquery
 import datetime as dt
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 
 
@@ -122,16 +123,16 @@ def update_hod(request,id):
 
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
-def lecture(request,id):
+def lecture(request):
     if request.method=='GET':
         qs = subjects.objects.all()
-        serializer = subjectsSerializer(qs,many=True)
+        serializer = subjectsSerailizer(qs,many=True)
         return Response(serializer.data,status=200)
     elif request.method=="POST":
         parser_classes = (JSONParser, FormParser, MultiPartParser)
         #create a lecture request view
         print(request.data)
-        serializer = subjectsSerializer(data=request.data)
+        serializer = subjectsSerailizer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             print(serializer.errors)
@@ -211,18 +212,29 @@ def submitGrades(request):
     if request.method == "POST":
         quizid = request.data['quizid']
         studentid = request.data['studentid']
-        marks = request.data['marks']
-        if quizGrades.objects.filter(marks=marks,student = stud_details.objects.get(id=studentid),
-        quiz=quizInfo.objects.get(id=quizid)).exists():
+        # marks = request.data['marks']
+        unAttempted = int(request.data['unAttemptedQuestions'])
+        # wrongAnswers = request.data['wrongAnswers']
+        correctAnswers = int(request.data['correctAnswers'])
+        timeTaken = request.data['timeTaken']
+        startedOn1 = request.data['startedOn']
+        quiz = quizInfo.objects.get(id=quizid)
+        total = quizQuestions.objects.filter(quiz=quiz).count()
+        if quizGrades.objects.filter(student = stud_details.objects.get(id=studentid),quiz=quiz).exists():
             context = {
                 'error':'Grade Already Exists'
             }
             return Response(context,status=200)
         else:
             quizGrades(
-                quiz = quizInfo.objects.get(id=quizid),
+                quiz = quiz,
                 student = stud_details.objects.get(id=studentid),
-                marks = marks
+                marks = correctAnswers,
+                unAttemptedQuestions = total - unAttempted,
+                wrongAnswers = unAttempted - correctAnswers,
+                correctAnswers = correctAnswers,
+                timeTaken = timeTaken,
+                # startedOn = startedOn1
             ).save()
             return Response({"message":"Success"},status=200)
 
@@ -240,6 +252,9 @@ def studentAssignmentSubmission(request):
         file = request.data['assignmentSubmitedFile']
         assignmentID = request.data['assignmentID']
         studentID = request.data['studentID']
+        # file = request.FILES['assignmentUpdatedFile']
+        # fs = FileSystemStorage()
+        # file = fs.save(file.name,file)
         if assignmentSubmission.objects.filter(submitedBy = stud_details.objects.get(id=studentID),assignment = assignment.objects.get(id=assignmentID)).exists():
             context = {
                 'error':'Grade Already Exists'

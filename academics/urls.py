@@ -95,6 +95,8 @@ urlpatterns = [
     path('student/<str:id>/submitAssignment',views.studentAssignmentSubmitView),
     path('student/<str:id>/updateAssignment',views.studentUpdateAssignmentView),
     path('student/<str:lecture>/track',views.studentTrackView),
+    path('student/quizStudentView/<str:id>/attemptQuiz',views.studentAttemptQuiz),
+    path('student/quizStudentView/<str:id>/submitQuiz',views.studentSubmitQuiz),
     # path('student/')
 
 #------------------------ COE ----------------------------------------

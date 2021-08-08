@@ -136,9 +136,9 @@
                                             {% else %}
                                             <div class="">
                                                 <span>
-                                                <i class="fas fa-arrow-right mr-3 text-warning"></i><a href="#" class="text-white" data-toggle="modal" data-target="#exampleModalUpdateAssignment{{i.id}}">Update</a>
+                                                <i class="fas fa-arrow-right mr-3 text-warning"></i><a href="#" class="text-white" data-toggle="modal" data-target="#exampleModalUpdateAssignment{{j.submissionsQuerySet.id}}">Update</a>
                                                 </span>
-                                                <div class="modal fade" id="exampleModalUpdateAssignment{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="exampleModalUpdateAssignment{{j.submissionsQuerySet.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -147,7 +147,7 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                             </div>
-                                                            <form action="{{j.querySetObject.id}}/updateAssignment" enctype="multipart/form-data" method="post"> {% csrf_token %}
+                                                            <form action="{{j.submissionsQuerySet.id}}/updateAssignment" enctype="multipart/form-data" method="POST"> {% csrf_token %}
                                                                 <div class="modal-body">
 
                                                                     <label>Upload File</label>

@@ -19,11 +19,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    # path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('api/',include('api.urls')),
     path('',include('accounts.urls')),
     path('accounts/',include('accounts.urls')),
     path('academic/',include('academics.urls')),
-    path('its/',include('its.urls'))
+    path('its/',include('its.urls')),
+    
+    # url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    # url(r'^admin/', include(admin.site.urls)),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  

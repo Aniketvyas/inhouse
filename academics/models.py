@@ -12,11 +12,11 @@ class employee(models.Model):
     Name = models.CharField(max_length=20)
     Dob = models.DateField()
     Doj = models.DateField()
-    
+
 
     def __str__(self):
         return self.Name
-    
+
 class stud_details(models.Model):#Student Information
     id = models.AutoField(primary_key=True)
     EnrollmentNumber = models.CharField(max_length=10)
@@ -65,9 +65,9 @@ class subjects(models.Model):
     TaughtBy = models.ForeignKey('faculty' , on_delete=models.CASCADE,blank=True)
     Credit = models.CharField(max_length=10)
     Department = models.ForeignKey('Department', on_delete=models.CASCADE)
-    
+
     def __str__(self):
-        return self.subjectCode
+        return self.subjectCode + " "+ self.subjectName
 
 class lectureEnrollment(models.Model):
     id = models.AutoField(primary_key=True)
@@ -162,9 +162,9 @@ class quizQuestions(models.Model):
     option4 = models.CharField(max_length=1000)
     correctOption = models.CharField(max_length=1000)
 
-    # def __str__(self):
-    #     return self.question    
-    
+    def __str__(self):
+        return " "+ self.question + " " + self.option1+ " "+ self.option2+ " "+ self.option3+" "+ self.option4+" "+self.correctOption
+
 class quizGrades(models.Model):
     id = models.AutoField(primary_key=True)
     quiz = models.ForeignKey('quizInfo',on_delete=models.CASCADE)
@@ -172,8 +172,8 @@ class quizGrades(models.Model):
     unAttemptedQuestions = models.IntegerField(null=True)
     wrongAnswers = models.IntegerField(null=True)
     correctAnswers = models.IntegerField(null=True)
-    timeTaken = models.DurationField(null=True,blank=True)
-    startedOn = models.DateTimeField(null=True,blank=True)
+    timeTaken = models.CharField(max_length=100,null=True,blank=True)
+    startedOn = models.DateTimeField(null=True,blank=True) 
     submitedOn = models.DateTimeField(auto_now_add=True,null=True)
     marks = models.IntegerField()
 
@@ -208,14 +208,14 @@ class assignmentSubmission(models.Model):
     submitedOn = models.DateTimeField(auto_now_add=True)
     grade = models.IntegerField(blank=True,null=True)
     def __str__(self) -> str:
-        return self.assignment.name + self.assignment.subject.subjectName+ " " + self.submitedBy.FullName
-    
+        return str(self.id)+" " + self.assignment.name +" "+ self.assignment.subject.subjectName+ " " + self.submitedBy.FullName
+
 class attendance(models.Model):
     id = models.AutoField(primary_key=True)
     attendies = models.ForeignKey('stud_details',on_delete=models.CASCADE)
     subject = models.ForeignKey('subjects',on_delete=models.CASCADE)
     takenOn = models.DateTimeField(auto_now_add=True)
-    
+
 class lectureRecord(models.Model):
     id = models.AutoField(primary_key=True)
     subject = models.ForeignKey('subjects',on_delete=models.CASCADE)
@@ -227,4 +227,4 @@ class lectureRecord(models.Model):
     notes = models.FileField()
 
 
-  
+
