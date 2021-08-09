@@ -139,7 +139,7 @@
         {% endif %} {% if attemptQuizStudentView %}
         <section>
             <div class="container-fluid">
-                <div class="col-xl-10 col-sm-6 ml-auto">
+                <div class="col-xl-10 col-lg-10 col-md-8 col-sm-6 ml-auto">
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-12">
                             <div class="card my-3">
@@ -147,10 +147,48 @@
                                     <h2>Quiz 1</h2>
                                     <h5 class="course">Course</h5>
                                     <div class="clock text-center">10:30 AM</div>
+                                    <p id="demo"></p><script>
+
+                                        function bhaiSametLe() {
+                                            document.getElementById('qForm').submit();  
+                                        }
+                                        document.getElementById('demo').innerHTML = {{quizObject.duration}} + ":" + 01;
+                                        startTimer();
+
+
+                                        function startTimer() {
+                                        var presentTime = document.getElementById('demo').innerHTML;
+                                        var timeArray = presentTime.split(/[:]+/);
+                                        var m = timeArray[0];
+                                        var s = checkSecond((timeArray[1] - 1));
+                                        if(s==59){m=m-1}
+                                        if(m<0){
+                                            bhaiSametLe();
+                                            return;
+                                        }
+                                        
+                                        document.getElementById('demo').innerHTML =
+                                            m + ":" + s;
+                                        console.log(m)
+                                        setTimeout(startTimer, 100);
+                                        
+                                        }
+
+                                        function checkSecond(sec) {
+                                        if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+                                        if (sec < 0) {sec = "59"};
+                                        return sec;
+                                        }
+                                        
+                                    </script>
+                                    <!-- <script src="{% static 'js/countdown.js' %}"></script> -->
                                 </div>
                             </div>
+                            <div class="fixed-top">
+                               
+                            </div>
                             <!--  -->
-                            <form action="/academic/student/quizStudentView/21/submitQuiz"  method="POST"  id="qForm"> {% csrf_token %}
+                            <form action="submitQuiz"  method="POST"  id="qForm"> {% csrf_token %}
                             <div id="quizLists">
                             {% for i in questionsObject %}
                             <div class="card my-3">
@@ -158,10 +196,10 @@
                                     <p>{{forloop.counter}} {{i.question}}</p>
                                     {% if i.option2 %}
                                     <div class="col" id="{{i.id}}">
-                                        <input type="radio" name="{{i.id}}%option1" id="option1"> <label>{{i.option1}}</label><br>
-                                        <input type="radio" name="{{i.id}}%option2" id="option2" > <label>{{i.option2}}</label><br>
-                                        <input type="radio" name="{{i.id}}%option3" id="option3"> <label>{{i.option3}}</label><br>
-                                        <input type="radio" name="{{i.id}}%option4" id="option4"> <label>{{i.option4}}</label><br>
+                                        <input type="checkbox" name="{{i.id}}%option1" id="option1"> <label>{{i.option1}}</label><br>
+                                        <input type="checkbox" name="{{i.id}}%option2" id="option2" > <label>{{i.option2}}</label><br>
+                                        <input type="checkbox" name="{{i.id}}%option3" id="option3"> <label>{{i.option3}}</label><br>
+                                        <input type="checkbox" name="{{i.id}}%option4" id="option4"> <label>{{i.option4}}</label><br>
                                     </div>
                                     {% else %} 
                                     <div>
@@ -274,27 +312,10 @@
 
 
             <script>
-                // function networkCall() {
-                //     var xhttp = new XMLHttpRequest();
-                //     xhttp.onreadystatechange = function() {
-                //         if (this.readyState == 4 && this.status == 200) {
-                //         console.log(this.response);
-                //         }
-                //     };
-                //     xhttp.open("POST", "http://localhost:8000/academic/student/quizStudentView/21/submitQuiz", true);
-                //     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                //     xhttp.send("fname=Henry&lname=Ford");
-                // }
-                // document.getElementById("qForm").addEventListener('submit',function(Event){
-                //     Event.preventDefault();
-                //     console.log("hi");
-                // })
-                // function formHandler(id,option){
-                //     console.log(option);
-                //     const obj = {
-                         
-                //     }   
-                // }
+                {% for i in messages %}
+                alert('{{i}}');
+                {% endfor %}
+
             </script>
 
 </body>

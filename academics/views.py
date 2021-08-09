@@ -883,16 +883,19 @@ def previousQuiz(request):
 
 
 def quizStudentView(request):
-    quizObject = quizInfo.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture')))
+    quizObject = quizInfo.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture'))).order_by('-quizDate')
     mainList=[]
     for i in quizObject:
         time = i.quizStartTime;
         dataDictionary = {}
         # print(time,dt.datetime.now().time(),i.quizEndTime,time <= dt.datetime.now().time() ,time <= i.quizEndTime)
-        if time <= dt.datetime.now().time() and dt.datetime.now().time() <= i.quizEndTime:
-            dataDictionary["isAttemptable"] = True 
+        if quizGrades.objects.filter(quiz=i,student=stud_details.objects.get(UniversityEmailID=request.user)).exists():
+            dataDictionary['isAttemptable'] = False
         else:
-            dataDictionary["isAttemptable"] = False
+            if time <= dt.datetime.now().time() and dt.datetime.now().time() <= i.quizEndTime:
+                dataDictionary["isAttemptable"] = True 
+            else:
+                dataDictionary["isAttemptable"] = False
         dataDictionary['object'] = i
         mainList.append(dataDictionary)
     print(mainList)
@@ -905,6 +908,7 @@ def quizStudentView(request):
     return render(request,'student/quiz.html',context)
 
 def quizDetailView(request,id):
+    print(id)
     quizObject = quizInfo.objects.get(id=id)
     quizGradesObject = quizGrades.objects.filter(quiz=quizObject,student = stud_details.objects.get(UniversityEmailID=request.user.username)).first()
     if quizGradesObject:
@@ -919,6 +923,7 @@ def quizDetailView(request,id):
             'quizResultView':True,
             'signal' : True
         }
+    print(context)
     return render(request,'student/quiz.html',context)
 
 
@@ -926,35 +931,41 @@ def quizDetailView(request,id):
 def studentAttemptQuiz(request,id):
     quiz=quizInfo.objects.get(id=id)
     print(quiz.quizStartTime <= dt.datetime.now().time() , dt.datetime.now().time() <= quiz.quizEndTime)
-    if quiz.quizStartTime <= dt.datetime.now().time() and dt.datetime.now().time() <= quiz.quizEndTime:
-        object = quizQuestions.objects.filter(quiz=quiz)
-        context={
-            "attemptQuizStudentView":True,
-            "questionsObject":object
-        }
-        return render(request,'student/quiz.html',context)
+    if(quizGrades.objects.filter(quiz=quiz,student=stud_details.objects.get(UniversityEmailID = request.user))).exists():
+        if quiz.quizStartTime <= dt.datetime.now().time() and dt.datetime.now().time() <= quiz.quizEndTime:
+            object = quizQuestions.objects.filter(quiz=quiz)
+            context={
+                "attemptQuizStudentView":True,
+                "questionsObject":object,
+                'quizObject':quiz
+            }
+            return render(request,'student/quiz.html',context)
+        else:
+            messages.info(request,'Quiz is not yet started!')
+            return render(request,'student/quiz.html')
     else:
-        messages.info(request,'Quiz is not yet started!')
-        return render(request,'quiz.html')
+        messages.info(request,"you cannot attempt this quiz")
+        return render(request,'student/quiz.html')
 
 
 def studentSubmitQuiz(request,id):
     keys = request.POST.keys()
     correctAnswerCount=0
+    print(id)
     inCorrectAnswer =0
     formWalaAnswer =0
-    # print(keys)
+    print(keys)
     for i in keys:
         # print(i.split('%'))
         arr=i.split('%')
-        # print(arr)
+        print(arr)
         if arr[0] == 'csrfmiddlewaretoken':
             continue 
         else:
-            # print(arr[1])
             question = quizQuestions.objects.get(id=arr[0])
             correctAnswer = question.correctOption
             if len(arr)==2:
+                print(arr[1])
                 option = arr[1]
                 if option=="option1":
                     formWalaAnswer = question.option1
@@ -968,11 +979,17 @@ def studentSubmitQuiz(request,id):
             else:
                 formWalaAnswer = request.POST[i]
             if(formWalaAnswer == correctAnswer):
-                # print(formWalaAnswer,correctAnswer)
+                print(formWalaAnswer,correctAnswer)
                 correctAnswerCount+=1
+            elif formWalaAnswer == "":
+                continue
             else:
+                print(formWalaAnswer,correctAnswer,'in')
                 inCorrectAnswer+=1
-    print(quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id)).count()-(inCorrectAnswer+correctAnswerCount))
+
+    print(quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id)).count(),inCorrectAnswer+correctAnswerCount)
+    print("incorrect",inCorrectAnswer,"correct",correctAnswerCount)
+      
     quizGrades(
         quiz = quizInfo.objects.get(id=id),
         student = stud_details.objects.get(UniversityEmailID = request.user),
@@ -980,16 +997,15 @@ def studentSubmitQuiz(request,id):
         wrongAnswers = inCorrectAnswer,
         correctAnswers = correctAnswerCount,
         timeTaken = "10",
-        marks = correctAnswer
+        marks = correctAnswerCount
     ).save()
     return redirect('/academic/student/'+str(id)+'/quizDetailView')
-    # print("incorrect",inCorrectAnswer,"correct",correctAnswerCount)
-        
+      
 
 
-    print(quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id)))
-    context={}
-    return render(request,'student/quiz.html',context)
+    # print(quizQuestions.objects.filter(quiz=quizInfo.objects.get(id=id)))
+    # context={}
+    # return render(request,'student/quiz.html',context)
 
 # ------------------------------- Assignments --------------------------------------
 
