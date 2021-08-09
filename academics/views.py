@@ -886,13 +886,13 @@ def quizStudentView(request):
     quizObject = quizInfo.objects.filter(subject__in = Subquery(lectureEnrollment.objects.filter(student=stud_details.objects.get(UniversityEmailID=request.user)).values('lecture'))).order_by('-quizDate')
     mainList=[]
     for i in quizObject:
-        time = i.quizStartTime;
+        time = i.quizStartTime
         dataDictionary = {}
         # print(time,dt.datetime.now().time(),i.quizEndTime,time <= dt.datetime.now().time() ,time <= i.quizEndTime)
         if quizGrades.objects.filter(quiz=i,student=stud_details.objects.get(UniversityEmailID=request.user)).exists():
             dataDictionary['isAttemptable'] = False
         else:
-            if time <= dt.datetime.now().time() and dt.datetime.now().time() <= i.quizEndTime:
+            if i.quizDate == dt.datetime.now().date() and time <= dt.datetime.now().time() and dt.datetime.now().time() <= i.quizEndTime:
                 dataDictionary["isAttemptable"] = True 
             else:
                 dataDictionary["isAttemptable"] = False
@@ -932,7 +932,10 @@ def studentAttemptQuiz(request,id):
     quiz=quizInfo.objects.get(id=id)
     print(quiz.quizStartTime <= dt.datetime.now().time() , dt.datetime.now().time() <= quiz.quizEndTime)
     if(quizGrades.objects.filter(quiz=quiz,student=stud_details.objects.get(UniversityEmailID = request.user))).exists():
-        if quiz.quizStartTime <= dt.datetime.now().time() and dt.datetime.now().time() <= quiz.quizEndTime:
+        messages.info(request,"you cannot attempt this quiz")
+        return render(request,'student/quiz.html')
+    else:
+        if quiz.quizDate == dt.datetime.now().date() and quiz.quizStartTime <= dt.datetime.now().time() and dt.datetime.now().time() <= quiz.quizEndTime:
             object = quizQuestions.objects.filter(quiz=quiz)
             context={
                 "attemptQuizStudentView":True,
@@ -943,9 +946,7 @@ def studentAttemptQuiz(request,id):
         else:
             messages.info(request,'Quiz is not yet started!')
             return render(request,'student/quiz.html')
-    else:
-        messages.info(request,"you cannot attempt this quiz")
-        return render(request,'student/quiz.html')
+        
 
 
 def studentSubmitQuiz(request,id):
