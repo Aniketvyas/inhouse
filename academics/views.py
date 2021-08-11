@@ -979,7 +979,7 @@ def studentSubmitQuiz(request,id):
 
             else:
                 formWalaAnswer = request.POST[i]
-            if(formWalaAnswer == correctAnswer):
+            if(formWalaAnswer.lower() == correctAnswer.lower()):
                 print(formWalaAnswer,correctAnswer)
                 correctAnswerCount+=1
             elif formWalaAnswer == "":
